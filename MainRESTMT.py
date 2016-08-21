@@ -4,10 +4,10 @@ import datetime
 
 from flask import Flask, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
-
 import geofuntcions as gf
-#from models import db, User, SavedPlaces
-from schemas import ma,savedplace_schema,savedplaces_schema, user_schema,users_schema
+
+# from models import db, User, SavedPlaces
+# from schemas import ma, savedplace_schema, savedplaces_schema, user_schema, users_schema
 
 # ----------------------
 # Max distance btw 2 locations
@@ -28,14 +28,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 # initiate the sqlalchemy object
-
+# ------------------------------------------------------
 # db.init_app(app)
-
 db = SQLAlchemy(app)
 
 
+# ------------------------------------------------------
 
-
+# ------------------------------------------------------
 # Database Mapper
 # ----------------------------------
 
@@ -62,8 +62,10 @@ class User(db.Model):
                 'username': self.username,
                 'created_timestamp': self.created_timestamp}
 
-# Second database Table
 
+# ------------------------------------------------------
+# Second database Table
+# ------------------------------------------------------
 
 class SavedPlaces(db.Model):
     """
@@ -79,7 +81,8 @@ class SavedPlaces(db.Model):
     waiting_time = db.Column('waitingtime', db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, created_timestamp,modified_timestamp, location_lat, location_long, address, waiting_time, user_id):
+    def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time,
+                 user_id):
         self.created_timestamp = created_timestamp
         self.modified_timestamp = modified_timestamp
         self.location_lat = location_lat
@@ -102,15 +105,15 @@ class SavedPlaces(db.Model):
                 'waiting_time': self.waiting_time}
 
 
-
-
-# ----------------------------------
+# ------------------------------------------------------
 # Inserting data
 # Using Method Post
-# -------------------------------------------
+# ------------------------------------------------------
 
 # ------------------------------------------------------
-#  Endpoints related to User Table
+#   Endpoints related to User Table
+# ------------------------------------------------------
+#   POST /create_user/ - create a new user
 @app.route('/create_user/', methods=['POST'])
 def createuser():
     """
@@ -133,10 +136,9 @@ def createuser():
     try:
         current_session.add(userdata)  # add opened statement to opened session
         current_session.commit()  # commit changes
-    except Exception as e:
+    except:
         current_session.rollback()
         current_session.flush()  # for resetting non-commited .add()
-        print(e)
     finally:
         current_session.close()
 
@@ -144,8 +146,8 @@ def createuser():
 
     return jsonify(user_json=[user.serialize for user in users])
 
- # events = Events.query.filter_by(event_type = event_type).all()
-#return jsonify(json_list = [event.serialize for event in events])
+
+# ------------------------------------------------------
 
 
 # GET user details
@@ -155,7 +157,7 @@ def get_user_info(username):
     Query data related to username ans return as a json object
     """
     users = User.query.filter_by(username=username).all()  # it was supposed to be first
-    return jsonify(user_json=[User.serialize for user in users])
+    return jsonify(user_json=[user.serialize for user in users])
 
 
 # Delete user
@@ -177,32 +179,31 @@ def getallsavedplaces():
     """
 
     if request.method == 'GET':
-
         # code to update all waiting time columns
         # create function to update waiting time all rows
 
-        #username = request.query_string
+        # username = request.query_string
         username = request.args.get('username')
         current_location_lat = float(request.args.get('location_lat'))
         current_location_long = float(request.args.get('location_long'))
 
         allsavedplaces = SavedPlaces.query.filter_by(username=username).all()
 
+        # users = User.query.filter_by(username=username).all()  # it was supposed to be first
+        # return jsonify(user_json=[User.serialize for user in users])
 
-        #users = User.query.filter_by(username=username).all()  # it was supposed to be first
-        #return jsonify(user_json=[User.serialize for user in users])
 
+        # if allsavedplaces is not None:
 
-       # if allsavedplaces is not None:
+        return jsonify(savedplaces_json=[savedplaces.serialize for allsavedplace in allsavedplaces])
+        # else:
 
-        return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
-    #else:
+        #   return 'Not GET method'
 
-     #   return 'Not GET method'
 
 # - End of points related to User Table
 # ------------------------------------------------------
-
+#   POST /create_save_place/ - create a new favorite place place in the database
 @app.route('/create_save_place/', methods=['POST'])
 def createsaveplace():
     """
@@ -213,7 +214,6 @@ def createsaveplace():
 
     # parsing request data
     # -------------------------
-
     content = request.get_json(force=True)
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
@@ -234,26 +234,45 @@ def createsaveplace():
     owner_id = current_session.query(User).filter_by(username=username).first().username
 
     if owner_id is not None:
+
+        querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=owner_id).all()
+
+        if querysavedplaces is not None:
+            # parsing previous locations to confirm if it is unique the new entry
+            for location in querysavedplaces:
+
+                distance_location, same_location = gf.verify_distance(float(locationlat), float(locationlong),
+                                                                      float(location.location_lat),
+                                                                      float(location.location_long), RADIUS_CIRCLE)
+                # if the user is inserting a place already saved, previous location will be kept, and modified_stamp will be changed
+                if same_location is True:
+                    location.modified_timestamp = modified_timestamp
+                    k = location.modified_timestamp
+                    # then commit that change
+                    try:
+                        # current_session.add(querysavedplaces)  # add opened statement to opened session
+                        current_session.commit()  # commit changes
+                    except Exception as e:
+                        current_session.rollback()
+                        current_session.flush()  # for resetting non-commited .add()
+                        print(e)
+                    finally:
+                        current_session.close()
+                    return "OK modified time update"  # exit function
+
         savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
                                   location_lat=locationlat, location_long=locationlong,
                                   address=address, waiting_time=waiting_time, user_id=owner_id)
-    try:
-        # Verify if the location already exists
+        try:
+            current_session.add(savedplaces)  # add opened statement to opened session
+            current_session.commit()  # commit changes
+        except:
+            current_session.rollback()
+            current_session.flush()  # for resetting non-commited .add()
+        finally:
+            current_session.close()
 
-        # query previous locations save by the user
-        # query_savedplaces = SavedPlaces.filter_by(username=jsonusername).all() # fetch all entries on the table
-
-        # if query result is none, then value should be
-        # if query_savedplaces is None:
-        current_session.add(savedplaces)  # add opened statement to opened session
-        current_session.commit()  # commit changes
-    except Exception as e:
-        current_session.rollback()
-        current_session.flush()  # for resetting non-commited .add()
-        print(e)
-    finally:
-        current_session.close()
-    return "OK"
+    return "new location inserted"
 
 
 # ----------------------------------------------------------------------
@@ -268,7 +287,7 @@ def updatesavedplaces():
     # -------------------------
 
     content = request.get_json(force=True)
-    created_timestamp =  datetime.datetime.now()
+    created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()  # get a new data to update
     username = content["username"]
     locationlat = content["location_lat"]
@@ -288,7 +307,8 @@ def updatesavedplaces():
 
     if owner_id is not None:
 
-        querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=owner_id).all()
+        # get all saved places by all users
+        querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
 
         if querysavedplaces is not None:
 
@@ -304,7 +324,7 @@ def updatesavedplaces():
                     # create average latitude and longitude?
                     # recreate this later
                     # ---------------------------
-                    location.modified_stamp = modified_timestamp
+                    location.modified_timestamp = modified_timestamp
                     # long = location.location_long
                     location.waiting_time = waiting_time
                     # user_id = location.user_id
@@ -313,27 +333,14 @@ def updatesavedplaces():
                     # savedplaces = SavedPlaces(timestamp=timestamp, location_lat=locationlat, location_long=locationlong, waiting_time=waiting_time, user_id  =user_id)
                     # savedplaces = querysavedplaces
                     # break
+                    try:
+                        # current_sesssion.add(savedplaces) # add opened statement to opened session
+                        current_session.commit()  # commit changes
+                    except:
+                        current_session.rollback()
+                        current_session.flush()  # for resetting non-commited .add()
 
-                    #querysavedplaces.waiting_time = waiting_time
-                    #querysavedplaces.timestamp = timestamp
-                    # savedplaces = SavedPlaces(timestamp=timestamp, location_lat=locationlat, location_long=locationlong, waiting_time=waiting_time, user_id=owner_id)
-                else:
-                    pass
-                    # create a new location
-                    # savedplaces = SavedPlaces(timestamp=timestamp, location_lat=locationlat, location_long=locationlong, waiting_time=waiting_time, user_id  =owner_id)
-
-    try:
-        # current_sesssion.add(savedplaces) # add opened statement to opened session
-        current_session.commit()  # commit changes
-
-    except:
-        current_session.rollback()
-        current_session.flush()  # for resetting non-commited .add()
-    finally:
-        current_session.close()
-
-    # return HTTP response
-    # resp = jsonify()
+    current_session.close()
 
     return "ok"
 
