@@ -32,7 +32,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db.init_app(app)
 db = SQLAlchemy(app)
 
-
 # ------------------------------------------------------
 
 # ------------------------------------------------------
@@ -146,10 +145,7 @@ def createuser():
 
     return jsonify(user_json=[user.serialize for user in users])
 
-
 # ------------------------------------------------------
-
-
 # GET user details
 @app.route('/get_user/<username>', methods=['GET'])
 def get_user_info(username):
@@ -177,7 +173,6 @@ def getallsavedplaces():
     Query data related to all previous saved places and return as a json object
 
     """
-
     if request.method == 'GET':
         # code to update all waiting time columns
         # create function to update waiting time all rows
@@ -188,10 +183,6 @@ def getallsavedplaces():
         current_location_long = float(request.args.get('location_long'))
 
         allsavedplaces = SavedPlaces.query.filter_by(username=username).all()
-
-        # users = User.query.filter_by(username=username).all()  # it was supposed to be first
-        # return jsonify(user_json=[User.serialize for user in users])
-
 
         # if allsavedplaces is not None:
 
@@ -247,7 +238,6 @@ def createsaveplace():
                 # if the user is inserting a place already saved, previous location will be kept, and modified_stamp will be changed
                 if same_location is True:
                     location.modified_timestamp = modified_timestamp
-                    k = location.modified_timestamp
                     # then commit that change
                     try:
                         # current_session.add(querysavedplaces)  # add opened statement to opened session
@@ -298,10 +288,6 @@ def updatesavedplaces():
 
     current_session = db.session  # open database session
 
-    # query places coordinates to see if the place already
-    # query latitude
-    # query longitude
-
     # query table USer to get username and then query by user
     owner_id = current_session.query(User).filter_by(username=username).first().username
 
@@ -320,21 +306,9 @@ def updatesavedplaces():
                                                                       float(location.location_lat),
                                                                       float(location.location_long), RADIUS_CIRCLE)
                 if same_location is True:
-                    # keep the old location
-                    # create average latitude and longitude?
-                    # recreate this later
-                    # ---------------------------
                     location.modified_timestamp = modified_timestamp
-                    # long = location.location_long
                     location.waiting_time = waiting_time
-                    # user_id = location.user_id
-                    # address = location.address
-                    # ---------------------------
-                    # savedplaces = SavedPlaces(timestamp=timestamp, location_lat=locationlat, location_long=locationlong, waiting_time=waiting_time, user_id  =user_id)
-                    # savedplaces = querysavedplaces
-                    # break
                     try:
-                        # current_sesssion.add(savedplaces) # add opened statement to opened session
                         current_session.commit()  # commit changes
                     except:
                         current_session.rollback()
@@ -344,26 +318,25 @@ def updatesavedplaces():
 
     return "ok"
 
+'''
+
+# Delete saved place
+@app.route('/delete_saved_place/', method = ['POST'])
+def delete_saved_place():
+    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
+        abort(404)
+
+    return "ok"
+
 
 # catch page error
 # ----------------------
-
-# @app.errorhandler(404)
-# def not_found(error):
-#    return make_response(jsonify({'error': 'Not found'}), 404)
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 # -----------------------------
 '''
-#@app.before_request to run a function before every request from the browser:
-@app.before_request
-def before_request():
-    db.session()
-
-#@app.teardown_request to close the database connection after every request.
-@app.teardown_request
-def teardown_request(exception):
-   db.session.remove()
-
 #----------------------
-'''
+
 if __name__ == '__main__':
     app.run(debug=True)
