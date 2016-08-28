@@ -1,7 +1,7 @@
 # Import settings
 #   python3.5
 import datetime
-
+from sqlalchemy import Column, ForeignKey, Integer, String, Date, Numeric
 from flask import Flask, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 import geofuntcions as gf
@@ -55,7 +55,8 @@ class User(db.Model):
 
     @property
     def serialize(self):
-        '''Return as a json object so it can be used in RESTful Api'''
+
+        #  Return as a json object so it can be used in RESTful Api
 
         return {'id': self.id,
                 'username': self.username,
@@ -92,9 +93,7 @@ class SavedPlaces(db.Model):
 
     @property
     def serialize(self):
-        '''
-        As a json object to be used in RESTful Api
-        '''
+        #  Return as a json object so it can be used in RESTful Api
         return {'user_id': self.user_id,
                 'created_timestamp': self.created_timestamp,
                 'modified_timestamp': self.modified_timestamp,
