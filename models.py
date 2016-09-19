@@ -1,67 +1,130 @@
 # Import settings
 
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
-#------------------------------------------------
+# ------------------------
+# debug imports
+import datetime
 
-#PATH_DB = 'sqlite:////home/km/Dropbox/Git_Local/00 - Python/FlaskRestAlchemy/UserApi'
-
-#----------------------------------
-
-# create the sqlalchemy object
-
+# ----------------------------------
 db = SQLAlchemy()
 
-# database colums
-#Id, timestamp, location_lat, location_long
-#    timestamp BLOB,
-#    location_lat NUMERIC,
-#    location_long NUMERIC)
-#                          ''')
+
+# ----------------------------------
+# Database Mapper
+# ----------------------------------
+
 class User(db.Model):
+    """    Model Table User    """
+
     __tablename__ = 'user'
-    id = db.Column('id',db.Integer,primary_key=True)
-    username = db.Column('username',db.String(28),index=True, nullable = False,unique=True )
-    timestamp = db.Column(db.DateTime)
-    savedplaces = db.relationship('SavedPlaces',backref='user',lazy='dynamic')
 
-    #def __init__(self,timestamp,username):
-    #    self.timestamp = timestamp
-    #    self.username = username
+    id = db.Column('id', db.Integer, primary_key=True)
+    email = db.Column('email', db.String, unique=True, nullable=False)
+    pw_hash = db.Column('password_hash', db.String(80), nullable=False)
+    username = db.Column('username', db.String(28), index=True, unique=True)
+    created_timestamp = db.Column(db.String(28))
+    savedplaces = db.relationship('SavedPlaces', backref='user')
 
-    def __repr__(self):
-        return '<User %r>' % (self.username)
+    def __init__(self, email, pw_hash, username, created_timestamp):
+        self.email = email
+        self.pw_hash = generate_password_hash(pw_hash)
+        self.created_timestamp = created_timestamp
+        self.username = username
 
+    def verify_password(self, password):
+        """Verify user's password, a method that can be called on a user."""
+
+        return check_password_hash(self.pw_hash,password)
+
+    @property
+    def serialize(self):
+        #  Return as a json object so it can be used in RESTful Api
+
+        return {'id': self.id,
+                'username': self.username,
+                'created_timestamp': self.created_timestamp}
+
+
+# ------------------------------------------------------
+# Second database Table
+# ------------------------------------------------------
 
 class SavedPlaces(db.Model):
-    __tablename__='savedplaces'
-    id = db.Column('id',db.Integer,primary_key=True)
-    timestamp = db.Column(db.DateTime)
-    location_lat = db.Column('location_lat',db.String(100),index = True, nullable = False)
-    location_long = db.Column('location_long',db.String(100),index = True, nullable = False)
-    waitingtime = db.Column('waitingtime',db.Integer, index= True )
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+    """
+    Model Table SavedPlaces
+    """
+    __tablename__ = 'savedplaces'
+    id = db.Column('id', db.Integer, primary_key=True)
+    created_timestamp = db.Column(db.DateTime)
+    modified_timestamp = db.Column(db.DateTime)
+    location_lat = db.Column('location_lat', db.String(100))
+    location_long = db.Column('location_long', db.String(100))
+    address = db.Column('address', db.String(100))
+    waiting_time = db.Column('waitingtime', db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return '<SavedPlaces %r>' % (self.location_lat)
+    def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time,
+                 user_id):
+        self.created_timestamp = created_timestamp
+        self.modified_timestamp = modified_timestamp
+        self.location_lat = location_lat
+        self.location_long = location_long
+        self.address = address
+        self.waiting_time = waiting_time
+        self.user_id = user_id
+
+    @property
+    def serialize(self):
+        #  Return as a json object so it can be used in RESTful Api
+        return {'user_id': self.user_id,
+                'created_timestamp': self.created_timestamp,
+                'modified_timestamp': self.modified_timestamp,
+                'location_lat': self.location_lat,
+                'location_long': self.location_long,
+                'address': self.address,
+                'waiting_time': self.waiting_time}
 
 
+##############################################################################
+# Helper functions
+
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
+
+    # create the sqlalchemy object
+
+    PATH_DB = 'sqlite:////home/km/Dropbox/Git_Local/00 - Python/FlaskRestAlchemy/CheckzDB'
+
+    # Configure to use our PstgreSQL database
+    app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.app = app
+    db.init_app(app)
 
 
-    #def __init__(self,timestamp,locaiton_lat, location_long):
-    #    self.timestamp = timestamp
-    #    self.location_lat = locaiton_lat
-    #    self.location_long = location_long
+def insert_user():
+
+    email = "email@email.com"
+    password = 123
+    pending_user = "kmo"
+    created_timestamp = datetime.datetime.utcnow()
+
+    user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)
+
+    current_session = db.session  # open database session
+    current_session.add(user)  # add opened statement to opened session
+    current_session.commit()  #
+
+    print("insert_user was executed ")
 
 
-# Inserting data
-# Using Method Post
-#-------------------------------------------
+if __name__ == "__main__":
 
-# post save location
+    from server import app
 
-# if location is near 50 m of favotire place, then be able to post waiting time
-# receive location, query database for previsous location or just post wait time and save as favorite
-# post waiting time
+    connect_to_db(app)
 
-
+    print("Connected to DB.")

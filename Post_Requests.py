@@ -1,19 +1,19 @@
 import requests
 
-url_post = 'http://127.0.0.1:5000/get_all_saved_places/'
+url_post = 'http://127.0.0.1:5000/get_user/'
 
-data = {'username':'finaluser','location_lat':'12.0','location_long':'3.3'}
+data = {'username': 'km'}
 
-r = requests.get(url_post, params=data)
+r = requests.get(url_post, data)
 print(r.url)
 print(r.status_code)
 
 """
 
 
-curl -i -H "Content-Type: application/json" -X POST -d '{"username":"kmokmo"}' http://127.0.0.1:5000/create_user/
+curl -i -H "Content-Type: application/json" -X POST -d '{"username":"sdfsdfsd"}' http://127.0.0.1:5000/create_user/
 
-curl -i -H "Content-Type: application/json" -X GET -d http://127.0.0.1:5000/get_user/finaluser
+curl -i -H "Content-Type: application/json" -X GET -d http://127.0.0.1:5000/get_user/km
 
 curl -i -H "Content-Type: application/json" -X GET -d http://127.0.0.1:5000/get_all_saved_places/?username=finaluser&latitude=12&longitude=12
 

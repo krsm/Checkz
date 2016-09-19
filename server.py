@@ -1,13 +1,10 @@
 # Import settings
 #   python3.5
 import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, Date, Numeric
-from flask import Flask, request, jsonify, abort
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
 import geofuntcions as gf
-
-# from models import db, User, SavedPlaces
-# from schemas import ma, savedplace_schema, savedplaces_schema, user_schema, users_schema
+from models import connect_to_db,db, User, SavedPlaces
+import os
 
 # ----------------------
 # Max distance btw 2 locations
@@ -19,95 +16,131 @@ RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 
 # ------------------------------------------------
 
-PATH_DB = 'sqlite:////home/km/Dropbox/Git_Local/00 - Python/FlaskRestAlchemy/UserApi'
-
-app = Flask("MainRESTMT")
-app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SECRET_KEY']= os.urandom(24)    # will be used in the cookie - to encrypt the cookie
+# Create a flask app and set a random secret key
+# Create the app
+app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 
-# initiate the sqlalchemy object
+
+# ================================================================================
+#  Registration, Login, and User Profile
+# ================================================================================
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'username' in session:
+        g.user = session['username']
+
+
+@app.route('/register/', methods=['POST','GET'])
+def register():
+
+    error = None
+
+    if request.method == 'POST':
+
+        email = request.form['email']
+        # check if the email was already used in the database
+        pending_user_email = User.query.filter_by(email=email).first()
+
+        if pending_user_email is not None:
+
+            # Create function to inform that email was already used
+
+            # pass error saying that email already in the database
+            error = "Email already in the database, please, log in!"
+
+            return redirect(url_for('login'))
+        else:
+
+            password = request.form['password']
+            pending_user = request.form['username']
+            created_timestamp = datetime.datetime.utcnow()
+
+            user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)
+
+            current_session = db.session  # open database session
+
+            try:
+                current_session.add(user)  # add opened statement to opened session
+                current_session.commit()  # commit changes
+            except:
+                current_session.rollback()
+                current_session.flush()  # for resetting non-commited .add()
+            finally:
+                current_session.close()
+
+            # initiate the session with the current user
+
+            #session['username'] = user.username
+            #session['logged_in'] = True
+
+            return render_template('map.html')
+    else:
+
+        #error = "405  Method not allowed"
+
+        return render_template('register.html',error=error)
+
+
+@app.route('/login/', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == 'POST':
+
+        password = request.form['password']
+        email = request.form['email']
+
+        possible_user = User.query.filter_by(email=email).first()
+
+        if possible_user and possible_user.verify_password(password):
+            session['username'] = possible_user.username
+            session['logged_in'] = True
+            return render_template("map.html")
+
+        else:
+            error = "Invalid Credentials. Please try again."
+            return render_template("login.html", error=error)
+
+    else:
+        error = "405  Method not allowed"
+        return render_template("login.html", error=error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session['logged_in'] = False
+    return render_template("map.html")
+
+
+# function to verify the current is in the session
+def verify_user_current_session():
+
+    user = User.query.filter_by(name=session['username']).first()
+
+    if user:
+        return True
+    else:
+        return False
+
+
+# Homepage
+
+@app.route('/')
+def home():
+    #session['logged_in'] = True
+    return render_template("map.html")
+
+
 # ------------------------------------------------------
-# db.init_app(app)
-db = SQLAlchemy(app)
-
-# ------------------------------------------------------
-
-# ------------------------------------------------------
-# Database Mapper
-# ----------------------------------
-
-class User(db.Model):
-    """
-    Model Table User
-    """
-
-    __tablename__ = 'user'
-    id = db.Column('id', db.Integer, primary_key=True)
-    username = db.Column('username', db.String(28), index=True, unique=True)
-    created_timestamp = db.Column(db.String(28))
-    savedplaces = db.relationship('SavedPlaces', backref='user')
-
-    def __init__(self, created_timestamp, username):
-        self.created_timestamp = created_timestamp
-        self.username = username
-
-    @property
-    def serialize(self):
-
-        #  Return as a json object so it can be used in RESTful Api
-
-        return {'id': self.id,
-                'username': self.username,
-                'created_timestamp': self.created_timestamp}
-
-
-# ------------------------------------------------------
-# Second database Table
-# ------------------------------------------------------
-
-class SavedPlaces(db.Model):
-    """
-    Model Table SavedPlaces
-    """
-    __tablename__ = 'savedplaces'
-    id = db.Column('id', db.Integer, primary_key=True)
-    created_timestamp = db.Column(db.DateTime)
-    modified_timestamp = db.Column(db.DateTime)
-    location_lat = db.Column('location_lat', db.String(100))
-    location_long = db.Column('location_long', db.String(100))
-    address = db.Column('address', db.String(100))
-    waiting_time = db.Column('waitingtime', db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time,
-                 user_id):
-        self.created_timestamp = created_timestamp
-        self.modified_timestamp = modified_timestamp
-        self.location_lat = location_lat
-        self.location_long = location_long
-        self.address = address
-        self.waiting_time = waiting_time
-        self.user_id = user_id
-
-    @property
-    def serialize(self):
-        #  Return as a json object so it can be used in RESTful Api
-        return {'user_id': self.user_id,
-                'created_timestamp': self.created_timestamp,
-                'modified_timestamp': self.modified_timestamp,
-                'location_lat': self.location_lat,
-                'location_long': self.location_long,
-                'address': self.address,
-                'waiting_time': self.waiting_time}
-
-
 # ------------------------------------------------------
 # Inserting data
 # Using Method Post
 # ------------------------------------------------------
-
 # ------------------------------------------------------
 #   Endpoints related to User Table
 # ------------------------------------------------------
@@ -117,7 +150,6 @@ def createuser():
     """
     :return:
     """
-
     if not request.json or not 'username' in request.json:
         abort(404)
 
@@ -128,11 +160,11 @@ def createuser():
     username = content["username"]
 
     # create object to insert in the database
-    userdata = User(created_timestamp=created_timestamp, username=username)
-    current_session = db.session  # ope database session
+    user_data = User(created_timestamp=created_timestamp, username=username)
+    current_session = db.session  # open database session
 
     try:
-        current_session.add(userdata)  # add opened statement to opened session
+        current_session.add(user_data)  # add opened statement to opened session
         current_session.commit()  # commit changes
     except:
         current_session.rollback()
@@ -143,6 +175,7 @@ def createuser():
     users = User.query.filter_by(username=username).all()  # it was supposed to be first
 
     return jsonify(user_json=[user.serialize for user in users])
+
 
 # ------------------------------------------------------
 # GET user details
@@ -186,16 +219,13 @@ def getallsavedplaces():
         # if allsavedplaces is not None:
 
         return jsonify(savedplaces_json=[savedplaces.serialize for allsavedplace in allsavedplaces])
-        # else:
-
-        #   return 'Not GET method'
 
 
 # - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
 @app.route('/create_save_place/', methods=['POST'])
-def createsaveplace():
+def create_saveplace():
     """
     :return:
     """
@@ -220,7 +250,6 @@ def createsaveplace():
     # otherwise insert in the table
 
     current_session = db.session  # open database session
-
     owner_id = current_session.query(User).filter_by(username=username).first().username
 
     if owner_id is not None:
@@ -317,6 +346,22 @@ def updatesavedplaces():
 
     return "ok"
 
+
+# --------------------------------------------------------------------------------------------------------
+# Routes to Website
+
+@app.route('/map/')
+def get_map():
+    return render_template('map.html')
+
+
+@app.route('/debugger/')
+def display_debug_message():
+    """Display session and preserves dictionary format in bootbox alert."""
+
+    return jsonify(session)
+
+
 '''
 
 # Delete saved place
@@ -335,7 +380,11 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 # -----------------------------
 '''
-#----------------------
+# ----------------------
 
 if __name__ == '__main__':
+
+
+    connect_to_db(app)
+
     app.run(debug=True)
