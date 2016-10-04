@@ -4,63 +4,68 @@
 
 <!-- Button group -->
 <div class="container">
-    <h1>Checkz</h1>
+
     <div class="row">
         <div class="span4">
-            <h4 class="muted lef-center">Check favourite location, and update waiting time</h4>
+            <h4 class="muted lef-center">Check favourite locations, and update waiting time</h4>
+            <a href="#" class="btn btn-info">Save Selected Location as Fav.</a>
             <a href="#" class="btn btn-success"><i class="icon-star icon-white"></i> Show Previous Saved Locations</a>
             <a href="#" class="btn btn-info">Update Waiting Time</a>
-            <a href="#" class="btn btn-info">Save Location</a>
-            <a href="#" class="btn btn-info">Go To Previous Saved Location</a>
-            <button type="button" class="btn btn-default">Left</button>
-            <button type="button" class="btn btn-default">Middle</button>
-            <button type="button" class="btn btn-default">Right</button>
+            <a href="#" class="btn btn-info">Fav Location</a>
+            <a href="#" class="btn btn-info">Go to Fav Location</a>
+
         </div>
     </div>
 
-</div>
+</div> <br>
 
 <!-- Maps group -->
 <div class="container">
 
-    <h3>Current Map Location</h3>
     <div id="map" style="width:1400px;height:750px"></div>
     <div id="floating-panel">
         <input id="address" type="textbox" value="        ">
         <input id="submit" type="button" value="Geocode">
     </div>
-    <div id="map"></div>
 
     <script>
 
-        function initMap(cur_lat, cur_long) {
+
+
+      function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: {lat: -34.397, lng: 150.644}
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 6
         });
-        var geocoder = new google.maps.Geocoder();
+        var infoWindow = new google.maps.InfoWindow({map: map});
 
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
       }
 
-
-
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
       }
+
 
 
     </script>
@@ -72,32 +77,5 @@
 
 </div>
 
-
-
-<!-- Sidebar -->
-<div class="container">
-    <div id="sidebar" class="col-md-3">
-        <div class="widget">
-            <h3>Newsletter</h3>
-            <form class="form" role="form">
-                <div class="form-group">
-                    <label class="sr-only" for="exampleInputEmail2">Entre com seu email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Entre com seu email">
-                </div>
-                <button type="submit" class="btn btn-success">Cadastrar</button>
-            </form>
-        </div>
-        <div class="widget">
-            <h3>Parceiros</h3>
-            <ul>
-                <li><a href="">Parceiro 1</a></li>
-                <li><a href="">Parceiro 2</a></li>
-                <li><a href="">Parceiro 3</a></li>
-                <li><a href="">Parceiro 4</a></li>
-                <li><a href="">Parceiro 5</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
 
 {% endblock %}

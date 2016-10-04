@@ -1,10 +1,12 @@
 # Import settings
 #   python3.5
 import datetime
-from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
-import geofuntcions as gf
-from models import connect_to_db,db, User, SavedPlaces
 import os
+
+from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
+
+import geofuntcions as gf
+from models import connect_to_db, db, User, SavedPlaces
 
 # ----------------------
 # Max distance btw 2 locations
@@ -22,7 +24,6 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 
-
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
@@ -35,9 +36,8 @@ def before_request():
         g.user = session['username']
 
 
-@app.route('/register/', methods=['POST','GET'])
+@app.route('/register/', methods=['POST', 'GET'])
 def register():
-
     error = None
 
     if request.method == 'POST':
@@ -75,15 +75,15 @@ def register():
 
             # initiate the session with the current user
 
-            #session['username'] = user.username
-            #session['logged_in'] = True
+            session['logged_in'] = True
+            session['username'] = pending_user
 
             return render_template('map.html')
     else:
 
-        #error = "405  Method not allowed"
+        # error = "405  Method not allowed"
 
-        return render_template('register.html',error=error)
+        return render_template('register.html')
 
 
 @app.route('/login/', methods=['POST', 'GET'])
@@ -106,7 +106,7 @@ def login():
             return render_template("login.html", error=error)
 
     else:
-        error = "405  Method not allowed"
+        # error = "405  Method not allowed"
         return render_template("login.html", error=error)
 
 
@@ -119,7 +119,6 @@ def logout():
 
 # function to verify the current is in the session
 def verify_user_current_session():
-
     user = User.query.filter_by(name=session['username']).first()
 
     if user:
@@ -129,10 +128,9 @@ def verify_user_current_session():
 
 
 # Homepage
-
 @app.route('/')
 def home():
-    #session['logged_in'] = True
+    # session['logged_in'] = True
     return render_template("map.html")
 
 
@@ -382,9 +380,11 @@ def not_found(error):
 '''
 # ----------------------
 
+
+#lat = request.args.get('lat')
+#long = request.args.get('long')
+
 if __name__ == '__main__':
-
-
     connect_to_db(app)
 
     app.run(debug=True)

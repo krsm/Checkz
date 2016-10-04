@@ -1,0 +1,4 @@
+
+    function funky(){
+        alert("Ouch!!!!!");
+    }

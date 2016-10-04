@@ -40,3 +40,38 @@ Google API console
 
 CheckzBrowser
 AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI
+
+
+ #------------------------------
+
+4 Actions in website
+
+
+Save Fav - Button - Save current position - Marker on the map, as favorite
+    It could be a click on the map or geocoding
+
+Send data from JS to py?
+
+#------------------------------
+
+Show Previous Saved Positions - Near by current position?
+
+Send data from py to js
+
+#------------------------------
+
+
+Update waiting time in the previous saved positions
+
+Send data from JS to py?
+Send data from py to js
+#------------------------------
+
+
+GOTO - Fastest
+    -> Shortest waiting time
+    -> Fastest route
+
+
+    Send data from JS to py?
+Send data from py to js

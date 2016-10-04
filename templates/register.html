@@ -29,14 +29,15 @@
 <body>
 <div class="container">
     <h1>Please create an account</h1>
-    <br>
 
-    <form method="POST" action="{{url_for( 'register' )}}">
+    <form method="POST" action="{{url_for( 'register' )}}" role="form">
         <input type="text" placeholder="username" name="username"/></br>
-        <input type="text" placeholder="email address" name="email"/></br>
-        <input type="password" placeholder="password" name="password"/></br>
-        <input type="submit" value="Submit" class='btn-primary'/>
+        <input type="text" placeholder="email address" name="email" required autofocus/></br>
+        <input type="password" placeholder="password" name="password" required/></br>
+        <input type="submit" value="Register" class='btn-primary'/>
     </form>
+
+
 
         {% if error %}
             <p class="error"><strong>Note:</strong> {{ error }}
