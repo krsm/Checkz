@@ -4,16 +4,19 @@ import datetime
 import os
 
 from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
+from flask_debugtoolbar import DebugToolbarExtension
+from jinja2 import StrictUndefined
 
 import geofuntcions as gf
 from models import connect_to_db, db, User, SavedPlaces
 
+from flask_debugtoolbar import DebugToolbarExtension
 # ----------------------
 # Max distance btw 2 locations
 # it will be to compare the distance
 # it is in meters
 
-RADIUS_CIRCLE = 10
+RADIUS_CIRCLE = 10   # distance used to be same place
 RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 
 # ------------------------------------------------
@@ -23,6 +26,9 @@ RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+
+# raises error if you use an undefined variable in Jinja2
+#app.jinja_env.undefined = StrictUndefined
 
 # ================================================================================
 #  Registration, Login, and User Profile
@@ -385,6 +391,13 @@ def not_found(error):
 #long = request.args.get('long')
 
 if __name__ == '__main__':
+
+
     connect_to_db(app)
 
-    app.run(debug=True)
+    app.debug = True
+
+    # Use the DebugToolbar
+    #DebugToolbarExtension(app)
+
+    app.run()

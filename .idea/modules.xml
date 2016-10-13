@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" filepath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Flask_JS/.idea/Flask_JS.iml" filepath="$PROJECT_DIR$/../Flask_JS/.idea/Flask_JS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" filepath="$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" />
     </modules>
   </component>
 </project>

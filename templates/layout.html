@@ -14,9 +14,6 @@
   <!-- Map -->
   <link href="{{ url_for('static', filename='css/gmaps.css') }}"  rel="stylesheet">
 
-  <!-- Javascript Functions related to Map -->
-
-  <script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries, HtmlUnknownTag, HtmlUnknownTag, HtmlUnknownTag -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file://, HtmlUnknownTag, HtmlUnknownTag, HtmlUnknownTag -->
@@ -52,13 +49,23 @@
       </ul>
     </div>
   </nav>
+
 </head>
+
 <body>
-{% block body %}{% endblock %}
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+{% block body %} put your content here {% endblock %}
+
+
 </body>
 </html>

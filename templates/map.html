@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block body %}
 
 
@@ -8,47 +9,47 @@
     <div class="row">
         <div class="span4">
             <h4 class="muted lef-center">Check favourite locations, and update waiting time</h4>
-            <a href="#" class="btn btn-info">Save Selected Location as Fav.</a>
-            <a href="#" class="btn btn-success"><i class="icon-star icon-white"></i> Show Previous Saved Locations</a>
-            <a href="#" class="btn btn-info">Update Waiting Time</a>
-            <a href="#" class="btn btn-info">Fav Location</a>
-            <a href="#" class="btn btn-info">Go to Fav Location</a>
+            <button id="btn_sav_loc_fav" type="button">Favorite Location </button>
+            <button id="btn_show_loc_fav" type="button">Show Previous Saved Locations</button>
+            <button id="btn_update_loc_fav" type="button">Update Waiting Time </button>
+            <button id="btn_goto_loc_fav" type="button">Go to Fav Location</button>
 
         </div>
     </div>
 
 </div> <br>
 
+
 <!-- Maps group -->
-<div class="container">
+<div class="container"></div>
 
-    <div id="map" style="width:1400px;height:750px"></div>
+<div id="map" style="width:1400px;height:750px"></div>
 
-  <script>
+<!-- Javascript Functions related to Map -->
 
-         var cur_lat = -34.397;
-         var cur_lng= 150.664;
+<script>
 
-      function initMap(cur_lat,cur_lng) {
+  var map;
 
-        var map;
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: cur_lat, lng: cur_lng},
-          zoom: 8
-        });
-      }
-    </script>
+  function initMap() {
+  var myLatLng = {lat: -25.363, lng: 131.044};
 
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
 
-
-
-
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initMap"
-            async defer></script>
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
 
 
-</div>
+  </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initMap"
+        async defer></script>
 
 
 {% endblock %}

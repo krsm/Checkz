@@ -5,5 +5,6 @@
     <orderEntry type="jdk" jdkName="Python 3.5.1 (~/anaconda3/envs/py35/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Flask_JS" />
+    <orderEntry type="module" module-name="park-place-master" />
   </component>
 </module>
