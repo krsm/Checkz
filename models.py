@@ -3,16 +3,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
+import os
+
 # ------------------------
 # debug imports
 import datetime
 
-import os
 
 # ----------------------------------
 db = SQLAlchemy()
-
-
 # ----------------------------------
 # Database Mapper
 # ----------------------------------
