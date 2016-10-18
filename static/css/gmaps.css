@@ -1,14 +1,13 @@
 
 
-        <style>
-      html, body {
-        height: 100%;
-        margin: 12;
-        padding: 0;
-      }
+    <style>
+
       #map {
-        height: 100%;
+
+        width:1400px;
+        height:750px;
       }
+
     </style>
 
 

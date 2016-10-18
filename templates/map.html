@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 
-{% block body %}
+{% block head %}
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initMap"
+></script>
+
+{% endblock %}
+
+{% block content %}
 
 <!-- Button group -->
 <div class="container">
@@ -19,7 +25,6 @@
 
 </div> <br>
 
-
 <!-- Maps group -->
 <div class="container"></div>
 
@@ -27,29 +32,10 @@
 
 <!-- Javascript Functions related to Map -->
 
-<script>
-
-  var map;
-
-  function initMap() {
-  var myLatLng = {lat: -25.363, lng: 131.044};
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: myLatLng
-  });
-
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
+<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>
 
 
-  </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initMap"
-        async defer></script>
 
 
 {% endblock %}

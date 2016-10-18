@@ -6,5 +6,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Flask_JS" />
     <orderEntry type="module" module-name="park-place-master" />
+    <orderEntry type="module" module-name="JqueryFlask" />
   </component>
 </module>
