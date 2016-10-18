@@ -7,6 +7,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # debug imports
 import datetime
 
+import os
+
 # ----------------------------------
 db = SQLAlchemy()
 
@@ -90,12 +92,17 @@ class SavedPlaces(db.Model):
 ##############################################################################
 # Helper functions
 
+
+
+
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    # create the sqlalchemy object
+    # create the sqlalchemy ob
 
-    PATH_DB = 'sqlite:////home/km/Dropbox/Git_Local/00 - Python/FlaskRestAlchemy/CheckzDB'
+    curDir = os.getcwd()    # current working dir
+
+    PATH_DB = 'sqlite:///'+curDir+'/CheckzDB'
 
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
@@ -128,3 +135,4 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     print("Connected to DB.")
+

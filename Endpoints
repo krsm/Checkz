@@ -34,12 +34,6 @@ User Actions:
 
     DELETE /delete_saved_place/<username><location> - delete a certain location previous by username
 
-Google API console
- AIzaSyCmSyRHgATnQ6CNL8iE7zhGdOrXH_9cEhs
-
-
-CheckzBrowser
-AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI
 
 
  #------------------------------
