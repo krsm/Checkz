@@ -1,3 +1,27 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initFavMap">
+</script>
+
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Maps group -->
+<div class="container"></div>
+
+<div id="map" style="width:1800px;height:800px"></div>
+
+<!-- Javascript Functions related to Map -->
+
+ <!--<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>-->
+
+<script type="text/javascript">
+
 var favMap;
 var infoWindow = new google.maps.InfoWindow();
 var directionsService = new google.maps.DirectionsService();
@@ -44,6 +68,8 @@ function getFavoriteSpots() {
   }
 }
 
+
+
 // TODO create function to add markers, and show button to save as favorite
 function createFavoriteSpotMarkers(response) {
 
@@ -58,7 +84,7 @@ function createFavoriteSpotMarkers(response) {
                     + '<button type="button" onclick="textDirections(' + response[i][1] + ',' + response[i][2] + ')" class="btn btn-primary" id="text-directions-button">Text Directions to Me</button>'
                     + '</div>';
 
-                    
+
 } //createFavoriteSpotMarkers
 
 function makeMarkers(response) {
@@ -152,6 +178,7 @@ function locateUser() {
   var browserSupportFlag =  new Boolean();
 
   if(navigator.geolocation) {
+
     browserSupportFlag = true;
     navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -160,9 +187,41 @@ function locateUser() {
         lng: position.coords.longitude
       };
 
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      favMap.setCenter(pos);
+      //debugger();
+      //infoWindow.setPosition(pos);
+      //infoWindow.setContent('Location found.');
+      //favMap.setCenter(pos);
+
+      favMark = new google.maps.Marker({
+      map: favMap,
+      position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+      icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
+          });
+
+               // create the content of the infoWindow
+        // AFTER infoWindow is created, fav-button shows up
+        // ON CLICK of fav-button, it calls favoriteSpot
+        // passing in response[i][3] aka regId, and parkLatLng in chunks
+        var html = '<div class="content">'
+                    + '<button type="button" onclick="createFavoriteSpot(' + "tobedefined"
+                    + ', \'{lat: ' + "tobedefined" + ', lng: ' + "tobedefined" + '}\')" class="btn btn-primary" id="fav-button">'
+                    + 'Favorite</button>'
+                    + '<button type="button" onclick="getDirections(' + "tobedefined" + ',' +"tobedefined" + ')" class="btn btn-primary" id="directions-button">Get Directions to Here</button>'
+                    + '<button type="button" onclick="textDirections(' + "tobedefined" + ',' + "tobedefined" + ')" class="btn btn-primary" id="text-directions-button">Text Directions to Me</button>'
+                    + '</div>';
+
+
+          // javascript closure
+          // params here
+        google.maps.event.addListener(favMark, 'click', (function(favMark, html, infoWindow) {
+            return function() {
+            infoWindow.close();
+            infoWindow.setContent(html);
+            infoWindow.open(favMap, favMark);
+            };
+          // what you actually pass in
+          })(favMark, html, infoWindow));
+
 
 
       //window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -198,3 +257,7 @@ $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
 
 });
+
+</script>
+
+{% endblock %}
