@@ -3,6 +3,8 @@
 import datetime
 import os
 
+import pdb
+
 from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
@@ -33,7 +35,6 @@ app.secret_key = os.urandom(24)
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
-
 
 @app.before_request
 def before_request():
@@ -120,6 +121,8 @@ def login():
 def logout():
     session.pop('username', None)
     session['logged_in'] = False
+    # this remove the entire session dictionary
+    session.clear()
     return render_template("map.html")
 
 
@@ -132,11 +135,10 @@ def verify_user_current_session():
     else:
         return False
 
-
 # Homepage
 @app.route('/')
 def home():
-    # session['logged_in'] = True
+    session['logged_in'] = False
     return render_template("map.html")
 
 
@@ -148,59 +150,6 @@ def home():
 # ------------------------------------------------------
 #   Endpoints related to User Table
 # ------------------------------------------------------
-#   POST /create_user/ - create a new user
-@app.route('/create_user/', methods=['POST'])
-def createuser():
-    """
-    :return:
-    """
-    if not request.json or not 'username' in request.json:
-        abort(404)
-
-    # getting json data
-    content = request.get_json(force=True)
-    # timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    created_timestamp = datetime.datetime.now()
-    username = content["username"]
-
-    # create object to insert in the database
-    user_data = User(created_timestamp=created_timestamp, username=username)
-    current_session = db.session  # open database session
-
-    try:
-        current_session.add(user_data)  # add opened statement to opened session
-        current_session.commit()  # commit changes
-    except:
-        current_session.rollback()
-        current_session.flush()  # for resetting non-commited .add()
-    finally:
-        current_session.close()
-
-    users = User.query.filter_by(username=username).all()  # it was supposed to be first
-
-    return jsonify(user_json=[user.serialize for user in users])
-
-
-# ------------------------------------------------------
-# GET user details
-@app.route('/get_user/<username>', methods=['GET'])
-def get_user_info(username):
-    """
-    Query data related to username ans return as a json object
-    """
-    users = User.query.filter_by(username=username).all()  # it was supposed to be first
-    return jsonify(user_json=[user.serialize for user in users])
-
-
-# Delete user
-@app.route('/delete_user/<username>')
-def delete_user(username):
-    pass
-
-
-# ----------------------------------------------
-# Routes regarding SavedPlaces Table
-
 # get all previous saved places
 
 @app.route('/get_all_saved_places/', methods=['GET'])
@@ -213,7 +162,6 @@ def getallsavedplaces():
         # code to update all waiting time columns
         # create function to update waiting time all rows
 
-        # username = request.query_string
         username = request.args.get('username')
         current_location_lat = float(request.args.get('location_lat'))
         current_location_long = float(request.args.get('location_long'))
@@ -222,13 +170,13 @@ def getallsavedplaces():
 
         # if allsavedplaces is not None:
 
-        return jsonify(savedplaces_json=[savedplaces.serialize for allsavedplace in allsavedplaces])
+        return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
 
 
 # - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
-@app.route('/create_save_place/', methods=['POST'])
+@app.route('/favorite_place/', methods=['POST'])
 def create_saveplace():
     """
     :return:
@@ -294,13 +242,18 @@ def create_saveplace():
         finally:
             current_session.close()
 
-    return "new location inserted"
+    return "new_location_inserted"
+
+# route to remove favorite place
+@app.route('/remove_favorite_place/', methods=['POST'])
+def delete_favorite_place():
+
+    return "Done"
 
 
 # ----------------------------------------------------------------------
 # route to update the waiting time
-
-@app.route('/update_saved_places/', methods=['POST'])
+@app.route('/update_waiting_time/', methods=['POST'])
 def updatesavedplaces():
     if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
         abort(404)
@@ -348,22 +301,7 @@ def updatesavedplaces():
 
     current_session.close()
 
-    return "ok"
-
-
-# --------------------------------------------------------------------------------------------------------
-# Routes to Website
-
-@app.route('/map/')
-def get_map():
-    return render_template('map.html')
-
-
-@app.route('/debugger/')
-def display_debug_message():
-    """Display session and preserves dictionary format in bootbox alert."""
-
-    return jsonify(session)
+    return "update_waiting_time_done"
 
 
 '''
@@ -396,7 +334,7 @@ if __name__ == '__main__':
     connect_to_db(app)
 
     app.debug = True
-
+    #pdb.set_trace()
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 

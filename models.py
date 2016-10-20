@@ -78,7 +78,7 @@ class SavedPlaces(db.Model):
 
     @property
     def serialize(self):
-        #  Return as a json object so it can be used in RESTful Api
+        #  Return as a json object
         return {'user_id': self.user_id,
                 'created_timestamp': self.created_timestamp,
                 'modified_timestamp': self.modified_timestamp,

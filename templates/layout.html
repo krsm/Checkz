@@ -12,7 +12,7 @@
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}"  rel="stylesheet">
 
   <!-- Map -->
-  <link href="{{ url_for('static', filename='css/gmaps.css') }}"  rel="stylesheet">
+  <!--<link href="{{ url_for('static', filename='css/gmaps.css') }}"  rel="stylesheet">-->
 
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries, HtmlUnknownTag, HtmlUnknownTag, HtmlUnknownTag -->
@@ -49,24 +49,22 @@
     </div>
   </nav>
 
-
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
   {% block head %}
   {% endblock %}
 
-
-
 </head>
 <body>
+
 {% block body %}{% endblock %}
 
-{% block content %} put your content here {% endblock %}
-
-
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
+
 </html>

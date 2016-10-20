@@ -67,28 +67,15 @@ function handleNoGeolocation(errorFlag) {
 
 
 
+$(window).load(function(){
 
-(function () {
-console.log("asdasdasa")
+//$(document).ready(function () {
 
+  google.maps.event.addDomListener(window, 'load', initFavMap);
 
- var map;
-   function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-     zoom: 8
-      });
-      }
-
-google.maps.event.addDomListener(map, 'load', initMap);
-
- //initFavMap()
+   // initFavMap();
 
   //$(window).resize(resizeMap);
   //resizeMap();
-})();
+});
 
-
-
-//<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initMap"
-     //   async defer></script>
