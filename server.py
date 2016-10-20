@@ -36,11 +36,11 @@ app.secret_key = os.urandom(24)
 #  Registration, Login, and User Profile
 # ================================================================================
 
-@app.before_request
-def before_request():
-    g.user = None
-    if 'username' in session:
-        g.user = session['username']
+#@app.before_request
+#def before_request():
+#    g.user = None
+#    if 'username' in session:
+#        g.user = session['username']
 
 
 @app.route('/register/', methods=['POST', 'GET'])
@@ -138,7 +138,7 @@ def verify_user_current_session():
 # Homepage
 @app.route('/')
 def home():
-    session['logged_in'] = False
+    #session['logged_in'] = False
     return render_template("map.html")
 
 
@@ -151,9 +151,8 @@ def home():
 #   Endpoints related to User Table
 # ------------------------------------------------------
 # get all previous saved places
-
-@app.route('/get_all_saved_places/', methods=['GET'])
-def getallsavedplaces():
+@app.route('/get_favorite_places/', methods=['GET'])
+def get_all_favorite_laces():
     """
     Query data related to all previous saved places and return as a json object
 
@@ -176,8 +175,8 @@ def getallsavedplaces():
 # - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
-@app.route('/favorite_place/', methods=['POST'])
-def create_saveplace():
+@app.route('/save_favorite_place/', methods=['POST'])
+def save_favorite_place():
     """
     :return:
     """
@@ -228,7 +227,7 @@ def create_saveplace():
                         print(e)
                     finally:
                         current_session.close()
-                    return "OK modified time update"  # exit function
+                    return "OK modified timestamp update"  # exit function
 
         savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
                                   location_lat=locationlat, location_long=locationlong,
@@ -242,19 +241,19 @@ def create_saveplace():
         finally:
             current_session.close()
 
-    return "new_location_inserted"
+    return "new_favorite_location_inserted"
 
 # route to remove favorite place
-@app.route('/remove_favorite_place/', methods=['POST'])
-def delete_favorite_place():
-
+@app.route('/remove_favorite_place/', methods=['DELETE'])
+def remove_favorite_place():
+    # To be created
     return "Done"
 
 
 # ----------------------------------------------------------------------
 # route to update the waiting time
 @app.route('/update_waiting_time/', methods=['POST'])
-def updatesavedplaces():
+def update_waiting_time():
     if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
         abort(404)
 

@@ -1,30 +1,15 @@
 
+
 Endpoints:
-
-User Actions:
-
-
-    # created
-
-    POST /create_user/ - create a new user
-    GET /get_user/<username> - get info for a single user
-
-    # to be created
-
-    DELETE /delete_user/<username> - delete user information in the table User, and the user associated locations has to be deleted in the SavedPlaces as well
-
-
-
-    #------------------------------
 
 
   SavedPlaces Action:
 
     #ongoing
 
-    POST /create_save_place/ - create a new favorite place place in the database
-    POST /update_saved_places/ - update information regarding a previous saved place - not finished -mainly waiting_item
-    GET /get_saved_places/<username><current_location>  - get information regarding to previous locations saved by a certain user
+    POST /save_favorite_place/ - save a new favorite place place in the database
+    POST /update_waiting_time/ - update waiting time regarding to a previous favorite place
+    GET /get_favorite_places/<username><current_location>  - get information regarding to previous locations saved by a certain user
       -> maybe current location should be used together to show favorites locations in range of 30 km.
 
     GET /get_all_saved_places/<username> - get all previous saved locations
@@ -32,7 +17,7 @@ User Actions:
 
     # to be created
 
-    DELETE /delete_saved_place/<username><location> - delete a certain location previous by username
+    DELETE /remove_favorite_place/<username><location> - delete a certain location previous by username
 
 
 
