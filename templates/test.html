@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+'<div class="content">'
+                    + '<button type="button" onclick="deleteFavoriteSpot('
+                    + '\'{lat: ' + favLatLng[0] + ', lng: ' + favLatLng[1] + '}\')" class="btn btn-primary" id="fav-button">'
+                    + 'Unfavorite</button>'
+                    + '<button type="button" onclick="getDirections(' + favLatLng[0] + ',' + favLatLng[1] + ')" class="btn btn-primary" id="directions-button">Get Directions to Here</button>'
+                    + '<button type="button" onclick="textDirections(' + favLatLng[0] + ',' + favLatLng[1] + ')" class="btn btn-primary" id="text-directions-button">Text Directions to Me</button>'
+                    + '<br><h3>Parking Details</h3>'
+                    + '<h4>Regulation Type:</h4> ' + regulationType
+                    + '<br><h4>Regulated Days:</h4> ' + regulatedDays
+                    + '<br><h4>Regulated Hours:</h4> ' + regulatedHours
+                    + '<br><h4>Regulated Hour Limit:</h4> ' + regulatedHrLimit
+                    + '</div>';
+</body>
+</html>
