@@ -9,7 +9,6 @@ import os
 # debug imports
 import datetime
 
-
 # ----------------------------------
 db = SQLAlchemy()
 # ----------------------------------
@@ -46,7 +45,6 @@ class User(db.Model):
         return {'id': self.id,
                 'username': self.username,
                 'created_timestamp': self.created_timestamp}
-
 
 # ------------------------------------------------------
 # Second database Table
@@ -91,19 +89,15 @@ class SavedPlaces(db.Model):
 ##############################################################################
 # Helper functions
 
-
-
-
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # create the sqlalchemy ob
-
     curDir = os.getcwd()    # current working dir
 
     PATH_DB = 'sqlite:///'+curDir+'/CheckzDB'
 
-    # Configure to use our PstgreSQL database
+    # Configure to use our database
     app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -115,7 +109,7 @@ def insert_user():
 
     email = "email@email.com"
     password = 123
-    pending_user = "kmo"
+    pending_user = "user"
     created_timestamp = datetime.datetime.utcnow()
 
     user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)

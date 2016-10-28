@@ -5,7 +5,7 @@ import os
 
 import pdb
 
-from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g
+from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g, make_response
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 
@@ -35,13 +35,6 @@ app.secret_key = os.urandom(24)
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
-
-#@app.before_request
-#def before_request():
-#    g.user = None
-#    if 'username' in session:
-#        g.user = session['username']
-
 
 @app.route('/register/', methods=['POST', 'GET'])
 def register():
@@ -124,16 +117,6 @@ def logout():
     # this remove the entire session dictionary
     session.clear()
     return render_template("map.html")
-
-
-# function to verify the current is in the session
-def verify_user_current_session():
-    user = User.query.filter_by(name=session['username']).first()
-
-    if user:
-        return True
-    else:
-        return False
 
 # Homepage
 @app.route('/')
@@ -314,15 +297,17 @@ def delete_saved_place():
     return "ok"
 
 
+
+'''
+# ----------------------
+
+
 # catch page error
 # ----------------------
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 # -----------------------------
-'''
-# ----------------------
-
 
 #lat = request.args.get('lat')
 #long = request.args.get('long')
