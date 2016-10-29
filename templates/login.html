@@ -28,7 +28,7 @@
 <body>
 <div class="container">
 
-    {% if session['logged_in'] %}
+    {% if session.get('user_id') %}
     <p>You're logged in already!</p>
     {% else %}
 

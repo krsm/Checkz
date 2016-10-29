@@ -74,9 +74,12 @@ def register():
                 current_session.close()
 
             # initiate the session with the current user
-
+            #FIXME remove logged_in and use user_id
+            session['user_id'] = user.id
             session['logged_in'] = True
             session['username'] = pending_user
+            # create a user_id session
+
 
             return render_template('map.html')
     else:
@@ -98,6 +101,8 @@ def login():
 
         if possible_user and possible_user.verify_password(password):
             session['username'] = possible_user.username
+            #FIXME remove logged_in and use user_id
+            session['user_id'] = possible_user.id
             session['logged_in'] = True
             return render_template("map.html")
 
@@ -113,7 +118,8 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    session['logged_in'] = False
+     #FIXME remove logged_in and use user_id
+    #session['logged_in'] = False
     # this remove the entire session dictionary
     session.clear()
     return render_template("map.html")
@@ -160,9 +166,7 @@ def get_all_favorite_laces():
 #   POST /create_save_place/ - create a new favorite place place in the database
 @app.route('/save_favorite_place/', methods=['POST'])
 def save_favorite_place():
-    """
-    :return:
-    """
+    """ Save user's favorite spot to db """
     if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
         abort(404)
 
@@ -197,7 +201,8 @@ def save_favorite_place():
                 distance_location, same_location = gf.verify_distance(float(locationlat), float(locationlong),
                                                                       float(location.location_lat),
                                                                       float(location.location_long), RADIUS_CIRCLE)
-                # if the user is inserting a place already saved, previous location will be kept, and modified_stamp will be changed
+                # if the user is inserting a place already saved, previous location will be kept,
+                # and modified_stamp will be changed
                 if same_location is True:
                     location.modified_timestamp = modified_timestamp
                     # then commit that change
@@ -227,9 +232,12 @@ def save_favorite_place():
     return "new_favorite_location_inserted"
 
 # route to remove favorite place
-@app.route('/remove_favorite_place/', methods=['DELETE'])
+@app.route('/remove_favorite_place/', methods=['POST'])
 def remove_favorite_place():
-    # To be created
+    """ Remove user's favorite spot to db """
+
+    u
+
     return "Done"
 
 
