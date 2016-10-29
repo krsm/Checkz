@@ -225,6 +225,7 @@ function addInfoWindowFavoritePlaces(lat, long, Mark) {
   }) (Mark, fav_html, infoWindow));
   // Diplay current waiting time in colour
 }; // End of addInfoWindowFavoritePlaces
+
 // this gets called when you click the fav-button rendered in InfoWindow
 function createFavoriteSpot(regId, parkLatLng) {
   // TO DO: break up the params in html as regId, parkLat, parkLng
@@ -266,7 +267,8 @@ function locateUser() {
         position: new google.maps.LatLng(lat, long),
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
       });
-      addInfoWindowFavoritePlaces(lat, long, favMark); //window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      addInfoWindowFavoritePlaces(position.coords.latitude, position.coords.longitude, favMark);
+      window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       // anything that needs to ref userLocation MUST happen before the end of this function
     }, function () {
       handleNoGeolocation(browserSupportFlag);
@@ -292,7 +294,6 @@ $(document).ready(function () {
 
 
 </script>
-
 
 
 

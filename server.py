@@ -3,8 +3,6 @@
 import datetime
 import os
 
-import pdb
-
 from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g, make_response
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
@@ -35,14 +33,19 @@ app.secret_key = os.urandom(24)
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
+# @app.before_request
+# def before_request():
+#     g.user = None
+#     if 'username' in session:
+#         g.user = session['username']
 
-@app.route('/register/', methods=['POST', 'GET'])
+@app.route('/register/', methods=['POST','GET'])
 def register():
     error = None
 
     if request.method == 'POST':
 
-        email = request.form['email']
+        email = request.form.get('email')
         # check if the email was already used in the database
         pending_user_email = User.query.filter_by(email=email).first()
 
@@ -67,25 +70,26 @@ def register():
             try:
                 current_session.add(user)  # add opened statement to opened session
                 current_session.commit()  # commit changes
+
+                # initiate the session with the current user
+                # create a user_id session
+                session['user_id'] = user.id
+                session['username'] = pending_user
+
             except:
                 current_session.rollback()
                 current_session.flush()  # for resetting non-commited .add()
+
+                # In case of fail not start the session with
+                session['user_id'] = None
+                session['username'] = None
+
             finally:
                 current_session.close()
 
-            # initiate the session with the current user
-            #FIXME remove logged_in and use user_id
-            session['user_id'] = user.id
-            session['logged_in'] = True
-            session['username'] = pending_user
-            # create a user_id session
-
-
-            return render_template('map.html')
+        return render_template('map.html')
     else:
-
-        # error = "405  Method not allowed"
-
+        #error = "405  Method not allowed"
         return render_template('register.html')
 
 
@@ -100,10 +104,9 @@ def login():
         possible_user = User.query.filter_by(email=email).first()
 
         if possible_user and possible_user.verify_password(password):
+
             session['username'] = possible_user.username
-            #FIXME remove logged_in and use user_id
             session['user_id'] = possible_user.id
-            session['logged_in'] = True
             return render_template("map.html")
 
         else:
@@ -118,8 +121,6 @@ def login():
 @app.route('/logout/')
 def logout():
     session.pop('username', None)
-     #FIXME remove logged_in and use user_id
-    #session['logged_in'] = False
     # this remove the entire session dictionary
     session.clear()
     return render_template("map.html")
@@ -127,7 +128,6 @@ def logout():
 # Homepage
 @app.route('/')
 def home():
-    #session['logged_in'] = False
     return render_template("map.html")
 
 

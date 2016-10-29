@@ -17,7 +17,6 @@ db = SQLAlchemy()
 
 class User(db.Model):
     """    Model Table User    """
-
     __tablename__ = 'user'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -36,20 +35,18 @@ class User(db.Model):
     def verify_password(self, password):
         """Verify user's password, a method that can be called on a user."""
 
-        return check_password_hash(self.pw_hash,password)
+        return check_password_hash(self.pw_hash, password)
 
     @property
     def serialize(self):
-        #  Return as a json object so it can be used in RESTful Api
-
         return {'id': self.id,
                 'username': self.username,
                 'created_timestamp': self.created_timestamp}
 
+
 # ------------------------------------------------------
 # Second database Table
 # ------------------------------------------------------
-
 class SavedPlaces(db.Model):
     """
     Model Table SavedPlaces
@@ -91,11 +88,10 @@ class SavedPlaces(db.Model):
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
-
     # create the sqlalchemy ob
-    curDir = os.getcwd()    # current working dir
+    curDir = os.getcwd()  # current working dir
 
-    PATH_DB = 'sqlite:///'+curDir+'/CheckzDB'
+    PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
 
     # Configure to use our database
     app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
@@ -106,7 +102,6 @@ def connect_to_db(app):
 
 
 def insert_user():
-
     email = "email@email.com"
     password = 123
     pending_user = "user"
@@ -124,8 +119,6 @@ def insert_user():
 if __name__ == "__main__":
 
     from server import app
-
     connect_to_db(app)
-
+    # insert_user()
     print("Connected to DB.")
-
