@@ -3,21 +3,19 @@
 Endpoints:
 
 
-  SavedPlaces Action:
+    Admin ones:
 
-    #ongoing
+    /login/
+    /logout/
+    /register/
+
+    Tasks
 
     POST /save_favorite_place/ - save a new favorite place place in the database
     POST /update_waiting_time/ - update waiting time regarding to a previous favorite place
-    GET /get_favorite_places/<username><current_location>  - get information regarding to previous locations saved by a certain user
+    GET /get_favorite_places/<int:user_id> get information regarding to previous locations saved by a certain user
       -> maybe current location should be used together to show favorites locations in range of 30 km.
-
-    GET /get_all_saved_places/<username> - get all previous saved locations
-
-
-    # to be created
-
-    DELETE /remove_favorite_place/<username><location> - delete a certain location previous by username
+    POST /remove_favorite_place/
 
 
 

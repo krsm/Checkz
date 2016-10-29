@@ -14,11 +14,13 @@
 <!-- Maps group -->
 <div class="container"></div>
 
-<div id="map" style="width:1800px;height:800px"></div>
+<div id="map" style="width:1800px;height:1000px"></div>
 
 <!-- Javascript Functions related to Map -->
 
  <!--<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>-->
+
+ <!--<script type="'text/javascript" src="/static/js/gmaps.js"></script>-->
 
 <script type="text/javascript">
 var favMap;
@@ -128,19 +130,7 @@ function getFavoriteSpots() {
     };
     $.get('/favorited', userData, makeMarkers);
   }
-}// TODO create function to add markers, and show button to save as favorite
-
-function createFavoriteSpotMarkers(response) {
-  // This function will be called when geolocation location is used or on click
-  // As soon user will choose a certain poistion in the map, create a pop up with the option to save it as favorite
-  var html = '<div class="content">' +
-  '<button type="button" onclick="createFavoriteSpot(' + response[i][3] +
-  ', \'{lat: ' + response[i][1] + ', lng: ' + response[i][2] + '}\')" class="btn btn-primary" id="fav-button">' +
-  'Favorite</button>' +
-  '<button type="button" onclick="getDirections(' + response[i][1] + ',' + response[i][2] + ')" class="btn btn-primary" id="directions-button">Get Directions to Here</button>' +
-  '<button type="button" onclick="textDirections(' + response[i][1] + ',' + response[i][2] + ')" class="btn btn-primary" id="text-directions-button">Text Directions to Me</button>' +
-  '</div>';
-} //createFavoriteSpotMarkers
+} // TODO create function to add markers, and show button to save as favorite
 
 function makeMarkers(response) {
   var favBounds = new google.maps.LatLngBounds();
@@ -215,15 +205,14 @@ function deleteFavoriteSpot(spotAddress) {
   }
 }
 function addInfoWindowFavoritePlaces(lat, long, Mark) {
- // var fav_html = '<div class="content">' +
- // '<button type="button" onclick="createFavoriteSpot(' + lat +
- // ', \'{lat: ' + lat + ', lng: ' + long + '}\')" class="btn btn-primary" id="fav-button">' +
- // 'Favorite</button>' +
- // '</div>';
-
+  // var fav_html = '<div class="content">' +
+  // '<button type="button" onclick="createFavoriteSpot(' + lat +
+  // ', \'{lat: ' + lat + ', lng: ' + long + '}\')" class="btn btn-primary" id="fav-button">' +
+  // 'Favorite</button>' +
+  // '</div>';
   var fav_html = '<div class="content">' +
-      <h1>Teste</h1>
-      </div>
+  '<h1>Teste</h1>' +
+  '</div>';
   // javascript closure
   // params here
   google.maps.event.addListener(Mark, 'click', (function (Mark, fav_html, infoWindow) {
@@ -277,7 +266,7 @@ function locateUser() {
         position: new google.maps.LatLng(lat, long),
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
       });
-      addInfoWindowFavoritePlaces(lat, long, favMark)      //window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      addInfoWindowFavoritePlaces(lat, long, favMark); //window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       // anything that needs to ref userLocation MUST happen before the end of this function
     }, function () {
       handleNoGeolocation(browserSupportFlag);
@@ -288,7 +277,8 @@ function locateUser() {
     browserSupportFlag = false;
     handleNoGeolocation(browserSupportFlag);
   }
-}
+} // end of function locateUser
+
 function handleNoGeolocation(errorFlag) {
   if (errorFlag == true) {
     alert('Geolocation service failed.');
@@ -300,6 +290,11 @@ $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
 });
 
+
 </script>
+
+
+
+
 
 {% endblock %}

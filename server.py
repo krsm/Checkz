@@ -115,7 +115,7 @@ def login():
         return render_template("login.html", error=error)
 
 
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
     session.pop('username', None)
      #FIXME remove logged_in and use user_id
@@ -140,7 +140,7 @@ def home():
 #   Endpoints related to User Table
 # ------------------------------------------------------
 # get all previous saved places
-@app.route('/get_favorite_places/', methods=['GET'])
+@app.route('/get_favorite_places/<int:user_id>', methods=['GET'])
 def get_all_favorite_laces():
     """
     Query data related to all previous saved places and return as a json object
@@ -150,11 +150,13 @@ def get_all_favorite_laces():
         # code to update all waiting time columns
         # create function to update waiting time all rows
 
-        username = request.args.get('username')
+        user_id = request.args.get('user_id')
         current_location_lat = float(request.args.get('location_lat'))
         current_location_long = float(request.args.get('location_long'))
 
-        allsavedplaces = SavedPlaces.query.filter_by(username=username).all()
+        allsavedplaces = SavedPlaces.query.filter_by(id=user_id).all()
+
+        #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
 
         # if allsavedplaces is not None:
 
@@ -236,7 +238,12 @@ def save_favorite_place():
 def remove_favorite_place():
     """ Remove user's favorite spot to db """
 
-    u
+    user_id = request.form.get("user_id")
+    locationlat = request.form.get["location_lat"]
+    locationlong = request.form.get["location_long"]
+
+    current_session = db.session  # open database session
+    #TODO finish query to see the lat and long and remove place from database
 
     return "Done"
 
@@ -328,6 +335,6 @@ if __name__ == '__main__':
     app.debug = True
     #pdb.set_trace()
     # Use the DebugToolbar
-    #DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     app.run()

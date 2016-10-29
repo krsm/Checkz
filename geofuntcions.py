@@ -83,4 +83,3 @@ if __name__ == '__main__':
     # Durham 35.9940° N, 78.8986° W
 
     print(verify_distance(durhamlat,durhamlong,raleighlat,raleighlong,5))
-    print(get_location_address(78.8986,35.9940))

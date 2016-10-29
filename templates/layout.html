@@ -39,9 +39,8 @@
       <ul class="nav navbar-nav navbar-right">
 
         {% if session.get('user_id') %}
-
         <li><a href="#"><span></span>Signed in as {{ session['username'] }} <strong class="caret"></strong></a></li>
-        <li><a id="logout-link" data-userid="{{ session['username'] }}" href={{url_for("logout")}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for("logout")}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 
         {% else %}
         <li><a href={{url_for("register")}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
