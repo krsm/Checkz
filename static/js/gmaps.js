@@ -1,28 +1,3 @@
-{% extends "layout.html" %}
-
-{% block head %}
-
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initFavMap">
-</script>
-
-
-{% endblock %}
-
-{% block body %}
-
-<!-- Maps group -->
-<div class="container"></div>
-
-<div id="map" style="width:1800px;height:1000px"></div>
-
-<!-- Javascript Functions related to Map -->
-
- <!--<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>-->
-
- <!--<script type="'text/javascript" src="/static/js/gmaps.js"></script>-->
-
-<script type="text/javascript">
 var favMap;
 var infoWindow = new google.maps.InfoWindow();
 var directionsService = new google.maps.DirectionsService();
@@ -35,7 +10,6 @@ function initFavMap() {
   // set LatLng to SF
   var sfLatLng = {
     lat: 36.07094,
-    lng: - 79.296201
   };
   // create a map object and specify the DOM element for display
   // map appears in map.html
@@ -48,77 +22,7 @@ function initFavMap() {
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-  var styles = [
-    {
-      'featureType': 'landscape',
-      'elementType': 'labels',
-      'stylers': [
-        {
-          'visibility': 'off'
-        }
-      ]
-    },
-    {
-      'featureType': 'poi',
-      'elementType': 'labels',
-      'stylers': [
-        {
-          'visibility': 'off'
-        }
-      ]
-    },
-    {
-      'featureType': 'road',
-      'elementType': 'geometry',
-      'stylers': [
-        {
-          'lightness': 57
-        }
-      ]
-    },
-    {
-      'featureType': 'road',
-      'elementType': 'labels.text.fill',
-      'stylers': [
-        {
-          'visibility': 'on'
-        },
-        {
-          'lightness': 24
-        }
-      ]
-    },
-    {
-      'featureType': 'road',
-      'elementType': 'labels.icon',
-      'stylers': [
-        {
-          'visibility': 'off'
-        }
-      ]
-    },
-    {
-      'featureType': 'transit',
-      'elementType': 'labels',
-      'stylers': [
-        {
-          'visibility': 'off'
-        }
-      ]
-    },
-    {
-      'featureType': 'water',
-      'elementType': 'labels',
-      'stylers': [
-        {
-          'visibility': 'off'
-        }
-      ]
-    }
-  ];
-  favMap.setOptions({
-    styles: styles
-  });
+
   locateUser();
   //getFavoriteSpots();
 }
@@ -215,17 +119,20 @@ function addInfoWindowFavoritePlaces(lat, long, Mark) {
   '</div>';
   // javascript closure
   // params here
-  google.maps.event.addListener(Mark, 'click', (function (Mark, fav_html, infoWindow) {
+  // Local InfoWindow
+  var local_infowindow = new google.maps.InfoWindow({
+    content: fav_html
+  });
+  google.maps.event.addListener(Mark, 'click', (function (Mark, fav_html, local_infowindow) {
     return function () {
       infoWindow.close();
       infoWindow.setContent(fav_html);
       infoWindow.open(favMap, Mark);
     };
     // what you actually pass in
-  }) (Mark, fav_html, infoWindow));
+  }) (Mark, fav_html, local_infowindow));
   // Diplay current waiting time in colour
 }; // End of addInfoWindowFavoritePlaces
-
 // this gets called when you click the fav-button rendered in InfoWindow
 function createFavoriteSpot(regId, parkLatLng) {
   // TO DO: break up the params in html as regId, parkLat, parkLng
@@ -291,11 +198,3 @@ function handleNoGeolocation(errorFlag) {
 $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
 });
-
-
-</script>
-
-
-
-
-{% endblock %}

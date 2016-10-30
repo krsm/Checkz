@@ -18,6 +18,8 @@ Endpoints:
     POST /remove_favorite_place/
 
 
+#TODO Create functions in javascript
+
 
  #------------------------------
 
