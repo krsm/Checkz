@@ -1,8 +1,3 @@
-
-
-
-
-
 var favMap;
 var infoWindow = new google.maps.InfoWindow();
 var directionsService = new google.maps.DirectionsService();

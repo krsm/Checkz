@@ -335,6 +335,6 @@ if __name__ == '__main__':
     app.debug = True
     #pdb.set_trace()
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    #DebugToolbarExtension(app)
 
     app.run()
