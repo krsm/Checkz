@@ -54,9 +54,20 @@ function initFavMap() {
   //getFavoriteSpots();
 }
 function addInfoWindowFavoritePlaces(lat, long,favMark) {
-  // var fav_html ='<div class="content">'
-              + '<input type="button" onclick="Hello();" name="ok" value="Click Me"  />'
-              + '</div>';
+  // var fav_html = "<table>" +
+                              "<tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>" +
+                              "<tr><td>Address:</td> <td><input type='text' id='address'/></td> </tr>" +
+                              "<tr><td>Type:</td> <td><select id='type'>" +
+                              "<option value='Food' SELECTED>bar</option>" +
+                              "<option value='Fun'>restaurant</option>" +
+                              "<option value='Health'>restaurant</option>" +
+                              "</select> </td></tr>" +
+                              "<tr><td></td><td><input type='button' value='Save & Close' onclick='saveData()'/></td></tr>";
+
+
+
+
+
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
