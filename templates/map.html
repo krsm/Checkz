@@ -24,7 +24,6 @@
 
 <script type="text/javascript">
 
-
 var favMap;
 var infoWindow = new google.maps.InfoWindow();
 var directionsService = new google.maps.DirectionsService();
@@ -33,6 +32,10 @@ var directionsDisplay = new google.maps.DirectionsRenderer({
     strokeColor: 'orange'
   }
 });
+
+
+
+// Initialize Map
 function initFavMap() {
   // set LatLng to SF
   var sfLatLng = {
@@ -50,24 +53,47 @@ function initFavMap() {
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-  locateUser();
-  //getFavoriteSpots();
+
+ // Create a new blank array for all the listing markers. To be used with the clear button
+ var markers = [];
+
+  // Event listenter to trigge locateUser
+  document.getElementById('my_location_link').addEventListener('click', locateUser);
+  // Event listener to any click in the screen to add a marker
+  favMap.addListener('click', function (e) {
+    placeMarkerAndPanTo(e.latLng, favMap);
+  });
+
+  // Event listenter to clear button - to remove all adde markers from map
+  document.getElementById('clear_markers').addEventListener('click', hideListings);
 }
-function addInfoWindowFavoritePlaces(lat, long,favMark) {
+
+
+// Function to listen to click event and addd a marker
+function placeMarkerAndPanTo(latLng, map) {
+  // Add function to show
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    icon:'http://maps.google.com/mapfiles/ms/icons/blue.png'
+  });
+  markers.append(marker)
+  map.panTo(latLng);
+}
+
+
+// Functio to add infowindow to Marker
+
+function addInfoWindowFavoritePlaces(lat, long, favMark) {
   // var fav_html = "<table>" +
-                              "<tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>" +
-                              "<tr><td>Address:</td> <td><input type='text' id='address'/></td> </tr>" +
-                              "<tr><td>Type:</td> <td><select id='type'>" +
-                              "<option value='Food' SELECTED>bar</option>" +
-                              "<option value='Fun'>restaurant</option>" +
-                              "<option value='Health'>restaurant</option>" +
-                              "</select> </td></tr>" +
-                              "<tr><td></td><td><input type='button' value='Save & Close' onclick='saveData()'/></td></tr>";
-
-
-
-
-
+  '<tr><td>Name:</td> <td><input type=\'text\' id=\'name\'/> </td> </tr>' +
+  '<tr><td>Address:</td> <td><input type=\'text\' id=\'address\'/></td> </tr>' +
+  '<tr><td>Type:</td> <td><select id=\'type\'>' +
+  '<option value=\'Food\' SELECTED>bar</option>' +
+  '<option value=\'Fun\'>restaurant</option>' +
+  '<option value=\'Health\'>restaurant</option>' +
+  '</select> </td></tr>' +
+  '<tr><td></td><td><input type=\'button\' value=\'Save & Close\' onclick=\'saveData()\'/></td></tr>';
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
@@ -117,14 +143,15 @@ function handleNoGeolocation(errorFlag) {
     alert('Your browser does not support geolocation.');
   }
 }
+
+// This function will loop through the listings and hide them all.
+function hideListings() {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
 $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
 });
-
-
-
-
-
 </script>
 
 
