@@ -169,7 +169,7 @@ def get_all_favorite_laces():
 @app.route('/save_favorite_place/', methods=['POST'])
 def save_favorite_place():
     """ Save user's favorite spot to db """
-    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
+    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'user_id' in request.json:
         abort(404)
 
     # parsing request data
@@ -177,7 +177,7 @@ def save_favorite_place():
     content = request.get_json(force=True)
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
-    username = content["username"]
+    user_id = content["user_id"]
     locationlat = content["location_lat"]
     locationlong = content["location_long"]
     waiting_time = content["waiting_time"]
