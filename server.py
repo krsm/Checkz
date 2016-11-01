@@ -166,22 +166,25 @@ def get_all_favorite_laces():
 # - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
-@app.route('/save_favorite_place/', methods=['POST'])
+@app.route('/save_favorite_place/', methods=['POST','GET'])
 def save_favorite_place():
     """ Save user's favorite spot to db """
-    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'user_id' in request.json:
-        abort(404)
+    #if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'user_id' in request.json:
+    #    abort(404)
 
     # parsing request data
     # -------------------------
-    content = request.get_json(force=True)
+    a = request
+    #content = request.get_json(force=True)
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
-    user_id = content["user_id"]
-    locationlat = content["location_lat"]
-    locationlong = content["location_long"]
-    waiting_time = content["waiting_time"]
-    address = content["address"]
+    user_id = request.form["user_id"]
+    locationlat = request.args.get("location_lat")
+    locationlong = request.args.get("location_long")
+    waiting_time = request.args.get("waiting_time")
+    type = request.form["type"]
+
+    address = request.args.get("address")
 
     # create object to insert in the database
     # prepare query statement
@@ -190,7 +193,7 @@ def save_favorite_place():
     # otherwise insert in the table
 
     current_session = db.session  # open database session
-    owner_id = current_session.query(User).filter_by(username=username).first().username
+    owner_id = current_session.query(User).filter_by(id=user_id).first().username
 
     if owner_id is not None:
 
