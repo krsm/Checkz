@@ -16,7 +16,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 # it will be to compare the distance
 # it is in meters
 
-RADIUS_CIRCLE = 10   # distance used to be same place
+RADIUS_CIRCLE = 3   # distance used to be same place
 RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 
 # ------------------------------------------------
@@ -182,7 +182,7 @@ def save_favorite_place():
     locationlat = request.args.get("location_lat")
     locationlong = request.args.get("location_long")
     waiting_time = request.args.get("waiting_time")
-    type = request.form["type"]
+    type_location = request.form["type_location"]
 
     address = request.args.get("address")
 
@@ -210,6 +210,8 @@ def save_favorite_place():
                 # and modified_stamp will be changed
                 if same_location is True:
                     location.modified_timestamp = modified_timestamp
+                    #update type_location
+                    location.type_location = type_location
                     # then commit that change
                     try:
                         # current_session.add(querysavedplaces)  # add opened statement to opened session
@@ -220,11 +222,11 @@ def save_favorite_place():
                         print(e)
                     finally:
                         current_session.close()
-                    return "OK modified timestamp update"  # exit function
+                    return "OK modified timestamp update,type_location"  # exit function
 
         savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
                                   location_lat=locationlat, location_long=locationlong,
-                                  address=address, waiting_time=waiting_time, user_id=owner_id)
+                                  address=address, waiting_time=waiting_time, type_location=type_location,user_id=owner_id)
         try:
             current_session.add(savedplaces)  # add opened statement to opened session
             current_session.commit()  # commit changes

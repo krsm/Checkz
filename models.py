@@ -9,6 +9,25 @@ import os
 # debug imports
 import datetime
 
+
+
+# To generate the database
+#
+# from server import app
+#
+# """Connect the database to our Flask app."""
+# # create the sqlalchemy db
+# curDir = os.getcwd()  # current working dir
+#
+# PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
+#
+# # Configure to use our database
+# app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#
+# db = SQLAlchemy(app)
+
+
 # ----------------------------------
 db = SQLAlchemy()
 # ----------------------------------
@@ -61,7 +80,7 @@ class SavedPlaces(db.Model):
     location_long = db.Column('location_long', db.String(100))
     address = db.Column('address', db.String(100))
     waiting_time = db.Column('waitingtime', db.Integer)
-    type = db.Column('type', db.String(100))
+    type_location = db.Column('type_location', db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time, type,
@@ -72,7 +91,7 @@ class SavedPlaces(db.Model):
         self.location_long = location_long
         self.address = address
         self.waiting_time = waiting_time
-        self.type = type
+        self.type_location = type_location
         self.user_id = user_id
 
     @property
@@ -85,7 +104,7 @@ class SavedPlaces(db.Model):
                 'location_long': self.location_long,
                 'address': self.address,
                 'waiting_time': self.waiting_time,
-                'type': self.type}
+                'type_location': self.type_location}
 
 
 ##############################################################################
@@ -126,5 +145,5 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
-    insert_user()
+    #insert_user()
     print("Connected to DB.")
