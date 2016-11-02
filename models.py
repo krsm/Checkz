@@ -83,8 +83,8 @@ class SavedPlaces(db.Model):
     type_location = db.Column('type_location', db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time, type,
-                 user_id):
+    def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time,
+                 type_location,user_id):
         self.created_timestamp = created_timestamp
         self.modified_timestamp = modified_timestamp
         self.location_lat = location_lat

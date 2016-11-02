@@ -179,12 +179,16 @@ def save_favorite_place():
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
     user_id = request.form["user_id"]
-    locationlat = request.args.get("location_lat")
-    locationlong = request.args.get("location_long")
-    waiting_time = request.args.get("waiting_time")
+    locationlat = request.form["location_lat"]
+    locationlong = request.form["location_long"]
+    #waiting_time = request.form["waiting_time"]
     type_location = request.form["type_location"]
 
-    address = request.args.get("address")
+    waiting_time = None
+    #type_location = None
+    #address = request.args.get("address")
+
+    address = None
 
     # create object to insert in the database
     # prepare query statement
@@ -222,11 +226,12 @@ def save_favorite_place():
                         print(e)
                     finally:
                         current_session.close()
-                    return "OK modified timestamp update,type_location"  # exit function
+                        return "OK modified timestamp update,type_location"  # exit function
 
         savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
                                   location_lat=locationlat, location_long=locationlong,
-                                  address=address, waiting_time=waiting_time, type_location=type_location,user_id=owner_id)
+                                  address=address, waiting_time=waiting_time, type_location=type_location,
+                                  user_id=owner_id)
         try:
             current_session.add(savedplaces)  # add opened statement to opened session
             current_session.commit()  # commit changes
@@ -235,8 +240,7 @@ def save_favorite_place():
             current_session.flush()  # for resetting non-commited .add()
         finally:
             current_session.close()
-
-    return "new_favorite_location_inserted"
+            return "new_favorite_location_inserted"
 
 # route to remove favorite place
 @app.route('/remove_favorite_place/', methods=['POST'])

@@ -43,28 +43,39 @@ function initFavMap() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
   // Create a new blank array for all the listing markers. To be used with the clear button
-  var markers = [
-  ];
+  var markers = [];
   // Event listenter to trigge locateUser
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listener to any click in the screen to add a marker
   favMap.addListener('click', function (e) {
-    placeMarkerAndPanTo(e.latLng, favMap, markers);
-    aler(e.latLng[0]);
-    aler(e.latLng[1]);
+    // creating lat and long variables
+
+    // Auxiliar variables to get lat anf lng drom Event
+    var e_lat;
+    var e_long;
+
+    e_lat = e.latLng.lat();
+    e_long =  e.latLng.lng();
+
+    placeMarkerAndPanTo(e.latLng, e_lat,e_long,favMap, markers);
+
   });
   // Event listenter to clear button - to remove all adde markers from map
   document.getElementById('clear_markers').addEventListener('click', hideListings);
 }// Function to listen to click event and addd a marker
 
-function placeMarkerAndPanTo(latLng, map, markers) {
+function placeMarkerAndPanTo(latLng, f_lat, f_lng, map, markers) {
+
   // Add function to show
   var marker = new google.maps.Marker({
     position: latLng,
     map: map
   });
   // Call Function to add infoWindow as soon as the marker was created
-  addInfoWindowFavoritePlaces(latLng[0], latLng[1], marker);
+  //alert(latLng)
+
+
+  addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
   //markers.push(marker);
   //alert(makers);
   //map.panTo(latLng);
@@ -73,11 +84,9 @@ function placeMarkerAndPanTo(latLng, map, markers) {
 
 function addInfoWindowFavoritePlaces(lat, long, favMark) {
 
-  var lat = lat;
-  var long = long;
-
 
   var contentString = '<div id="content">'+
+  '<p>Save as Favorite</p>'+
   '<table>' +
   '<tr>'+
   '<td>Type:</td>'+
@@ -88,12 +97,9 @@ function addInfoWindowFavoritePlaces(lat, long, favMark) {
   '</select> </td>'+
   '</tr>' +
   '<tr><td></td><td>'+
-  '<button type="button" onclick="createFavoriteSpot(' + lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Checkz!</button>'+
+  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Checkz!</button>'+
   '</td></tr>'+
   '</div>';
-
-
-
 
   // var contentString = '<div class="content">'+
   //  	'<table>' +
@@ -119,19 +125,24 @@ function addInfoWindowFavoritePlaces(lat, long, favMark) {
 }; // End of addInfoWindowFavoritePlaces
 //====================================================================================
 // this gets called when you click the fav-button rendered in InfoWindow
-function createFavoriteSpot(location_lat, location_long) {
+function createFavoriteSpot(fav_lat, fav_lng) {
   // TO DO: break up the params in html as regId, parkLat, parkLng
   // and then here grab it and reconstruct it into the format wanted before
   // passing to server
   // grabbing user id from html that only shows if user is in session
   var userId = $('#logout-link').data('userid');
-  debugger;
   if (userId !== undefined) {
+
+    //var x = Math.floor((Math.random() * 100) + 1);
+    //location_lat = x;
+    //location_long = x+10;
+
+    var type_location = document.getElementById("type").value
     var markerData = {
-      'type_location': "TESTE",
+      'type_location': type_location,
       'user_id': userId,
-      'location_lat': location_lat,
-      'location_long': location_long
+      'location_lat': fav_lat,
+      'location_long': fav_lng
     };
     $.post('/save_favorite_place/', markerData, function () {
       alert('Your marker has been favorited.');
@@ -151,7 +162,6 @@ function locateUser() {
     navigator.geolocation.getCurrentPosition(function (position) {
       var lat = position.coords.latitude;
       var long = position.coords.longitude;
-      //debugger();
       //infoWindow.setPosition(pos);
       //infoWindow.setContent('Location found.');
       //favMap.setCenter(pos);
@@ -161,7 +171,6 @@ function locateUser() {
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
       });
       // Call function to display pop up to save place as favorite
-      debugger
       addInfoWindowFavoritePlaces(lat, long, favMark);
       window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       // anything that needs to ref userLocation MUST happen before the end of this function

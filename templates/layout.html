@@ -38,14 +38,13 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li class="active"><a id="my_location_link"<span class="glyphicon glyphicon-log-out"></span>My location</a></li>
-                <li class="active"><a id="clear_markers"<span class="glyphicon glyphicon-log-out"></span>Clear</a></li>
                 <!-- In case the user is logged in will be shown the link to display previvous favorite places-->
                 {% if session.get('user_id') %}
                 <li><a href="/get_favorite_places/"> Show Favorites</a></li>
                 {% endif %}
+                <li class="active"><a id="clear_markers"<span class="glyphicon glyphicon-log-out"></span>Clear</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-
                 {% if session.get('user_id') %}
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }} <strong class="caret"></strong></a></li>
                 <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for("logout")}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
