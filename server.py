@@ -188,7 +188,8 @@ def save_favorite_place():
     #type_location = None
     #address = request.args.get("address")
 
-    address = None
+    # to be improved and use google geocoding
+    address = gf.get_location_address(locationlat, locationlong)
 
     # create object to insert in the database
     # prepare query statement

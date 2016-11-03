@@ -2,9 +2,6 @@
 
 {% block head %}
 
-
-
-
 {% endblock %}
 
 {% block body %}
@@ -23,7 +20,12 @@
 <script type="text/javascript">
 
 var favMap;
+// Create a new blank array for all the listing markers. To be used with the clear button
+var markers = [];// Globatl array
+
 var infoWindow = new google.maps.InfoWindow();
+
+
 // Initialize Map
 function initFavMap() {
   // set LatLng to SF
@@ -42,10 +44,13 @@ function initFavMap() {
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-  // Create a new blank array for all the listing markers. To be used with the clear button
-  var markers = [];
+
   // Event listenter to trigge locateUser
   document.getElementById('my_location_link').addEventListener('click', locateUser);
+  // Event listenter to clear button - to remove all adde markers from map
+  document.getElementById('clear_markers').addEventListener('click', hideListings);
+  // Event listenter to get previous favotires places
+  document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
   // Event listener to any click in the screen to add a marker
   favMap.addListener('click', function (e) {
     // creating lat and long variables
@@ -53,29 +58,31 @@ function initFavMap() {
     // Auxiliar variables to get lat anf lng drom Event
     var e_lat;
     var e_long;
-
     e_lat = e.latLng.lat();
     e_long =  e.latLng.lng();
 
-    placeMarkerAndPanTo(e.latLng, e_lat,e_long,favMap, markers);
+    addMarker(e.latLng, e_lat,e_long,favMap);
 
   });
-  // Event listenter to clear button - to remove all adde markers from map
-  document.getElementById('clear_markers').addEventListener('click', hideListings);
+
 }// Function to listen to click event and addd a marker
 
-function placeMarkerAndPanTo(latLng, f_lat, f_lng, map, markers) {
+function addMarker(latLng, f_lat, f_lng, map) {
 
   // Add function to show
   var marker = new google.maps.Marker({
     position: latLng,
     map: map
   });
-  // Call Function to add infoWindow as soon as the marker was created
-  //alert(latLng)
 
 
+// Call Function to add infoWindow as soon as the marker was created
   addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
+
+  // Push the marker to the array of markers.
+
+  markers.push(marker);
+  debugger;
   //markers.push(marker);
   //alert(makers);
   //map.panTo(latLng);
@@ -133,11 +140,9 @@ function createFavoriteSpot(fav_lat, fav_lng) {
   var userId = $('#logout-link').data('userid');
   if (userId !== undefined) {
 
-    //var x = Math.floor((Math.random() * 100) + 1);
-    //location_lat = x;
-    //location_long = x+10;
-
+    // Getting value of type_location from HTML
     var type_location = document.getElementById("type").value
+    // Variable to be send to endpoint
     var markerData = {
       'type_location': type_location,
       'user_id': userId,
@@ -151,8 +156,42 @@ function createFavoriteSpot(fav_lat, fav_lng) {
   } else {
     alert('You need to be logged in to favorite spots.');
   }
-}//====================================================================================
+}
+
+//====================================================================================
+
 // this gets called when you click the fav-button rendered in InfoWindow
+function getFavoriteSpots() {
+
+  var userId = $('#logout-link').data('userid');
+
+  alert("function getFavoriteSpots was trigged")
+
+  if (userId !== undefined) {
+
+      var userData = {
+        'user_id': userId
+      };
+
+      $.get('/get_favorite_places', userData, makeMarkers);
+  }
+}
+//====================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//====================================================================================
 
 function locateUser() {
   var browserSupportFlag = new Boolean();
@@ -193,6 +232,10 @@ function handleNoGeolocation(errorFlag) {
     alert('Your browser does not support geolocation.');
   }
 }// This function will loop through the listings and hide them all.
+
+function alert_display(){
+  alert("Function was called");
+}
 
 function hideListings() {
   for (var i = 0; i < markers.length; i++) {
