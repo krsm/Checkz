@@ -82,7 +82,7 @@ function addMarker(latLng, f_lat, f_lng, map) {
   // Push the marker to the array of markers.
 
   markers.push(marker);
-  debugger;
+  //debugger;
   //markers.push(marker);
   //alert(makers);
   //map.panTo(latLng);
@@ -177,19 +177,57 @@ function getFavoriteSpots() {
   }
 }
 //====================================================================================
+// Function to create markers of previous saved favorite places and display InfoWindow to update waiting time
+
+function makeMarkers(response){
+
+/***
+  response {'user_id': self.user_id,
+              'created_timestamp': self.created_timestamp,
+              'modified_timestamp': self.modified_timestamp,
+              'location_lat': self.location_lat,
+              'location_long': self.location_long,
+              'address': self.address,
+              'waiting_time': self.waiting_time,
+              'type_location': self.type_location}
+
+***/
+
+  // Verify if response was empty
+
+  if (response['data'].length ===0){
+
+    alert("User does not have saved any previous favorite place!")
+
+  } else {
 
 
+  } // end of else
+  
 
 
+  // Content to be display in the InfoWindow
+  var contentString = '<div id="content">'+
+  '<p>Save as Favorite</p>'+
+  '<table>' +
+  '<tr>'+
+  '<td>Type:</td>'+
+  '<td><select id=\'type\'>' +
+  '<option value=\'Food\' SELECTED>Food</option>' +
+  '<option value=\'Fun\'>Fun</option>' +
+  '<option value=\'Health\'>Health</option>' +
+  '</select> </td>'+
+  '</tr>' +
+  '<tr><td></td><td>'+
+  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Update Waiting Time</button>'+
+  '</td></tr>'+
+  '<tr><td></td><td>'+
+  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Unchekz!</button>'+
+  '</td></tr>'+
+  '</div>';
 
 
-
-
-
-
-
-
-
+}// End of function makeMarkers
 
 //====================================================================================
 
