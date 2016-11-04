@@ -21,11 +21,9 @@
 
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
-var markers = [];// Globatl array
-
+var markers = [
+]; // Globatl array
 var infoWindow = new google.maps.InfoWindow();
-
-
 // Initialize Map
 function initFavMap() {
   // set LatLng to SF
@@ -44,7 +42,6 @@ function initFavMap() {
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-
   // Event listenter to trigge locateUser
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
@@ -54,60 +51,48 @@ function initFavMap() {
   // Event listener to any click in the screen to add a marker
   favMap.addListener('click', function (e) {
     // creating lat and long variables
-
     // Auxiliar variables to get lat anf lng drom Event
     var e_lat;
     var e_long;
     e_lat = e.latLng.lat();
-    e_long =  e.latLng.lng();
-
-    addMarker(e.latLng, e_lat,e_long,favMap);
-
+    e_long = e.latLng.lng();
+    addMarker(e.latLng, e_lat, e_long, favMap);
   });
-
-}// Function to listen to click event and addd a marker
+} // Function to listen to click event and addd a marker
 
 function addMarker(latLng, f_lat, f_lng, map) {
-
   // Add function to show
   var marker = new google.maps.Marker({
     position: latLng,
     map: map
   });
-
-
-// Call Function to add infoWindow as soon as the marker was created
+  // Call Function to add infoWindow as soon as the marker was created
   addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
-
   // Push the marker to the array of markers.
-
   markers.push(marker);
   //debugger;
   //markers.push(marker);
   //alert(makers);
   //map.panTo(latLng);
   //alert(markers);
-}// Functio to add infowindow to Marker
+} // Functio to add infowindow to Marker
 
 function addInfoWindowFavoritePlaces(lat, long, favMark) {
-
-
-  var contentString = '<div id="content">'+
-  '<p>Save as Favorite</p>'+
+  var contentString = '<div id="content">' +
+  '<p>Save as Favorite</p>' +
   '<table>' +
-  '<tr>'+
-  '<td>Type:</td>'+
+  '<tr>' +
+  '<td>Type:</td>' +
   '<td><select id=\'type\'>' +
   '<option value=\'Food\' SELECTED>Food</option>' +
   '<option value=\'Fun\'>Fun</option>' +
   '<option value=\'Health\'>Health</option>' +
-  '</select> </td>'+
+  '</select> </td>' +
   '</tr>' +
-  '<tr><td></td><td>'+
-  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Checkz!</button>'+
-  '</td></tr>'+
+  '<tr><td></td><td>' +
+  '<button type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>' +
+  '</td></tr>' +
   '</div>';
-
   // var contentString = '<div class="content">'+
   //  	'<table>' +
   // 	'<tr>'+
@@ -139,10 +124,8 @@ function createFavoriteSpot(fav_lat, fav_lng) {
   // grabbing user id from html that only shows if user is in session
   var userId = $('#logout-link').data('userid');
   if (userId !== undefined) {
-
     // Getting value of type_location from HTML
-    var type_location = document.getElementById("type").value
-    // Variable to be send to endpoint
+    var type_location = document.getElementById('type').value    // Variable to be send to endpoint
     var markerData = {
       'type_location': type_location,
       'user_id': userId,
@@ -156,79 +139,74 @@ function createFavoriteSpot(fav_lat, fav_lng) {
   } else {
     alert('You need to be logged in to favorite spots.');
   }
-}
-
-//====================================================================================
-
+}//====================================================================================
 // this gets called when you click the fav-button rendered in InfoWindow
+
 function getFavoriteSpots() {
-
   var userId = $('#logout-link').data('userid');
-
-  alert("function getFavoriteSpots was trigged")
-
+  alert('function getFavoriteSpots was trigged')
   if (userId !== undefined) {
-
-      var userData = {
-        'user_id': userId
-      };
-
-      $.get('/get_favorite_places', userData, makeMarkers);
+    var userData = {
+      'user_id': userId
+    };
+    $.get('/get_favorite_places/', userData, makeSavedMarkers);
   }
-}
-//====================================================================================
+}//====================================================================================
 // Function to create markers of previous saved favorite places and display InfoWindow to update waiting time
 
-function makeMarkers(response){
+function makeSavedMarkers(response) {
+  /***
+{'saved_places'[{'user_id': place.user_id,
+'created_timestamp': place.created_timestamp,
+'modified_timestamp': place.modified_timestamp,
+'location_lat': place.location_lat,
+'location_long': place.location_long,
+'address': place.address,
+'waiting_time': place.waiting_time,
+'type_location': place.type_location})
 
-/***
-  response {'user_id': self.user_id,
-              'created_timestamp': self.created_timestamp,
-              'modified_timestamp': self.modified_timestamp,
-              'location_lat': self.location_lat,
-              'location_long': self.location_long,
-              'address': self.address,
-              'waiting_time': self.waiting_time,
-              'type_location': self.type_location}
 
 ***/
-
   // Verify if response was empty
-
-  if (response['data'].length ===0){
-
-    alert("User does not have saved any previous favorite place!")
-
+  //=== 	equal value and equal type
+  if (response['saved_places'].length === 0) {
+    //alert("User does not have saved any previous favorite place!")
   } else {
-
+    alert(respose['saved_places'][i]);
+    var placefavLatLng;
+    var placefavMark;
+    for (var i = 0; i < response['saved_places'].length; i++) {
+      place_lat = respose['saved_places'][i][location_lat];
+      debugger;
+      place_long = respose['saved_places'][i][location_long];
+      place_waiting_time = respose['saved_places'][i][waiting_time];
+      place_type_location = respose['saved_places'][i][type_location];
+      alert(place_type_location);
+    } // end of for
 
   } // end of else
-  
-
 
   // Content to be display in the InfoWindow
-  var contentString = '<div id="content">'+
-  '<p>Save as Favorite</p>'+
-  '<table>' +
-  '<tr>'+
-  '<td>Type:</td>'+
-  '<td><select id=\'type\'>' +
-  '<option value=\'Food\' SELECTED>Food</option>' +
-  '<option value=\'Fun\'>Fun</option>' +
-  '<option value=\'Health\'>Health</option>' +
-  '</select> </td>'+
-  '</tr>' +
-  '<tr><td></td><td>'+
-  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Update Waiting Time</button>'+
-  '</td></tr>'+
-  '<tr><td></td><td>'+
-  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Unchekz!</button>'+
-  '</td></tr>'+
-  '</div>';
+  //  var contentString = '<div id="content">'+
+  //  '<p>Save as Favorite</p>'+
+  //  '<table>' +
+  //  '<tr>'+
+  //  '<td>Type:</td>'+
+  //  '<td><select id=\'type\'>' +
+  //  '<option value=\'Food\' SELECTED>Food</option>' +
+  //  '<option value=\'Fun\'>Fun</option>' +
+  //  '<option value=\'Health\'>Health</option>' +
+  //  '</select> </td>'+
+  //  '</tr>' +
+  //  '<tr><td></td><td>'+
+  //  '<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Update Waiting Time</button>'+
+  //  '</td></tr>'+
+  //  '<tr><td></td><td>'+
+  //'<button type="button" onclick="createFavoriteSpot('+ lat + ',' + long +')" class="btn btn-primary" id="favotite-button">Unchekz!</button>'+
+  //  '</td></tr>'+
+  //  '</div>';
 
-
-}// End of function makeMarkers
-
+} // End of function makeMarkers
 //====================================================================================
 
 function locateUser() {
@@ -269,12 +247,11 @@ function handleNoGeolocation(errorFlag) {
   } else {
     alert('Your browser does not support geolocation.');
   }
-}// This function will loop through the listings and hide them all.
-
-function alert_display(){
-  alert("Function was called");
+} // This function will loop through the listings and hide them all.
+// Functon for testing calling
+function alert_display() {
+  alert('Function was called');
 }
-
 function hideListings() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
@@ -283,9 +260,6 @@ function hideListings() {
 $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
 });
-
-
-
 </script>
 
 <script async defer

@@ -140,27 +140,65 @@ def home():
 #   Endpoints related to User Table
 # ------------------------------------------------------
 # get all previous saved places
-@app.route('/get_favorite_places/<int:user_id>', methods=['GET'])
-def get_all_favorite_laces():
+@app.route('/get_favorite_places/', methods=['GET'])
+def get_favorite_places():
     """
     Query data related to all previous saved places and return as a json object
 
     """
-    if request.method == 'GET':
-        # code to update all waiting time columns
-        # create function to update waiting time all rows
+    """
 
-        user_id = request.args.get('user_id')
-        current_location_lat = float(request.args.get('location_lat'))
-        current_location_long = float(request.args.get('location_long'))
+            #  Return as a json object
+        return {'user_id': self.user_id,
+                'created_timestamp': self.created_timestamp,
+                'modified_timestamp': self.modified_timestamp,
+                'location_lat': self.location_lat,
+                'location_long': self.location_long,
+                'address': self.address,
+                'waiting_time': self.waiting_time,
+                'type_location': self.type_location}
 
-        allsavedplaces = SavedPlaces.query.filter_by(id=user_id).all()
 
-        #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
+    """
 
-        # if allsavedplaces is not None:
 
-        return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
+    #if request.method == 'GET':
+    # code to update all waiting time columns
+    # create function to update waiting time all rows
+
+    user_id = request.args.get('user_id')
+    #current_location_lat = request.args.get('location_lat')
+    #current_location_long = request.args.get('location_long')
+
+    # query all previous saved places for certain user
+    allsavedplaces = SavedPlaces.query.filter_by(user_id=user_id).all()
+
+    #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
+
+    # if allsavedplaces is not None:
+
+    saved_places = []
+
+    for place in allsavedplaces:
+
+        if place.user_id:
+
+            saved_places.append({'user_id': place.user_id,
+                                 'created_timestamp': place.created_timestamp,
+                                 'modified_timestamp': place.modified_timestamp,
+                                 'location_lat': place.location_lat,
+                                 'location_long': place.location_long,
+                                 'address': place.address,
+                                 'waiting_time': place.waiting_time,
+                                 'type_location': place.type_location})
+
+    k = (saved_places)
+
+
+    return jsonify({"saved_places":saved_places})
+
+    #TODO use @property method of class to serialize response
+    #return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
 
 
 # - End of points related to User Table
@@ -198,11 +236,11 @@ def save_favorite_place():
     # otherwise insert in the table
 
     current_session = db.session  # open database session
-    owner_id = current_session.query(User).filter_by(id=user_id).first().username
+    username = current_session.query(User).filter_by(id=user_id).first().username
 
-    if owner_id is not None:
+    if username is not None:
 
-        querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=owner_id).all()
+        querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
 
         if querysavedplaces is not None:
             # parsing previous locations to confirm if it is unique the new entry
@@ -232,7 +270,7 @@ def save_favorite_place():
         savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
                                   location_lat=locationlat, location_long=locationlong,
                                   address=address, waiting_time=waiting_time, type_location=type_location,
-                                  user_id=owner_id)
+                                  user_id=user_id)
         try:
             current_session.add(savedplaces)  # add opened statement to opened session
             current_session.commit()  # commit changes
