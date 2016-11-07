@@ -3,20 +3,18 @@
 import datetime
 import os
 
-from flask import Flask, request, jsonify, abort, render_template, session, redirect, url_for, g, make_response
-from flask_debugtoolbar import DebugToolbarExtension
-from jinja2 import StrictUndefined
+from flask import Flask, render_template, redirect, request, session, jsonify
+from flask import abort, url_for
 
 import geofuntcions as gf
 from models import connect_to_db, db, User, SavedPlaces
 
-from flask_debugtoolbar import DebugToolbarExtension
 # ----------------------
 # Max distance btw 2 locations
 # it will be to compare the distance
 # it is in meters
 
-RADIUS_CIRCLE = 3   # distance used to be same place
+RADIUS_CIRCLE = 3   # distance used to be same place in meters
 RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 
 # ------------------------------------------------
@@ -95,6 +93,7 @@ def register():
 
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
+    current_session = db.session  # open database session
     error = None
     if request.method == 'POST':
 
@@ -117,6 +116,7 @@ def login():
         # error = "405  Method not allowed"
         return render_template("login.html", error=error)
 
+    current_session.close()
 
 @app.route('/logout/')
 def logout():
@@ -140,8 +140,8 @@ def home():
 #   Endpoints related to User Table
 # ------------------------------------------------------
 # get all previous saved places
-@app.route('/get_favorite_places/', methods=['GET'])
-def get_favorite_places():
+@app.route('/get_favorite_places', methods=['GET'])
+def get_all_favorite_places():
     """
     Query data related to all previous saved places and return as a json object
 
@@ -160,28 +160,27 @@ def get_favorite_places():
 
 
     """
-
-
-    #if request.method == 'GET':
-    # code to update all waiting time columns
-    # create function to update waiting time all rows
-
     user_id = request.args.get('user_id')
-    #current_location_lat = request.args.get('location_lat')
-    #current_location_long = request.args.get('location_long')
+
+    #if user_id is not None:
+
+    current_session = db.session  # open database session
 
     # query all previous saved places for certain user
+
+    #allsavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
+
     allsavedplaces = SavedPlaces.query.filter_by(user_id=user_id).all()
 
     #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
 
-    # if allsavedplaces is not None:
-
     saved_places = []
 
-    for place in allsavedplaces:
+    if allsavedplaces is not None:
 
-        if place.user_id:
+        for place in allsavedplaces:
+
+            #if place.user_id:
 
             saved_places.append({'user_id': place.user_id,
                                  'created_timestamp': place.created_timestamp,
@@ -192,10 +191,16 @@ def get_favorite_places():
                                  'waiting_time': place.waiting_time,
                                  'type_location': place.type_location})
 
-    k = (saved_places)
+    current_session.close()
 
+    # response = make_response(json.dumps(saved_places))
+    #
+    # response.content_type = "application/json"
+    #
+    # print(response)
 
-    return jsonify({"saved_places":saved_places})
+    return jsonify({"saved_places": saved_places})
+    #return response
 
     #TODO use @property method of class to serialize response
     #return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
@@ -365,12 +370,12 @@ def delete_saved_place():
 # ----------------------
 
 
-# catch page error
-# ----------------------
-@app.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
-# -----------------------------
+# # catch page error
+# # ----------------------
+# @app.errorhandler(404)
+# def not_found(error):
+#     return make_response(jsonify({'error': 'Not found'}), 404)
+# # -----------------------------
 
 #lat = request.args.get('lat')
 #long = request.args.get('long')

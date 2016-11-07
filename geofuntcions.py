@@ -3,7 +3,6 @@ from geopy.geocoders import Nominatim  # used to get address based on lat and lo
 
 
 
-
 def verify_distance(lat1,lon1, lat2, lon2, radius ):
 
 
