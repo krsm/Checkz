@@ -1,7 +1,7 @@
-
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
-var markers = []; // Global array
+var markers = [
+]; // Global array
 var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
@@ -37,8 +37,7 @@ function initFavMap() {
     e_lat = e.latLng.lat();
     e_long = e.latLng.lng();
     addMarker(e.latLng, e_lat, e_long, favMap);
-  });// End of Function to listen to click event and addd a marker
-
+  }); // End of Function to listen to click event and addd a marker
   document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
 } // End of Initialize Map
 
@@ -127,7 +126,7 @@ function createFavoriteSpot(fav_lat, fav_lng) {
 function getFavoriteSpots() {
   var userId = $('#logout-link').data('userid');
   //alert('function getFavoriteSpots was trigged')
-  if (userId !== undefined && userId !== null ) {
+  if (userId !== undefined && userId !== null) {
     var userData = {
       'user_id': userId
     };
@@ -175,10 +174,8 @@ function makeSavedMarkers(response) {
       place_lat = parseFloat(response['saved_places'][i]['location_lat']);
       place_long = parseFloat(response['saved_places'][i]['location_long']);
       place_waiting_time = response['saved_places'][i]['waiting_time'] || '';
-      place_type_location = response['saved_places'][i]['type_location'] ;
-
-
-    /***
+      place_type_location = response['saved_places'][i]['type_location'];
+      /***
 
     Waiting time will be definied as
 
@@ -188,20 +185,14 @@ function makeSavedMarkers(response) {
 
 
     ***/
-
-    // Adding previous saved locations to map
-    addMarkerPreviousPlaces(place_lat,place_long,favMap);
-
-    // Adding infoWindow to the previous saved locations
-
-
-
+      // Adding previous saved locations to map
+      addMarkerPreviousPlaces(place_lat, place_long, favMap);
+      // Adding infoWindow to the previous saved locations
       //
       // alert( "place_lat" + place_lat);
       // alert("place_long"+ place_long);
       // alert("place_waiting_time" + place_waiting_time);
       // alert("place_type_location"+place_type_location);
-
     } // end of for
 
   } // end of else
@@ -227,13 +218,14 @@ function makeSavedMarkers(response) {
 
 } // End of function makeMarkers
 //====================================================================================
-
 // Add markers for previous saved places
-function addMarkerPreviousPlaces(f_lat,f_lng, map) {
+
+function addMarkerPreviousPlaces(f_lat, f_lng, map) {
   // Add function to show
-
-  var myLatLng = {lat: f_lat, lng: f_lng};
-
+  var myLatLng = {
+    lat: f_lat,
+    lng: f_lng
+  };
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map
@@ -248,28 +240,40 @@ function addMarkerPreviousPlaces(f_lat,f_lng, map) {
   //map.panTo(latLng);
   //alert(markers);
 } // End offunction addMarkerPreviousPlaces
-
-//====================================================================================
-function RemovePreviousSaved(lat,long){
-
-  // to be created
-  alert(lat,long);
-
-}
 //====================================================================================
 
-function UpdateWaitingTime(lat, long){
+function RemovePreviousSaved(lat, long) {
+  //Getting userID
+  var userId = $('#logout-link').data('user_id');
+  if (userId !== undefined) {
+    var delData = {
+      'user_id': userId,
+      'location_lat': lat,
+      'location_long': long
+    };
+    //
+    // # route to remove favorite place
+    // @app.route('/remove_favorite_place', methods=['POST'])
+    // def remove_favorite_place():
+    //     """ Remove user's favorite spot to db """
+    //
+    //     user_id = request.form.get("user_id")
+    //     locationlat = request.form.get["location_lat"]
+    //     locationlong = request.form.get["location_long"]
+    $.post('/remove_favorite_place', delData, function () {
+      alert('That spot has been deleted.');
+      // Reload previous saved places
+    });
+    $.get('/get_favorite_places', userData, makeSavedMarkers);
+  } //====================================================================================
 
-  // to be created
-  alert(lat, long);
+  function UpdateWaitingTime(lat, long) {
+    // to be created
+    alert(lat, long);
+  } //====================================================================================
 
-}
-
-
-//====================================================================================
-function addInfoWindowPreviousPlaces(lat, long, favMark) {
-
-  /***
+  function addInfoWindowPreviousPlaces(lat, long, favMark) {
+    /***
 
   Waiting time will be definied as
   Short - Less 10 min
@@ -277,97 +281,94 @@ function addInfoWindowPreviousPlaces(lat, long, favMark) {
   Long - Over 30 min
 
   ***/
-
-  var contentWaitinTime = '<div id="content">' +
-  '<p>Current Waiting Time : </p>' + current_waiting_time
-  + '<table>' +
-  '<tr>' +
-  '<td>Type:</td>' +
-  '<td><select id=\'type_waiting_time\'>' +
-  '<option value=\'Short\' SELECTED>Short</option>' +
-  '<option value=\'Medium\'>Medium</option>' +
-  '<option value=\'Long\'>Long</option>' +
-  '</select> </td>' +
-  '</tr>' +
-  '<tr><td></td><td>' +
-  '<button type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" class="btn btn-danger" id="remove_saved_places-button">Uncheckz!</button>' +
-  '<button type="button" onclick="UpdateWaitingTime(' + lat + ',' + long + ')" class="btn btn-info" id="waiting_time-button">Update Waiting Time!</button>' +
-  '</td></tr>' +
-  '</div>';
-  // var contentString = '<div class="content">'+
-  //  	'<table>' +
-  // 	'<tr>'+
-  //  		'<td>Type :</td>'+
-  //  		'<td>'+
-  //  		'<select id=\'type\'>'+
-  // 		'<option value=\'Food\' SELECTED>Food</option>' +
-  //  		'<option value=\'Fun\'>Fun</option>' +
-  //  		'<option value=\'Health\'>Health</option>' +
-  //  		'</select>'+
-  //  		'</td>'+
-  // 	'</tr>'+
-  // 	'</table>'+
-  //  	+ '<button type="button" onclick="createFavoriteSpot(' lat + ',' + long + ',' + value + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>'
-  // + '</div>';
-  var infowindow = new google.maps.InfoWindow({
-    content: contentWaitinTime
-  });
-  favMark.addListener('click', function () {
-    infowindow.open(map, favMark);
-  });
-}; // End of addInfoWindowFavoritePlaces
-
-//====================================================================================
-
-function locateUser() {
-  var browserSupportFlag = new Boolean();
-  if (navigator.geolocation) {
-    /* geolocation is available */
-    browserSupportFlag = true;
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var lat = position.coords.latitude;
-      var long = position.coords.longitude;
-      //infoWindow.setPosition(pos);
-      //infoWindow.setContent('Location found.');
-      //favMap.setCenter(pos);
-      var favMark = new google.maps.Marker({
-        map: favMap,
-        position: new google.maps.LatLng(lat, long),
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
-      });
-      // Call function to display pop up to save place as favorite
-      addInfoWindowFavoritePlaces(lat, long, favMark);
-      window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      // anything that needs to ref userLocation MUST happen before the end of this function
-    }, function () {
-      handleNoGeolocation(browserSupportFlag);
+    var contentWaitinTime = '<div id="content">' +
+    '<p>Current Waiting Time : </p>' + current_waiting_time
+    + '<table>' +
+    '<tr>' +
+    '<td>Type:</td>' +
+    '<td><select id=\'type_waiting_time\'>' +
+    '<option value=\'Short\' SELECTED>Short</option>' +
+    '<option value=\'Medium\'>Medium</option>' +
+    '<option value=\'Long\'>Long</option>' +
+    '</select> </td>' +
+    '</tr>' +
+    '<tr><td></td><td>' +
+    '<button type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" class="btn btn-danger" id="remove_saved_places-button">Uncheckz!</button>' +
+    '<button type="button" onclick="UpdateWaitingTime(' + lat + ',' + long + ')" class="btn btn-info" id="waiting_time-button">Update Waiting Time!</button>' +
+    '</td></tr>' +
+    '</div>';
+    // var contentString = '<div class="content">'+
+    //  	'<table>' +
+    // 	'<tr>'+
+    //  		'<td>Type :</td>'+
+    //  		'<td>'+
+    //  		'<select id=\'type\'>'+
+    // 		'<option value=\'Food\' SELECTED>Food</option>' +
+    //  		'<option value=\'Fun\'>Fun</option>' +
+    //  		'<option value=\'Health\'>Health</option>' +
+    //  		'</select>'+
+    //  		'</td>'+
+    // 	'</tr>'+
+    // 	'</table>'+
+    //  	+ '<button type="button" onclick="createFavoriteSpot(' lat + ',' + long + ',' + value + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>'
+    // + '</div>';
+    var infowindow = new google.maps.InfoWindow({
+      content: contentWaitinTime
     });
-  } // end if
-  // browser doesn't support Geolocation so call the handleNoGeolocation fn
-   else {
-    /* geolocation is not available */
-    browserSupportFlag = false;
-    handleNoGeolocation(browserSupportFlag);
-  }
-} // end of function locateUser
+    favMark.addListener('click', function () {
+      infowindow.open(map, favMark);
+    });
+  }; // End of addInfoWindowFavoritePlaces
+  //====================================================================================
+  function locateUser() {
+    var browserSupportFlag = new Boolean();
+    if (navigator.geolocation) {
+      /* geolocation is available */
+      browserSupportFlag = true;
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        //infoWindow.setPosition(pos);
+        //infoWindow.setContent('Location found.');
+        //favMap.setCenter(pos);
+        var favMark = new google.maps.Marker({
+          map: favMap,
+          position: new google.maps.LatLng(lat, long),
+          icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
+        });
+        // Call function to display pop up to save place as favorite
+        addInfoWindowFavoritePlaces(lat, long, favMark);
+        window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        // anything that needs to ref userLocation MUST happen before the end of this function
+      }, function () {
+        handleNoGeolocation(browserSupportFlag);
+      });
+    } // end if
+    // browser doesn't support Geolocation so call the handleNoGeolocation fn
+     else {
+      /* geolocation is not available */
+      browserSupportFlag = false;
+      handleNoGeolocation(browserSupportFlag);
+    }
+  } // end of function locateUser
 
-function handleNoGeolocation(errorFlag) {
-  if (errorFlag == true) {
-    alert('Geolocation service failed.');
-  } else {
-    alert('Your browser does not support geolocation.');
-  }
-} // This function will loop through the listings and hide them all.
-// Functon for testing calling
+  function handleNoGeolocation(errorFlag) {
+    if (errorFlag == true) {
+      alert('Geolocation service failed.');
+    } else {
+      alert('Your browser does not support geolocation.');
+    }
+  } // This function will loop through the listings and hide them all.
+  // Functon for testing calling
 
-function alert_display() {
-  alert('Function was called');
-}
-function hideListings() {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(null);
+  function alert_display() {
+    alert('Function was called');
   }
-}
-$(document).ready(function () {
-  google.maps.event.addDomListener(window, 'load', initFavMap);
-});
+  function hideListings() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+  }
+  $(document).ready(function () {
+    google.maps.event.addDomListener(window, 'load', initFavMap);
+  });

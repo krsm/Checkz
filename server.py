@@ -287,7 +287,7 @@ def save_favorite_place():
             return "new_favorite_location_inserted"
 
 # route to remove favorite place
-@app.route('/remove_favorite_place/', methods=['POST'])
+@app.route('/remove_favorite_place', methods=['POST'])
 def remove_favorite_place():
     """ Remove user's favorite spot to db """
 
