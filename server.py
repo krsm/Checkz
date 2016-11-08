@@ -291,14 +291,35 @@ def save_favorite_place():
 def remove_favorite_place():
     """ Remove user's favorite spot to db """
 
-    user_id = request.form.get("user_id")
-    locationlat = request.form.get["location_lat"]
-    locationlong = request.form.get["location_long"]
+    user_id = request.form.get('user_id')
+    location_lat = request.form.get("location_lat")
+    location_long = request.form.get("location_long")
 
-    current_session = db.session  # open database session
+    #current_session = db.session  # open database session
+
+    #to_be_removed = current_session.query(SavedPlaces).filter_by(SavedPlaces.user_id == user_id, SavedPlaces.location_lat ==location_lat,
+    #                                                         SavedPlaces.location_long == location_long).first()
+
+    to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
+                                             SavedPlaces.location_long == location_long).delete()
+
+    print(to_be_removed)
+
+    if to_be_removed is not None:
+
+        try:
+            SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
+                                             SavedPlaces.location_long == location_long).delete()
+            db.session.commit()
+        except:
+            db.session.rollback()
+            db.session.flush()  # for resetting non-commited .add()
+        finally:
+            db.session.close()
+
+    return "Executed"
     #TODO finish query to see the lat and long and remove place from database
 
-    return "Done"
 
 
 # ----------------------------------------------------------------------

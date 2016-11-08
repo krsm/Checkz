@@ -167,8 +167,8 @@ function makeSavedMarkers(response) {
     alert('User does not have saved any previous favorite place!')
   } else {
     //alert(respose['saved_places'][i]);
-    var placefavLatLng;
-    var placefavMark;
+    //var placefavLatLng;
+  //  var placefavMark;
     for (var i = 0; i < response['saved_places'].length; i++) {
       // unpacking response data
       place_lat = parseFloat(response['saved_places'][i]['location_lat']);
@@ -241,16 +241,46 @@ function addMarkerPreviousPlaces(f_lat, f_lng, map) {
   //alert(markers);
 } // End offunction addMarkerPreviousPlaces
 //====================================================================================
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
 
+
+      // Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+
+
+//====================================================================================
 function RemovePreviousSaved(lat, long) {
   //Getting userID
-  var userId = $('#logout-link').data('user_id');
+  var userId = $('#logout-link').data('userid');
+
   if (userId !== undefined) {
+
     var delData = {
       'user_id': userId,
       'location_lat': lat,
       'location_long': long
     };
+
+    var userData = {
+      'user_id': userId
+    };
+    //alert(user_id);
+
+
     //
     // # route to remove favorite place
     // @app.route('/remove_favorite_place', methods=['POST'])
@@ -262,10 +292,13 @@ function RemovePreviousSaved(lat, long) {
     //     locationlong = request.form.get["location_long"]
     $.post('/remove_favorite_place', delData, function () {
       alert('That spot has been deleted.');
+      deleteMarkers();
       // Reload previous saved places
     });
     $.get('/get_favorite_places', userData, makeSavedMarkers);
-  } //====================================================================================
+    //location.reload();
+  }
+}//====================================================================================
 
   function UpdateWaitingTime(lat, long) {
     // to be created
@@ -282,8 +315,8 @@ function RemovePreviousSaved(lat, long) {
 
   ***/
     var contentWaitinTime = '<div id="content">' +
-    '<p>Current Waiting Time : </p>' + current_waiting_time
-    + '<table>' +
+    '<p>Current Waiting Time : </p>' +
+    '<table>' +
     '<tr>' +
     '<td>Type:</td>' +
     '<td><select id=\'type_waiting_time\'>' +
