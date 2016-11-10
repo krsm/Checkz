@@ -1,9 +1,32 @@
+// create global map, destination coordinates, and address
+var map, dest, deslat, deslng, address;
+// create a geocoder object
+var geocoder = new google.maps.Geocoder();
+
+
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
 var markers = []; // Global array
 var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
+
+  //====================================================================================
+  // Code related to geocoding
+
+  // grab search-term from URL
+var hpAddress = getURLParam('search-term');
+
+if (hpAddress !== null) {
+  goHomepageSearch(hpAddress);
+}
+// Enf of Code related to geocoding
+//====================================================================================
+
+
+
+
+  //Initialize value
   // set LatLng to SF
   var sfLatLng = {
     lat: 36.07094,
@@ -236,7 +259,7 @@ function RemovePreviousSaved(lat, long) {
     //deleteMarkers();
     // getting remaining positions and populating the screen
     $.get('/get_favorite_places', userData, makeSavedMarkers);
-    //location.reload();
+    location.reload();
   }
 } //====================================================================================
 
@@ -341,6 +364,122 @@ function hideListings() {
     markers[i].setMap(null);
   }
 }
+
+//====================================================================================
+// Code related to geocoding
+//====================================================================================
+function getURLParam (name) {
+
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results === null) {
+    return null;
+  } else {
+    return results[1] || 0;
+  }
+}
+// google maps autocomplete search bar for homepage
+function hpInit() {
+    var searchTerm = document.getElementById('search-term');
+    var hpAutoComplete = new google.maps.places.Autocomplete(searchTerm);
+}
+
+
+function geocodeAddress(geocoder, map, address) {
+  // clear the pre-existing markers and reset holdMarkers array to empty
+  //for (var i = 0; i < holdMarkers.length; i++) {
+    //holdMarkers[i].setMap(null);
+  //}
+
+  holdMarkers = [];
+
+  // geocode user's destination in lat lngs
+  geocoder.geocode({'address': address}, function(results, status) {
+    // if the status comes back OK, get the destination location
+    if (status === google.maps.GeocoderStatus.OK) {
+      dest = results[0].geometry.location;
+      map.setCenter(dest);
+
+      deslat = dest.lat();
+      deslng = dest.lng();
+
+      // create a marker of destination, place on map
+      var marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: dest
+      });
+      holdMarkers.push(marker);
+      //getEligibleSpots(limit);
+    } else {
+      console.log('Something went wrong: ' + status);
+    }
+  });
+}
+
+function goHomepageSearch (hpAddress) {
+// scenario where user initates search from homepage
+  if (hpAddress !== 0) {
+      var decodeAddress = decodeURIComponent(hpAddress);
+      address = decodeAddress.split('+').join(' ');
+
+      // grab current day of week and time
+      // var todayDate = new Date();
+      // var weekDays = new Array(7);
+      // weekDays[0]=  "Su";
+      // weekDays[1] = "M";
+      // weekDays[2] = "Tu";
+      // weekDays[3] = "W";
+      // weekDays[4] = "Th";
+      // weekDays[5] = "F";
+      // weekDays[6] = "Sa";
+      // var todayDay = weekDays[todayDate.getDay()];
+      // $('#day').val(todayDay);
+      //
+      // var todayStartHr = todayDate.getHours();
+      // todayStartHr = todayStartHr + "00";
+      // $('#starttime').val(todayStartHr);
+      //
+      // todayEndHr = parseInt(todayStartHr);
+      // todayEndHr = todayEndHr + 100;
+      // todayEndHr = todayEndHr.toString();
+      // $('#endtime').val(todayEndHr);
+
+      geocodeAddress(geocoder, map, address);
+      //$('#show-more').show();
+    }
+}
+
+
+
+//====================================================================================
+// End of Code related to geocoding
+//====================================================================================
+
+
 $(document).ready(function () {
   google.maps.event.addDomListener(window, 'load', initFavMap);
+
+  //====================================================================================
+  // Code related to geocoding
+  // google maps related to geocoding
+  google.maps.event.addDomListener(window, 'load', hpInit);
+
+  // enter scenario where user began non-default search from search page form
+  $('#submit').click(function (evt) {
+    evt.preventDefault();
+    // get the value of user's destination input from form
+    address = document.getElementById('search-term').value;
+
+    geocodeAddress(geocoder, FavMap, address);
+    //$('#show-more').show();
+    // reset the marker limit every time the user submits a new search
+    //moreLimit = 50;
+    // Enf of Code related to geocoding
+    //====================================================================================
+});
+
+
+
+
+
 });
