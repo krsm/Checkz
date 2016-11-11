@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Maps group -->
+<div class="container"></div>
+
+<div id="map" style="width:1800px;height:1700px"></div>
+
+<!-- Javascript Functions related to Map -->
+
+ <!--<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>-->
+
+<script src="/static/js/gmaps.js"></script>
+<!--
+<script type="text/javascript">
+
+
+</script>
+-->
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initFavMap">
+</script>
+
+{% endblock %}
