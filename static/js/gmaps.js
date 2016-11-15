@@ -1,5 +1,5 @@
 // create global map, destination coordinates, and address
-var map, dest, deslat, deslng, address;
+var map, dest, deslat, deslng;
 // create a geocoder object
 //var geocoder = new google.maps.Geocoder();
 
@@ -9,11 +9,33 @@ var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
 var markers = []; // Global array
 var infoWindow = new google.maps.InfoWindow();
+
+// Initialize geocode variables
+function initGeoCode(){
+    // grab search-term from URL
+ address = getURLParam("search-term");
+
+
+} // End of initGeoCode
+
+// Function to help grab right information from DOM
+function getURLParam (name) {
+
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results === null) {
+    return null;
+  } else {
+    return results[1] || 0;
+  }
+}// End of getURLParam
+
+
 // Initialize Map
 function initFavMap() {
 
   //====================================================================================
   // Code related to geocoding
+
 
 //  // grab search-term from URL
 //var hpAddress = getURLParam('search-term');
@@ -460,8 +482,14 @@ $(document).ready(function () {
   // Event to load the map
   google.maps.event.addDomListener(window, 'load', initFavMap);
 
+  // Event to load the geocoding
+  google.maps.event.addDomListener(window, 'load', initGeoCode);
 
- //  address = document.getElementById('destination').value;
+
+     if (  address !== null){
+
+        alert(address);
+     }
 
   //====================================================================================
   // Code related to geocoding
@@ -478,7 +506,7 @@ $(document).ready(function () {
 //   });
 //
 
-   // alert(address);
+
 
 
 });
