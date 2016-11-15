@@ -1,52 +1,30 @@
 // create global map, destination coordinates, and address
-var map, dest, deslat, deslng;
+var map,
+dest,
+deslat,
+deslng;
 // create a geocoder object
-//var geocoder = new google.maps.Geocoder();
-
+var geocoder = new google.maps.Geocoder();
 var address;
-
+var autocomplete;
+var hpAddress;
+//====================================================================
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
 var markers = []; // Global array
 var infoWindow = new google.maps.InfoWindow();
-
-// Initialize geocode variables
-function initGeoCode(){
-    // grab search-term from URL
- address = getURLParam("search-term");
-
-
-} // End of initGeoCode
-
-// Function to help grab right information from DOM
-function getURLParam (name) {
-
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results === null) {
-    return null;
-  } else {
-    return results[1] || 0;
-  }
-}// End of getURLParam
-
-
 // Initialize Map
 function initFavMap() {
-
   //====================================================================================
   // Code related to geocoding
-
-
-//  // grab search-term from URL
-//var hpAddress = getURLParam('search-term');
-//
-//if (hpAddress !== null) {
-//  goHomepageSearch(hpAddress);
-//}
-// Enf of Code related to geocoding
-//====================================================================================
-
-
+  //  // grab search-term from URL
+  //var hpAddress = getURLParam('search-term');
+  //
+  //if (hpAddress !== null) {
+  //  goHomepageSearch(hpAddress);
+  //}
+  // Enf of Code related to geocoding
+  //====================================================================================
   //Initialize value
   // set LatLng to SF
   var sfLatLng = {
@@ -63,8 +41,20 @@ function initFavMap() {
     panControl: true,
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
+  }); // End of favMap
+  // ==============================================================
+  // Related to geocoding
+  address = /** @type {!HTMLInputElement} */
+  (document.getElementById('pac-input'));
+   // create an autocomplete search bar
+  autocomplete = new google.maps.places.Autocomplete(address);
+
+   // grab search-term from URL
+   hpAddress = getURLParam('pac-input');
+
+  // ==============================================================
   // Event listenter to trigge locateUser
+
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
   document.getElementById('clear_markers').addEventListener('click', hideListings);
@@ -74,7 +64,7 @@ function initFavMap() {
   // Event listener to any click in the screen to add a marker
   favMap.addListener('click', function (e) {
     // creating lat and long variables
-    // Auxiliar variables to get lat anf lng drom Event
+    // Auxiliar variables to get lat and lng dom Event
     var e_lat;
     var e_long;
     e_lat = e.latLng.lat();
@@ -82,6 +72,19 @@ function initFavMap() {
     addMarker(e.latLng, e_lat, e_long, favMap);
   }); // End of Function to listen to click event and addd a marker
   document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
+
+
+
+    if (hpAddress !== null) {
+
+        if (hpAddress !== 0) {
+    var decodeAddress = decodeURIComponent(hpAddress);
+    var aux_address = decodeAddress.split('+').join(' ');
+    geocodeAddress(geocoder, favMap, aux_address);
+  }  //End of if
+
+}
+
 } // End of Initialize Map
 
 function addMarker(latLng, f_lat, f_lng, map) {
@@ -99,7 +102,7 @@ function addMarker(latLng, f_lat, f_lng, map) {
   //alert(makers);
   //map.panTo(latLng);
   //alert(markers);
-} // Functio to add infowindow to Marker
+} // Function to add infowindow to Marker
 
 function addInfoWindowFavoritePlaces(lat, long, favMark) {
   var contentString = '<div id="content">' +
@@ -220,6 +223,7 @@ function makeSavedMarkers(response) {
     } // end of for
 
   } // end of else
+
 } // End of function makeMarkers
 //====================================================================================
 // Add markers for previous saved places
@@ -246,21 +250,20 @@ function addMarkerPreviousPlaces(f_lat, f_lng, map) {
 } // End offunction addMarkerPreviousPlaces
 //====================================================================================
 // Deletes all markers in the array by removing references to them.
-
 function deleteMarkers() {
   clearMarkers();
   markers = [];
-}// Sets the map on all markers in the array.
+} // Sets the map on all markers in the array.
 
 function setMapOnAll(map) {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
   }
-}// Removes the markers from the map, but keeps them in the array.
+} // Removes the markers from the map, but keeps them in the array.
 
 function clearMarkers() {
   setMapOnAll(null);
-}//====================================================================================
+} //====================================================================================
 
 function RemovePreviousSaved(lat, long) {
   //Getting userID
@@ -376,137 +379,81 @@ function handleNoGeolocation(errorFlag) {
     alert('Your browser does not support geolocation.');
   }
 } // End of handleNoGeolocation
-
-
 // This function will loop through the listings and hide them all.
 
 function hideListings() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
   }
-}
-
-//====================================================================================
+    markers = [];
+}//====================================================================================
 // Code related to geocoding
 //====================================================================================
-//function getURLParam (name) {
-//
-//  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-//  if (results === null) {
-//    return null;
-//  } else {
-//    return results[1] || 0;
-//  }
-//}
-// google maps autocomplete search bar for homepage
-//function hpInit() {
-//    var searchTerm = document.getElementById('search-term');
-//    var hpAutoComplete = new google.maps.places.Autocomplete(searchTerm);
-//}
-//
-//
-//function geocodeAddress(geocoder, map, address) {
-//  // clear the pre-existing markers and reset holdMarkers array to empty
-//  //for (var i = 0; i < holdMarkers.length; i++) {
-//    //holdMarkers[i].setMap(null);
-//  //}
-//
-//  holdMarkers = [];
-//
-//  // geocode user's destination in lat lngs
-//  geocoder.geocode({'address': address}, function(results, status) {
-//    // if the status comes back OK, get the destination location
-//    if (status === google.maps.GeocoderStatus.OK) {
-//      dest = results[0].geometry.location;
-//      map.setCenter(dest);
-//
-//      deslat = dest.lat();
-//      deslng = dest.lng();
-//
-//      // create a marker of destination, place on map
-//      var marker = new google.maps.Marker({
-//        map: map,
-//        animation: google.maps.Animation.DROP,
-//        position: dest
-//      });
-//      holdMarkers.push(marker);
-//      //getEligibleSpots(limit);
-//    } else {
-//      console.log('Something went wrong: ' + status);
-//    }
-//  });
-//}
-//
-//function goHomepageSearch (hpAddress) {
-//// scenario where user initates search from homepage
-//  if (hpAddress !== 0) {
-//      var decodeAddress = decodeURIComponent(hpAddress);
-//      address = decodeAddress.split('+').join(' ');
-//
-//      // grab current day of week and time
-//      // var todayDate = new Date();
-//      // var weekDays = new Array(7);
-//      // weekDays[0]=  "Su";
-//      // weekDays[1] = "M";
-//      // weekDays[2] = "Tu";
-//      // weekDays[3] = "W";
-//      // weekDays[4] = "Th";
-//      // weekDays[5] = "F";
-//      // weekDays[6] = "Sa";
-//      // var todayDay = weekDays[todayDate.getDay()];
-//      // $('#day').val(todayDay);
-//      //
-//      // var todayStartHr = todayDate.getHours();
-//      // todayStartHr = todayStartHr + "00";
-//      // $('#starttime').val(todayStartHr);
-//      //
-//      // todayEndHr = parseInt(todayStartHr);
-//      // todayEndHr = todayEndHr + 100;
-//      // todayEndHr = todayEndHr.toString();
-//      // $('#endtime').val(todayEndHr);
-//
-//      geocodeAddress(geocoder, map, address);
-//      //$('#show-more').show();
-//    }
-//}
+
+function getURLParam (name) {
+
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results === null) {
+    return null;
+  } else {
+    return results[1] || 0;
+  }
+}
 
 
 
+
+function geocodeAddress(geocoder, map, address) {
+  // clear the pre-existing markers and reset holdMarkers array to empty
+  hideListings()
+  // geocode user's destination in lat lngs
+  geocoder.geocode({'address': address}, function(results, status) {
+    // if the status comes back OK, get the destination location
+    if (status === google.maps.GeocoderStatus.OK) {
+      dest = results[0].geometry.location;
+      map.setCenter(dest);
+
+      deslat = dest.lat();
+      deslng = dest.lng();
+
+      // create a marker of destination, place on map
+      var marker1 = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: dest
+      });
+      markers.push(marker);
+    } else {
+      console.log('Something went wrong: ' + status);
+    }
+  });
+}
 //====================================================================================
 // End of Code related to geocoding
 //====================================================================================
 
-
 $(document).ready(function () {
-
   // Event to load the map
   google.maps.event.addDomListener(window, 'load', initFavMap);
-
   // Event to load the geocoding
-  google.maps.event.addDomListener(window, 'load', initGeoCode);
-
-
-     if (  address !== null){
-
-        alert(address);
-     }
-
+  //google.maps.event.addDomListener(window, 'load', initGeoCode);
+  //if (  address !== null){
+  //    alert(address);
+  // }
   //====================================================================================
   // Code related to geocoding
   // google maps related to geocoding
   //google.maps.event.addDomListener(window, 'load', hpInit);
-//
-//  // enter scenario where user began non-default search from search page form
-//  $('#submit').click(function (evt) {
-//    evt.preventDefault();
-//    // get the value of user's destination input from form
-//    address = document.getElementById('search-term').value;
-//
-//    alert(address);
-//   });
-//
-
-
-
-
+  //
+  // enter scenario where user began non-default search from search page form
+  $('#submit').click(function (evt) {
+    evt.preventDefault();
+    // get the value of user's destination input from form
+  // scenario where user initates search from
+    if (address !== 0) {
+    var decodeAddress = decodeURIComponent(address);
+    var aux_address = decodeAddress.split('+').join(' ');
+    geocodeAddress(geocoder, favMap, aux_address);
+  }  //End of if
+  });
 });

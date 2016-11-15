@@ -8,4 +8,8 @@
     <orderEntry type="module" module-name="park-place-master" />
     <orderEntry type="module" module-name="JqueryFlask" />
   </component>
+  <component name="ReSTService">
+    <option name="workdir" value="$MODULE_DIR$" />
+    <option name="DOC_DIR" value="$MODULE_DIR$" />
+  </component>
 </module>
