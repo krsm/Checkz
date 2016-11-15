@@ -3,6 +3,7 @@ var map, dest, deslat, deslng, address;
 // create a geocoder object
 //var geocoder = new google.maps.Geocoder();
 
+var address;
 
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
@@ -22,8 +23,6 @@ function initFavMap() {
 //}
 // Enf of Code related to geocoding
 //====================================================================================
-
-
 
 
   //Initialize value
@@ -377,7 +376,7 @@ function hideListings() {
 //    return results[1] || 0;
 //  }
 //}
-//// google maps autocomplete search bar for homepage
+// google maps autocomplete search bar for homepage
 //function hpInit() {
 //    var searchTerm = document.getElementById('search-term');
 //    var hpAutoComplete = new google.maps.places.Autocomplete(searchTerm);
@@ -457,36 +456,29 @@ function hideListings() {
 
 
 $(document).ready(function () {
+
+  // Event to load the map
   google.maps.event.addDomListener(window, 'load', initFavMap);
+
+
+ //  address = document.getElementById('destination').value;
 
   //====================================================================================
   // Code related to geocoding
   // google maps related to geocoding
   //google.maps.event.addDomListener(window, 'load', hpInit);
-
-  // enter scenario where user began non-default search from search page form
+//
+//  // enter scenario where user began non-default search from search page form
 //  $('#submit').click(function (evt) {
 //    evt.preventDefault();
 //    // get the value of user's destination input from form
 //    address = document.getElementById('search-term').value;
 //
-//    geocodeAddress(geocoder, FavMap, address);
-    //$('#show-more').show();
-    // reset the marker limit every time the user submits a new search
-    //moreLimit = 50;
-    // Enf of Code related to geocoding
-    //====================================================================================
+//    alert(address);
+//   });
+//
 
-
-    // Related to materialize
-
-
- //$(".button-collapse").sideNav();
-
-//});
-
-
-
+   // alert(address);
 
 
 });
