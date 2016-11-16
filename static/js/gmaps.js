@@ -7,7 +7,7 @@ deslng;
 var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
-var hpAddress;
+// var hpAddress;
 //====================================================================
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
@@ -50,7 +50,8 @@ function initFavMap() {
   autocomplete = new google.maps.places.Autocomplete(address);
 
    // grab search-term from URL
-   hpAddress = getURLParam('pac-input');
+   //hpAddress = getURLParam('pac-input');
+
 
   // ==============================================================
   // Event listenter to trigge locateUser
@@ -75,15 +76,15 @@ function initFavMap() {
 
 
 
-    if (hpAddress !== null) {
-
-        if (hpAddress !== 0) {
-    var decodeAddress = decodeURIComponent(hpAddress);
-    var aux_address = decodeAddress.split('+').join(' ');
-    geocodeAddress(geocoder, favMap, aux_address);
-  }  //End of if
-
-}
+//     if (hpAddress !== null) {
+//
+//         if (hpAddress !== 0) {
+//     var decodeAddress = decodeURIComponent(hpAddress);
+//     var aux_address = decodeAddress.split('+').join(' ');
+//     geocodeAddress(geocoder, favMap, aux_address);
+//   }  //End of if
+//
+// }
 
 } // End of Initialize Map
 
@@ -416,13 +417,16 @@ function geocodeAddress(geocoder, map, address) {
       deslat = dest.lat();
       deslng = dest.lng();
 
-      // create a marker of destination, place on map
-      var marker1 = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: dest
-      });
-      markers.push(marker);
+      addMarker(dest,deslat,deslng,map);
+
+      // // create a marker of destination, place on map
+      // var marker1 = new google.maps.Marker({
+      //   map: map,
+      //   //animation: google.maps.Animation.DROP,
+      //   position: dest
+      // });
+      // addInfoWindowFavoritePlaces(deslat,deslng,marker1);
+      // markers.push(marker);
     } else {
       console.log('Something went wrong: ' + status);
     }
@@ -446,14 +450,20 @@ $(document).ready(function () {
   //google.maps.event.addDomListener(window, 'load', hpInit);
   //
   // enter scenario where user began non-default search from search page form
-  $('#submit').click(function (evt) {
+  $('#hp-search').click(function (evt) {
     evt.preventDefault();
+
+    //alert("clicou");
     // get the value of user's destination input from form
   // scenario where user initates search from
-    if (address !== 0) {
-    var decodeAddress = decodeURIComponent(address);
+
+  var hpAddress = document.getElementById('pac-input').value;
+    if (hpAddress !== 0) {
+    var decodeAddress = decodeURIComponent(hpAddress);
     var aux_address = decodeAddress.split('+').join(' ');
     geocodeAddress(geocoder, favMap, aux_address);
+    // to clean previous search
+    //document.getElementById('pac-input') = "";
   }  //End of if
   });
 });
