@@ -7,7 +7,7 @@ deslng;
 var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
-// var hpAddress;
+
 //====================================================================
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
@@ -48,10 +48,6 @@ function initFavMap() {
   (document.getElementById('pac-input'));
    // create an autocomplete search bar
   autocomplete = new google.maps.places.Autocomplete(address);
-
-   // grab search-term from URL
-   //hpAddress = getURLParam('pac-input');
-
 
   // ==============================================================
   // Event listenter to trigge locateUser
@@ -437,6 +433,8 @@ function geocodeAddress(geocoder, map, address) {
 //====================================================================================
 
 $(document).ready(function () {
+
+  google.maps.event.addDomListener(window, 'resize', initFavMap);
   // Event to load the map
   google.maps.event.addDomListener(window, 'load', initFavMap);
   // Event to load the geocoding

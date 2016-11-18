@@ -2,18 +2,20 @@
 
 {% block head %}
 
+<style>
 
+</style>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&libraries=places">
-    </script>
 {% endblock %}
 
 {% block body %}
 
 <!-- Maps group -->
-<div class="container"></div>
+<div class="container">
+<div id="map_container"></div>
+<div id="map" style='width:100%;height:1600px;' ></div>
 
-<div id="map" style="width:1800px;height:1700px"></div>
+</div>
 
 <!-- Javascript Functions related to Map -->
 
@@ -26,12 +28,8 @@
 
 </script>
 -->
-
- <!--
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initFavMap">
 </script>
--->
-
 
 {% endblock %}
