@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection"/>
-
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection" />
 
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Checkz - Wait less, do more.</title>
 
     <!--NavBar-->
 
-
     <!--Fixed Search Nav Bar-->
-
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper">
+            <div class="navbar-fixed">
                 <form>
                     <div class="input-field">
-                        <input id="pac-input" type="text" placeholder="Enter a location to checkz!" required>
+                        <input id="pac-input" type="search" required>
                         <label for="pac-input"><i class="material-icons">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
                 </form>
-
             </div>
         </nav>
     </div>
@@ -48,56 +45,35 @@
 
                 {% if session.get('user_id') %}
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
-                <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for("logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
+                <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for( "logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
                 {% else %}
-                <li><a href={{url_for("register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
-                <li><a href={{url_for("login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
+                <li><a href={{url_for( "register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
+                <li><a href={{url_for( "login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
                 {% endif %}
 
             </ul>
-            <ul class="side-nav" id="mobile-demo">
 
-                <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
-                {% if session.get('user_id') %}
-                <li><a id="show_fav_link"><i class="material-icons right">grade</i>Show Favorites</a></li>
-                {% endif %}
-                <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Map</a></li>
-
-                {% if session.get('user_id') %}
-                <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
-                <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for("logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
-                {% else %}
-                <li><a href={{url_for("register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
-                <li><a href={{url_for("login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
-                {% endif %}
-
-            </ul>
         </div>
     </nav>
 
 
 
-
-
-
-    {% block head %}
-    {% endblock %}
+    {% block head %} {% endblock %}
 </head>
 
 <body>
-<!--Import jQuery before materialize.js-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-<script>
-
-$(document).ready(function(){
- $(".button-collapse").sideNav();
-});
-
-</script>
+    <!--Import jQuery before materialize.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $(".button-collapse").sideNav();
+        });
+    </script>
 
 
 
-{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 </body>
+
 </html>
