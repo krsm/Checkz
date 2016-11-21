@@ -28,7 +28,10 @@ function setFalsebooldisplayinfowindow(){
 //====================================================================
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
-var markers = []; // Global array
+var markers = []; // Global array to store markers
+
+var infoWindows = []; // Global array to store all infoWindows
+
 var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
@@ -103,7 +106,7 @@ function addMarker(latLng, f_lat, f_lng, map) {
     addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
     // Push the marker to the array of markers.
     markers.push(marker);
-    alert(markers);
+    //alert(markers);
 } // Function to add infowindow to Marker
 
 function addInfoWindowFavoritePlaces(lat, long, favMark) {
@@ -152,6 +155,12 @@ function addInfoWindowFavoritePlaces(lat, long, favMark) {
     favMark.addListener('click', function() {
         infowindow.open(map, favMark);
     });
+
+
+    //add infowindow to array
+    infoWindows.push(infowindow);
+
+
 }; // End of addInfoWindowFavoritePlaces
 //====================================================================================
 // this gets called when you click the fav-button rendered in InfoWindow
@@ -359,13 +368,21 @@ function addInfoWindowPreviousPlaces(lat, long, favMark,waiting_time) {
     // if case to show to display infowindow
     if (bool_display_infowindow == true) {
 
+      //closeAllInfoWindows();
+
         infowindow.open(map, favMark);
+
+        //add infowindow to array
+        infoWindows.push(infowindow);
     }
     else {
 
       favMark.addListener('click', function() {
           infowindow.open(map, favMark);
       });
+
+      //add infowindow to array
+      infoWindows.push(infowindow);
 
     }
 
@@ -476,6 +493,14 @@ function getAddress(lat, long){
 //====================================================================================
 // End of Code related to geocoding
 //====================================================================================
+
+function closeAllInfoWindows() {
+  for (var i=0;i<infoWindows.length;i++) {
+     infoWindows[i].close();
+  }
+}
+
+
 
 $(document).ready(function() {
 
