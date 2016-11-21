@@ -303,7 +303,7 @@ def remove_favorite_place():
     to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                              SavedPlaces.location_long == location_long).delete()
 
-    print(to_be_removed)
+    #print(to_be_removed)
 
     if to_be_removed is not None:
 
@@ -324,30 +324,28 @@ def remove_favorite_place():
 
 # ----------------------------------------------------------------------
 # route to update the waiting time
-@app.route('/update_waiting_time/', methods=['POST'])
+@app.route('/update_waiting_time', methods=['POST'])
 def update_waiting_time():
-    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
-        abort(404)
+
 
     # parsing request data
     # -------------------------
 
-    content = request.get_json(force=True)
+    user_id = request.form.get('user_id')
+    location_lat = request.form.get('location_lat')
+    location_long = request.form.get('location_long')
+    waiting_time = request.form.get('updated_waiting_time')
+
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()  # get a new data to update
-    username = content["username"]
-    locationlat = content["location_lat"]
-    locationlong = content["location_long"]
-    waiting_time = content["waiting_time"]
-    address = content["address"]
-    # ---------------------------
 
+    # ---------------------------
     current_session = db.session  # open database session
 
     # query table USer to get username and then query by user
-    owner_id = current_session.query(User).filter_by(username=username).first().username
+    owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
-    if owner_id is not None:
+    if owner_name is not None:
 
         # get all saved places by all users
         querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
@@ -358,7 +356,7 @@ def update_waiting_time():
             for location in querysavedplaces:
                 # verify if the distance of the newlocation is already in the database, or if there is a close location
                 # verifying that calculating distance of 2 points, it will be considered as same place if the distance btw 2 points is smaller than 10 m
-                distance_location, same_location = gf.verify_distance(float(locationlat), float(locationlong),
+                distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
                                                                       float(location.location_lat),
                                                                       float(location.location_long), RADIUS_CIRCLE)
                 if same_location is True:
@@ -411,5 +409,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    #app.run()
+    #app.run(host="192.168.1.110")
+    app.run()

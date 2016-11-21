@@ -7,7 +7,24 @@ var map,
 var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
+// ====================================
+// helper variable related to infoWindow
 
+var bool_display_infowindow = new Boolean(false);
+
+function setTruebooldisplayinfowindow(){
+
+  bool_display_infowindow = true;
+
+}
+
+function setFalsebooldisplayinfowindow(){
+
+  bool_display_infowindow = false;
+
+}
+// End of helper variable related to infoWindow
+// ====================================
 //====================================================================
 var favMap;
 // Create a new blank array for all the listing markers. To be used with the clear button
@@ -31,7 +48,7 @@ function initFavMap() {
         lat: 37.780919,
         lng: -122.465680
 
-      //  37.780919, -122.465680
+        //  37.780919, -122.465680
     };
     // create a map object and specify the DOM element for display
     // map appears in map.html
@@ -51,14 +68,11 @@ function initFavMap() {
     // // create an autocomplete search bar
     // autocomplete = new google.maps.places.Autocomplete(address);
     // alert(autocomplete)
-        // ==============================================================
-        // Event listenter to trigger locateUser
-
+    // ==============================================================
+    // Event listenter to trigger locateUser
     document.getElementById('my_location_link').addEventListener('click', locateUser);
     // Event listenter to clear button - to remove all adde markers from map
     document.getElementById('clear_markers').addEventListener('click', hideListings);
-
-
     //document.getElementById('pac-input').addEventListener('click', addMarkerSearch(autocomplete));
     //addMarkerSearch
     // Event listenter to get previous favotires places
@@ -74,10 +88,9 @@ function initFavMap() {
         e_long = e.latLng.lng();
         addMarker(e.latLng, e_lat, e_long, favMap);
     }); // End of Function to listen to click event and addd a marker
-
-
     document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
-
+    // Set the infoWindow bool to false then will have an event click
+    document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
 
 function addMarker(latLng, f_lat, f_lng, map) {
@@ -90,26 +103,33 @@ function addMarker(latLng, f_lat, f_lng, map) {
     addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
     // Push the marker to the array of markers.
     markers.push(marker);
+    alert(markers);
 } // Function to add infowindow to Marker
 
 function addInfoWindowFavoritePlaces(lat, long, favMark) {
-    var contentString = '<class="card-title">' +
-        '<p>Save as Favorite</p>' +
-        '<table>' +
-        '<tbody>'+
-        '<tr>' +
-        '<td>Type:</td>' +
-        '<td><select id="type">' +
-        '<option value="Food" SELECTED>Food</option>' +
-        '<option value="Fun">Fun</option>' +
+
+    var contentString = '<div class="card-title">' +
+        '<p> To be replaced by address</p>' +
+        '<label> Choose location type </label>' +
+        '<select id="type_selected_location" class="browser-default">' +
+        '<option value="" disabled selected> Checkz place as favorite </option>' +
+        '<option value="Eat">Eat</option>' +
+        '<option value="Fun">See</option>' +
         '<option value="Health">Health</option>' +
-        '</select> </td>' +
-        '</tr>' +
-        '<tr><td></td><td>' +
-        '</td></tr>' +
-        '</tbody>'+
-        '</table>'+
+        '</select>' +
+        //Waiting time
         '<button class="btn waves-effect waves-light green" id="favotite-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" >Checkz!</button>' +
+        '<p> </p>' +
+        '<label> Directions to shortest waiting time </label>' +
+        '<select id="type_selected_navigate" class="browser-default">' +
+        '<option value="" disabled selected> Select type of place to get directions to</option>' +
+        '<option value="Eat">Eat</option>' +
+        '<option value="Fun">See</option>' +
+        '<option value="Health">Health</option>' +
+        '</select>' +
+        //Navigate
+        '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" >Get directions!</button>' +
+        '</div>';
         '</div>';
     // var contentString = '<div class="content">'+
     //  	'<table>' +
@@ -140,7 +160,8 @@ function createFavoriteSpot(fav_lat, fav_lng) {
     var userId = $('#logout-link').data('userid');
     if (userId !== undefined) {
         // Getting value of type_location from HTML
-        var type_location = document.getElementById('type').value // Variable to be send to endpoint
+        var type_location = document.getElementById('type_selected_location').value // Variable to be send to endpoint
+        debugger;
         var markerData = {
             'type_location': type_location,
             'user_id': userId,
@@ -169,7 +190,6 @@ function getFavoriteSpots() {
 } //====================================================================================
 // Function to create markers of previous saved favorite places and display InfoWindow to update waiting time
 // functtion for debugger
-
 function makeSavedMarkers(response) {
     /***
 {'saved_places'[{'user_id': place.user_id,
@@ -180,8 +200,6 @@ function makeSavedMarkers(response) {
 'address': place.address,
 'waiting_time': place.waiting_time,
 'type_location': place.type_location})
-
-
 ***/
     // Verify if response was empty
     //=== 	equal value and equal type
@@ -197,15 +215,13 @@ function makeSavedMarkers(response) {
             place_waiting_time = response['saved_places'][i]['waiting_time'] || '';
             place_type_location = response['saved_places'][i]['type_location'];
             /***
-
     Waiting time will be definied as
     Short - Less 10 min
     Medium - Btw 15 and 25 min
     Long - Over 30 min
-
     ***/
             // Adding previous saved locations to map
-            addMarkerPreviousPlaces(place_lat, place_long, favMap);
+            addMarkerPreviousPlaces(place_lat, place_long, favMap,place_waiting_time);
             // Adding infoWindow to the previous saved locations
         } // end of for
 
@@ -214,8 +230,7 @@ function makeSavedMarkers(response) {
 } // End of function makeMarkers
 //====================================================================================
 // Add markers for previous saved places
-
-function addMarkerPreviousPlaces(f_lat, f_lng, map) {
+function addMarkerPreviousPlaces(f_lat, f_lng, map, waiting_time) {
     // Add function to show
     var myLatLng = {
         lat: f_lat,
@@ -226,7 +241,7 @@ function addMarkerPreviousPlaces(f_lat, f_lng, map) {
         map: map
     });
     // Call Function to add infoWindow as soon as the marker was created
-    addInfoWindowPreviousPlaces(f_lat, f_lng, marker);
+    addInfoWindowPreviousPlaces(f_lat, f_lng, marker,waiting_time);
     // Push the marker to the array of markers.
     markers.push(marker);
 } // End offunction addMarkerPreviousPlaces
@@ -265,16 +280,36 @@ function RemovePreviousSaved(lat, long) {
         //deleteMarkers();
         // getting remaining positions and populating the screen
         $.get('/get_favorite_places', userData, makeSavedMarkers);
-        location.reload();
+        //location.reload();
     }
 } //====================================================================================
 
 function UpdateWaitingTime(lat, long) {
-    // to be created
-    alert(lat, long);
-} //====================================================================================
 
-function addInfoWindowPreviousPlaces(lat, long, favMark) {
+  //Getting userID
+  var userId = $('#logout-link').data('userid');
+  var updated_waiting_time = document.getElementById('updated_waiting_time').value
+  if (userId !== undefined) {
+      var updatedData = {
+          'user_id': userId,
+          'location_lat': lat,
+          'location_long': long,
+          'updated_waiting_time':updated_waiting_time
+      };
+
+      $.post('/update_waiting_time', updatedData, function() {
+          alert('Waiting time has been updated.');
+          //alert(updated_waiting_time);
+      });
+        setTruebooldisplayinfowindow();
+        getFavoriteSpots();
+
+      //Recall function to show favorites, to display update waiting time
+
+
+}} //====================================================================================
+
+function addInfoWindowPreviousPlaces(lat, long, favMark,waiting_time) {
     /***
 
     Waiting time will be definied as
@@ -282,22 +317,22 @@ function addInfoWindowPreviousPlaces(lat, long, favMark) {
     Medium - Btw 15 and 25 min
     Long - Over 30 min
 
+
     ***/
+    //bool_display_infowindow will be used to show infowindow in case of update of waiting time
+
+    var aux_waiting_time = Math.round(waiting_time);
     var contentWaitinTime = '<div id="content">' +
-        '<p>Current Waiting Time : </p>' +
-        '<table>' +
-        '<tr>' +
-        '<td>Type:</td>' +
-        '<td><select id=\'type_waiting_time\'>' +
-        '<option value=\'Short\' SELECTED>Short</option>' +
-        '<option value=\'Medium\'>Medium</option>' +
-        '<option value=\'Long\'>Long</option>' +
-        '</select> </td>' +
-        '</tr>' +
-        '<tr><td></td><td>' +
-        '<button type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" class="btn btn-danger" id="remove_saved_places-button">Uncheckz!</button>' +
-        '<button type="button" onclick="UpdateWaitingTime(' + lat + ',' + long + ')" class="btn btn-info" id="waiting_time-button">Update Waiting Time!</button>' +
-        '</td></tr>' +
+        '<p>Current Waiting Time : '+ aux_waiting_time +' min</p>' +
+        '<p>Update Waiting Time </p>' +
+        '<form action="#">' +
+        '<p class="range-field">' +
+        '<input type="range" id="updated_waiting_time" min="0" max="100" />' +
+        '</p>' +
+        '</form>' +
+        '<button class="btn waves-effect waves-light yellow darken-4" id="waiting_time" type="button"onclick="UpdateWaitingTime(' + lat + ',' + long + ')">Update Waiting Time!</button>' +
+        '<p> </p>' +
+        '<button class="btn waves-effect waves-light red" id="remove_saved_places" type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" >Uncheckz!</button>' +
         '</div>';
     // var contentString = '<div class="content">'+
     //  	'<table>' +
@@ -314,12 +349,28 @@ function addInfoWindowPreviousPlaces(lat, long, favMark) {
     // 	'</table>'+
     //  	+ '<button type="button" onclick="createFavoriteSpot(' lat + ',' + long + ',' + value + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>'
     // + '</div>';
+
+    //alert(bool_display_infowindow);
+
     var infowindow = new google.maps.InfoWindow({
         content: contentWaitinTime
     });
-    favMark.addListener('click', function() {
+
+    // if case to show to display infowindow
+    if (bool_display_infowindow == true) {
+
         infowindow.open(map, favMark);
-    });
+    }
+    else {
+
+      favMark.addListener('click', function() {
+          infowindow.open(map, favMark);
+      });
+
+    }
+
+
+
 }; // End of addInfoWindowFavoritePlaces
 //====================================================================================
 function locateUser() {
@@ -374,7 +425,7 @@ function hideListings() {
 
 function geocodeAddress(geocoder, map, address) {
     // clear the pre-existing markers and reset holdMarkers array to empty
-    hideListings()
+    //hideListings() - TODO verify the need to clean the markers
         // geocode user's destination in lat lngs
     geocoder.geocode({
         'address': address
@@ -410,17 +461,31 @@ function addMarkerSearch(hpAddress) {
         var aux_address = decodeAddress.split('+').join(' ');
         geocodeAddress(geocoder, favMap, aux_address);
     }
-        }
+}
+
+function getAddress(lat, long){
+
+// It will return a string with address
+//TODO create function to return address based on lat, and long
+// It will be used to show addres in the top of marker
+
+}
 
 
-    //====================================================================================
-    // End of Code related to geocoding
-    //====================================================================================
 
-    $(document).ready(function() {
+//====================================================================================
+// End of Code related to geocoding
+//====================================================================================
 
-        //google.maps.event.addDomListener(window, 'resize', initFavMap);
-        // Event to load the map
-        google.maps.event.addDomListener(window, 'load', initFavMap);
+$(document).ready(function() {
 
-    });
+    //google.maps.event.addDomListener(window, 'resize', initFavMap);
+    // Event to load the map
+    google.maps.event.addDomListener(window, 'load', initFavMap);
+    // related to materialize library
+    $('select').material_select();
+
+    // related to display the infoWindow
+    setFalsebooldisplayinfowindow();
+
+});
