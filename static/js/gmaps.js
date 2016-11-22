@@ -155,12 +155,8 @@ function addInfoWindowFavoritePlaces(lat, long, favMark) {
     favMark.addListener('click', function() {
         infowindow.open(map, favMark);
     });
-
-
     //add infowindow to array
-    infoWindows.push(infowindow);
-
-
+    //infoWindows.push(infowindow);
 }; // End of addInfoWindowFavoritePlaces
 //====================================================================================
 // this gets called when you click the fav-button rendered in InfoWindow
@@ -197,6 +193,20 @@ function getFavoriteSpots() {
     } // end of if UserId
 
 } //====================================================================================
+
+// this function is called to get updated waiting time
+function getUpdateWaitingTime() {
+    var userId = $('#logout-link').data('userid');
+    //alert('function getFavoriteSpots was trigged')
+    if (userId !== undefined && userId !== null) {
+        var userData = {
+            'user_id': userId
+        };
+        $.get('/get_updated_waiting_time', userData, makeSavedMarkers);
+    } // end of if UserId
+
+} //====================================================================================
+
 // Function to create markers of previous saved favorite places and display InfoWindow to update waiting time
 // functtion for debugger
 function makeSavedMarkers(response) {
@@ -254,6 +264,77 @@ function addMarkerPreviousPlaces(f_lat, f_lng, map, waiting_time) {
     // Push the marker to the array of markers.
     markers.push(marker);
 } // End offunction addMarkerPreviousPlaces
+
+function addInfoWindowPreviousPlaces(lat, long, favMark,waiting_time) {
+    /***
+
+    Waiting time will be definied as
+    Short - Less 10 min
+    Medium - Btw 15 and 25 min
+    Long - Over 30 min
+
+
+    ***/
+    //bool_display_infowindow will be used to show infowindow in case of update of waiting time
+
+    var aux_waiting_time = Math.round(waiting_time);
+    var contentWaitinTime = '<div id="content">' +
+        '<p>Current Waiting Time : '+ aux_waiting_time +' min</p>' +
+        '<p>Update Waiting Time </p>' +
+        '<form action="#">' +
+        '<p class="range-field">' +
+        '<input type="range" id="updated_waiting_time" min="0" max="100" />' +
+        '</p>' +
+        '</form>' +
+        '<button class="btn waves-effect waves-light yellow darken-4" id="waiting_time" type="button"onclick="UpdateWaitingTime(' + lat + ',' + long + ')">Update Waiting Time!</button>' +
+        '<p> </p>' +
+        '<button class="btn waves-effect waves-light red" id="remove_saved_places" type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" >Uncheckz!</button>' +
+        '</div>';
+    // var contentString = '<div class="content">'+
+    //  	'<table>' +
+    // 	'<tr>'+
+    //  		'<td>Type :</td>'+
+    //  		'<td>'+
+    //  		'<select id=\'type\'>'+
+    // 		'<option value=\'Food\' SELECTED>Food</option>' +
+    //  		'<option value=\'Fun\'>Fun</option>' +
+    //  		'<option value=\'Health\'>Health</option>' +
+    //  		'</select>'+
+    //  		'</td>'+
+    // 	'</tr>'+
+    // 	'</table>'+
+    //  	+ '<button type="button" onclick="createFavoriteSpot(' lat + ',' + long + ',' + value + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>'
+    // + '</div>';
+
+    //alert(bool_display_infowindow);
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentWaitinTime
+    });
+
+    // if case to show to display infowindow
+    if (bool_display_infowindow == true) {
+
+      //closeAllInfoWindows();
+
+        infowindow.open(map, favMark);
+
+        //add infowindow to array
+        //infoWindows.push(infowindow);
+    }
+    else {
+
+      favMark.addListener('click', function() {
+          infowindow.open(map, favMark);
+      });
+
+      //add infowindow to array
+    //  infoWindows.push(infowindow);
+
+    }
+
+}; // End of addInfoWindowFavoritePlaces
+
 //====================================================================================
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
@@ -311,84 +392,14 @@ function UpdateWaitingTime(lat, long) {
           //alert(updated_waiting_time);
       });
         setTruebooldisplayinfowindow();
-        getFavoriteSpots();
+
+      $.get('/get_updated_waiting_time', updatedData, makeSavedMarkers);
 
       //Recall function to show favorites, to display update waiting time
 
 
 }} //====================================================================================
 
-function addInfoWindowPreviousPlaces(lat, long, favMark,waiting_time) {
-    /***
-
-    Waiting time will be definied as
-    Short - Less 10 min
-    Medium - Btw 15 and 25 min
-    Long - Over 30 min
-
-
-    ***/
-    //bool_display_infowindow will be used to show infowindow in case of update of waiting time
-
-    var aux_waiting_time = Math.round(waiting_time);
-    var contentWaitinTime = '<div id="content">' +
-        '<p>Current Waiting Time : '+ aux_waiting_time +' min</p>' +
-        '<p>Update Waiting Time </p>' +
-        '<form action="#">' +
-        '<p class="range-field">' +
-        '<input type="range" id="updated_waiting_time" min="0" max="100" />' +
-        '</p>' +
-        '</form>' +
-        '<button class="btn waves-effect waves-light yellow darken-4" id="waiting_time" type="button"onclick="UpdateWaitingTime(' + lat + ',' + long + ')">Update Waiting Time!</button>' +
-        '<p> </p>' +
-        '<button class="btn waves-effect waves-light red" id="remove_saved_places" type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" >Uncheckz!</button>' +
-        '</div>';
-    // var contentString = '<div class="content">'+
-    //  	'<table>' +
-    // 	'<tr>'+
-    //  		'<td>Type :</td>'+
-    //  		'<td>'+
-    //  		'<select id=\'type\'>'+
-    // 		'<option value=\'Food\' SELECTED>Food</option>' +
-    //  		'<option value=\'Fun\'>Fun</option>' +
-    //  		'<option value=\'Health\'>Health</option>' +
-    //  		'</select>'+
-    //  		'</td>'+
-    // 	'</tr>'+
-    // 	'</table>'+
-    //  	+ '<button type="button" onclick="createFavoriteSpot(' lat + ',' + long + ',' + value + ')" class="btn btn-primary" id="favotite-button">Checkz!</button>'
-    // + '</div>';
-
-    //alert(bool_display_infowindow);
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentWaitinTime
-    });
-
-    // if case to show to display infowindow
-    if (bool_display_infowindow == true) {
-
-      //closeAllInfoWindows();
-
-        infowindow.open(map, favMark);
-
-        //add infowindow to array
-        infoWindows.push(infowindow);
-    }
-    else {
-
-      favMark.addListener('click', function() {
-          infowindow.open(map, favMark);
-      });
-
-      //add infowindow to array
-      infoWindows.push(infowindow);
-
-    }
-
-
-
-}; // End of addInfoWindowFavoritePlaces
 //====================================================================================
 function locateUser() {
     var browserSupportFlag = new Boolean();
@@ -494,11 +505,11 @@ function getAddress(lat, long){
 // End of Code related to geocoding
 //====================================================================================
 
-function closeAllInfoWindows() {
-  for (var i=0;i<infoWindows.length;i++) {
-     infoWindows[i].close();
-  }
-}
+//function closeAllInfoWindows() {
+//  for (var i=0;i<infoWindows.length;i++) {
+//     infoWindows[i].close();
+//  }
+//}
 
 
 

@@ -309,7 +309,7 @@ def remove_favorite_place():
 
         try:
             SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
-                                             SavedPlaces.location_long == location_long).delete()
+                                     SavedPlaces.location_long == location_long).delete()
             db.session.commit()
         except:
             db.session.rollback()
@@ -321,8 +321,67 @@ def remove_favorite_place():
     #TODO finish query to see the lat and long and remove place from database
 
 
-
+# route to get updated waiting time
 # ----------------------------------------------------------------------
+@app.route('/get_updated_waiting_time', methods=['GET'])
+def get_updated_waiting_time():
+
+    # parsing request data
+    # -------------------------
+
+    user_id = request.args.get('user_id')
+    location_lat = request.args.get('location_lat')
+    location_long = request.args.get('location_long')
+
+    # ---------------------------
+    current_session = db.session  # open database session
+
+    # query table USer to get username and then query by user
+    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+
+    if owner_name is not None:
+
+        # get all saved places by all users
+        #querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+
+            #to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
+             #                                SavedPlaces.location_long == location_long).delete()
+
+        allsavedplaces = SavedPlaces.query.filter(SavedPlaces.user_id == user_id,SavedPlaces.location_lat == location_lat,
+                                                  SavedPlaces.location_long == location_long).all()
+
+        print(allsavedplaces)
+
+        #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
+
+        saved_places = []
+
+        if allsavedplaces is not None:
+
+            for place in allsavedplaces:
+
+                saved_places.append({'user_id': place.user_id,
+                                     'created_timestamp': place.created_timestamp,
+                                     'modified_timestamp': place.modified_timestamp,
+                                     'location_lat': place.location_lat,
+                                     'location_long': place.location_long,
+                                     'address': place.address,
+                                     'waiting_time': place.waiting_time,
+                                     'type_location': place.type_location})
+
+        current_session.close()
+
+        # response = make_response(json.dumps(saved_places))
+        #
+        # response.content_type = "application/json"
+        #
+        # print(response)
+
+        print(saved_places)
+
+        return jsonify({"saved_places": saved_places})
+
+
 # route to update the waiting time
 @app.route('/update_waiting_time', methods=['POST'])
 def update_waiting_time():
