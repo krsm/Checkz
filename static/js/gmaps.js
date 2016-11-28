@@ -89,7 +89,7 @@ function initFavMap() {
   document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
 
-function addMarker(latLng, f_lat, f_lng, map) {
+function addMarker(latLng, lat, long, map) {
   //marker_address = getAddress(f_lat, f_lng);
   //alert(marker_address);
   //if (marker_address != 'not_available') {
@@ -99,19 +99,16 @@ function addMarker(latLng, f_lat, f_lng, map) {
     position: latLng,
     map: map
   });
-  // Push the marker to our array of markers.
-  markers.push(marker);
-  // Create an onclick event to open an infowindow at each marker.
-  marker.addListener('click', function () {
-    // Call Function to add infoWindow as soon as the marker was created
-    addInfoWindowFavoritePlaces(f_lat, f_lng, marker);
-  });
-  //alert(markers);
-  //  } // end of if
-} // Function to add infowindow to Marker
 
-function addInfoWindowFavoritePlaces(lat, long, marker) {
-  var contentString = '<div class="card-title">' +
+  // Push the marker to our array of markers.
+  //markers.push(marker);
+
+  var infowindow = new google.maps.InfoWindow({
+      width: 150
+  });
+
+  // Content to be dsiplayed in the infowindow
+  var content_string = '<div class="card-title">' +
   '<p> To be replaced by address</p>' +
   '<label> Choose location type </label>' +
   '<select id="type_selected_location" class="browser-default">' +
@@ -132,27 +129,68 @@ function addInfoWindowFavoritePlaces(lat, long, marker) {
   '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" >Get directions!</button>' +
   '</div>' +
   '</div>';
-  var infowindow = new google.maps.InfoWindow();
-  if (infowindow.marker != marker) {
-    infowindow.marker = marker;
-    infowindow.setContent(contentString);
-    infowindow.open(favMap, marker);
-    // Make sure the marker property is cleared if the infowindow is closed.
-    infowindow.addListener('closeclick', function () {
-      infowindow.setMarker(null);
-    });
-  } // end of if
-  // var infowindow = new google.maps.InfoWindow({
-  //   content: contentString,
-  //   position: favMark.getPosition()
-  // });
-  // favMark.addListener('click', function () {
-  //   infowindow.open(map, favMark);
-  // });
-  //add infowindow to array
-  //infoWindows.push(infowindow);
 
-}; // End of addInfoWindowFavoritePlaces
+
+  bindInfoWindow(marker, map, infowindow, content_string,bool_display_infowindow);
+
+}
+
+// Function to add infowindow to Marker
+function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_waiting_time) {
+
+  // // Check to make sure the infowindow is not already opened on this marker.
+  //    if (infowindow.marker == marker) {
+  //      // Clear the infowindow content to give the streetview time to load.
+  //      infowindow.close();
+  //      infowindow.setContent('');
+  //      infowindow.marker = marker;
+  //      // Make sure the marker property is cleared if the infowindow is closed.
+  //      infowindow.addListener('closeclick', function() {
+  //        infowindow.marker = null;
+  //      });}
+
+  if (bool_updated_waiting_time == false){
+
+    alert("bool_updated_waiting_time == false");
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.close();
+        infowindow.setContent(html_content);
+        infowindow.open(map, marker);
+        infowindow.marker = marker;
+    });
+
+
+  } else {
+
+    if (infowindow.marker != marker) {
+
+        alert("infowindow.marker != marker");
+
+           infowindow.close();
+           infowindow.setContent('');
+
+    }
+
+    alert("bool_updated_waiting_time == true");
+
+    infowindow.close();
+    infowindow.setContent(html_content);
+    infowindow.open(map, marker);
+    infowindow.marker = marker;
+
+
+
+  }
+
+       // Make sure the marker property is cleared if the infowindow is closed.
+       infowindow.addListener('closeclick', function() {
+         infowindow.marker = null;
+       });
+
+     }
+
+
 //====================================================================================
 // this gets called when you click the fav-button rendered in InfoWindow
 function createFavoriteSpot(fav_lat, fav_lng) {
@@ -185,23 +223,24 @@ function getFavoriteSpots() {
     var userData = {
       'user_id': userId
     };
+    setFalsebooldisplayinfowindow();
     $.get('/get_favorite_places', userData, makeSavedMarkers);
   } // end of if UserId
 
 } //====================================================================================
 // this function is called to get updated waiting time
 
-function getUpdateWaitingTime() {
-  var userId = $('#logout-link').data('userid');
-  //alert('function getFavoriteSpots was trigged')
-  if (userId !== undefined && userId !== null) {
-    var userData = {
-      'user_id': userId
-    };
-    $.get('/get_updated_waiting_time', userData, makeSavedMarkers);
-  } // end of if UserId
-
-} //====================================================================================
+// function getUpdateWaitingTime() {
+//   var userId = $('#logout-link').data('userid');
+//   //alert('function getFavoriteSpots was trigged')
+//   if (userId !== undefined && userId !== null) {
+//     var userData = {
+//       'user_id': userId
+//     };
+//     $.get('/get_updated_waiting_time', userData, makeSavedMarkers);
+//   } // end of if UserId
+//
+// } //====================================================================================
 // Function to create markers of previous saved favorite places and display InfoWindow to update waiting time
 // functtion for debugger
 
@@ -246,49 +285,25 @@ function makeSavedMarkers(response) {
 //====================================================================================
 // Add markers for previous saved places
 
-function addMarkerPreviousPlaces(f_lat, f_lng, map, waiting_time) {
+function addMarkerPreviousPlaces(lat, long, map, waiting_time) {
   // Add function to show
   var myLatLng = {
-    lat: f_lat,
-    lng: f_lng
+    lat: lat,
+    lng: long
   };
+
+  // Add function to show
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map
   });
-  // Push the marker to the array of markers.
-  markers.push(marker);
-  // Call Function to add infoWindow as soon as the marker was created
-  addInfoWindowPreviousPlaces(f_lat, f_lng, marker, waiting_time);
-} // End offunction addMarkerPreviousPlaces
+  // Push the marker to our array of markers.
+  //markers.push(marker);
 
-function addInfoWindowPreviousPlaces(lat, long, favMark, waiting_time) {
-  /***
+  var infowindow = new google.maps.InfoWindow({
+      width: 150
+  });
 
-      Waiting time will be definied as
-      Short - Less 10 min
-      Medium - Btw 15 and 25 min
-      Long - Over 30 min
-
-
-      ***/
-  //bool_display_infowindow will be used to show infowindow in case of update of waiting time
-  // loop to close the  previous infowindow
-  // if (bool_display_infowindow == true) {
-  //   //closeAllInfoWindows(lat, long);
-  //
-  //   var marker_position = favMark.getPosition();
-  //
-  //   for (var i = 0; i < markers.length; i++) {
-  //     var x = markers[i].position;
-  //
-  //     if (marker_position == x){
-  //       markers[i].setMap(null);
-  //     }
-  //   }
-  //
-  //
-  // }
   var aux_waiting_time = Math.round(waiting_time);
   var contentWaitinTime = '<div id="content">' +
   '<p>Current Waiting Time : ' + aux_waiting_time + ' min</p>' +
@@ -302,24 +317,15 @@ function addInfoWindowPreviousPlaces(lat, long, favMark, waiting_time) {
   '<p> </p>' +
   '<button class="btn waves-effect waves-light red" id="remove_saved_places" type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" >Uncheckz!</button>' +
   '</div>';
-  var infowindow = new google.maps.InfoWindow({
-    content: contentWaitinTime,
-    position: favMark.getPosition()
-  });
-  // if case to show to display infowindow
-  if (bool_display_infowindow == true) {
-    //closeAllInfoWindows();
-    infowindow.open(map, favMark);
-    //add infowindow to array
-    //infoWindows.push(infowindow);
-  } else {
-    favMark.addListener('click', function () {
-      infowindow.open(map, favMark);
-    });
-  } //add infowindow to array
-  //infoWindows.push(infowindow);
 
-}; // End of addInfoWindowFavoritePlaces
+  bindInfoWindow(marker, map, infowindow, contentWaitinTime,bool_display_infowindow);
+
+
+  setFalsebooldisplayinfowindow();
+
+} // End offunction addMarkerPreviousPlaces
+
+
 //====================================================================================
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
@@ -399,7 +405,7 @@ function locateUser() {
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
       });
       // Push the marker to the array of markers.
-      markers.push(favMark);
+      //markers.push(favMark);
       // Call function to display pop up to save place as favorite
       addInfoWindowFavoritePlaces(lat, long, favMark);
       window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -426,9 +432,11 @@ function handleNoGeolocation(errorFlag) {
 // This function will loop through the listings and hide them all.
 
 function hideListings() {
+  alert("hideListings");
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
-  } //markers = [];
+  }
+  markers = [];
 
 } //====================================================================================
 // Code related to geocoding

@@ -114,7 +114,9 @@ def connect_to_db(app):
 
     """Connect the database to our Flask app."""
     # create the sqlalchemy db
-    curDir = os.getcwd()  # current working dir
+    #curDir = os.getcwd()  # current working dir
+
+    curDir = os.path.abspath(os.path.dirname(__file__))
 
     PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
 
