@@ -12,6 +12,14 @@ var marker_address; // variable to receive address based on the lat, and long
 var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
+
+// ====================================
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer({
+  polylineOptions: {
+    strokeColor: "orange"
+  }
+});
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -115,19 +123,19 @@ function addMarker(latLng, lat, long, map) {
         '<select id="type_selected_location" class="browser-default">' +
         '<option value="" disabled selected> Checkz place as favorite </option>' +
         '<option value="Eat">Eat</option>' +
-        '<option value="Fun">See</option>' +
+        '<option value="Fun">Fun</option>' +
         '<option value="Health">Health</option>' +
         '</select>' + //Waiting time
-        '<button class="btn waves-effect waves-light green" id="favotite-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" >Checkz!</button>' +
+        '<button class="btn waves-effect waves-light green" id="favotite-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" > Checkz! </button>' +
         '<p> </p>' +
         '<label> Directions to shortest waiting time </label>' +
         '<select id="type_selected_navigate" class="browser-default">' +
         '<option value="" disabled selected> Select type of place to get directions to</option>' +
         '<option value="Eat">Eat</option>' +
-        '<option value="Fun">See</option>' +
+        '<option value="Fun">Fun</option>' +
         '<option value="Health">Health</option>' +
         '</select>' + //Navigate
-        '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="get_location_shortest_waitint_time(' + lat + ',' + long + ')" >Get directions!</button>' +
+        '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="get_location_shortest_time(' + lat + ',' + long + ')" > Get directions</button>' +
         '</div>' +
         '</div>';
 
@@ -175,50 +183,69 @@ function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_wait
 }
 
 
-function getDirections(userLat, userLng) {
+function getDirections(response) {
 
-  $('#right-panel').removeClass('hidden');
+  if (response['saved_places'].length == 0) {
+      alert('User does not have saved any previous favorite place of selected type!')
+  } else {
+      //var placefavLatLng;
+      //  var placefavMark;
+      for (var i = 0; i < response['saved_places'].length; i++) {
+          // unpacking response data
+          //variables related to destination
+          dest_lat = parseFloat(response['saved_places'][i]['location_lat']);
+          dest_long = parseFloat(response['saved_places'][i]['location_long']);
+          //variables related to current user location
+          current_location_lat = response['saved_places'][i]['current_location_lat'];
+          current_location_long = response['saved_places'][i]['current_location_long'];
+          //
+          // saved_places.append({'current_location_lat': location_lat,
+          //               'current_location_long':location_long})
+
+          var markLatLng = new google.maps.LatLng(dest_lat, dest_long);
+          //variable relate to user current location
+          var curLatLng = new google.maps.LatLng(current_location_lat, current_location_long);
+
+        //  directionsDisplay.setMap(favMap);
+          // directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+          var request = {
+            // window.userLocation is global
+            origin: curLatLng,
+            destination: markLatLng,
+            travelMode: google.maps.TravelMode.DRIVING
+          };
+
+          directionsService.route(request, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(result);
+              alert("directionsService");
+            }
+          });
+
+        }}
 
 
-  var markLatLng = new google.maps.LatLng(parkLat, parkLng);
-
-  directionsDisplay.setMap(map);
-  directionsDisplay.setPanel(document.getElementById('right-panel'));
-
-  var request = {
-    // window.userLocation is global
-    origin: userLocation,
-    destination: markLatLng,
-    travelMode: google.maps.TravelMode.DRIVING
-  };
-
-  directionsService.route(request, function(result, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(result);
-    }
-  });
-}
+}//End of function
 
 
 
 //====================================================================================
 // this gets called when you click the navigate-button rendered in InfoWindow
-function get_location_shortest_waitint_time(fav_lat, fav_lng) {
-    // grabbing user id from html that only shows if user is in session
+function get_location_shortest_time(fav_lat, fav_lng) {
+    // grabbing user id from html that only w if user is in session
     var userId = $('#logout-link').data('userid');
     if (userId !== undefined) {
         // Getting value of type_location from HTML
         var type_location = document.getElementById('type_selected_navigate').value // Variable to be send to endpoint
-        debugger;
+        alert(type_location);
         var markerData = {
             'type_location': type_location,
             'user_id': userId,
             'location_lat': fav_lat,
             'location_long': fav_lng
         };
-
-          $.get('/get_direction_shortest_waiting_time', userData, getDirections);
-
+          $.get('/get_direction_shortest_time', markerData, getDirections);
 
     } else {
         alert('You need to be logged in to navigate to previous saved spots.');

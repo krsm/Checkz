@@ -351,13 +351,14 @@ def get_updated_waiting_time():
         # get all saved places by all users
         #querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
 
-            #to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
-             #                                SavedPlaces.location_long == location_long).delete()
+        #to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
+        #                                SavedPlaces.location_long == location_long).delete()
 
         allsavedplaces = SavedPlaces.query.filter(SavedPlaces.user_id == user_id,SavedPlaces.location_lat == location_lat,
                                                   SavedPlaces.location_long == location_long).all()
 
-        print(allsavedplaces)
+
+        #print(allsavedplaces)
 
         #TODO evaluate use the user current location to display just the saved places in a range closer to user current location
 
@@ -440,18 +441,16 @@ def update_waiting_time():
 
 
 # route to update the waiting time
-@app.route('/get_direction_shortest_waiting_time', methods=['POST'])
-def get_shortest_waiting_time():
-
-
+# ----------------------------------------------------------------------
+@app.route('/get_direction_shortest_time', methods=['GET'])
+def get_direction_shortest_time():
     # parsing request data
     # -------------------------
-
-    user_id = request.form.get('user_id')
-    location_lat = request.form.get('location_lat')
-    location_long = request.form.get('location_long')
-    waiting_time = request.form.get('updated_waiting_time')
-    type_location = request.form.get('type_location')
+    user_id = request.args.get('user_id')
+    location_lat = request.args.get('location_lat')
+    location_long = request.args.get('location_long')
+    waiting_time = request.args.get('updated_waiting_time')
+    type_location = request.args.get('type_location')
 
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()  # get a new data to update
@@ -463,19 +462,18 @@ def get_shortest_waiting_time():
 
     if owner_name is not None:
 
-           # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+        # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
         # get all saved places by all users
-        querysavedplaces = current_session.query(SavedPlaces).filter(user_id = user_id, type_location = type_location).\
-            order_by(SavedPlaces.waiting_time)
+        querysavedplaces = SavedPlaces.query.filter_by(user_id = user_id,type_location = type_location).order_by(SavedPlaces.waiting_time)
 
-        saved_places = {}
+        saved_places = []
 
         if querysavedplaces is not None:
 
             for location in querysavedplaces:
 
-                print(location.waiting_time,location.type_location)
+                #print(location.waiting_time,location.type_location)
 
                 saved_places.append({'user_id': location.user_id,
                                      'created_timestamp': location.created_timestamp,
@@ -486,7 +484,13 @@ def get_shortest_waiting_time():
                                      'waiting_time': location.waiting_time,
                                      'type_location': location.type_location})
 
+                saved_places.append({'current_location_lat': location_lat,
+                                    'current_location_long':location_long})
+
         current_session.close()
+
+
+
 
         # response = make_response(json.dumps(saved_places))
         #
@@ -494,14 +498,12 @@ def get_shortest_waiting_time():
         #
         # print(response)
 
-        print(saved_places)
+        for s in saved_places:
+            print(s)
 
         return jsonify({"saved_places": saved_places})
 
 
-
-
-    return
 
 
 '''
