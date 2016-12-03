@@ -9,6 +9,13 @@ from flask import abort, url_for
 import geofuntcions as gf
 from models import connect_to_db, db, User, SavedPlaces
 
+#related to sqlalchemy
+
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
+
+
+
 # ----------------------
 # Max distance btw 2 locations
 # it will be to compare the distance
@@ -432,6 +439,71 @@ def update_waiting_time():
     return "update_waiting_time_done"
 
 
+# route to update the waiting time
+@app.route('/get_direction_shortest_waiting_time', methods=['POST'])
+def get_shortest_waiting_time():
+
+
+    # parsing request data
+    # -------------------------
+
+    user_id = request.form.get('user_id')
+    location_lat = request.form.get('location_lat')
+    location_long = request.form.get('location_long')
+    waiting_time = request.form.get('updated_waiting_time')
+    type_location = request.form.get('type_location')
+
+    created_timestamp = datetime.datetime.now()
+    modified_timestamp = datetime.datetime.now()  # get a new data to update
+
+    # ---------------------------
+    current_session = db.session  # open database session
+    # query table USer to get username and then query by user
+    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+
+    if owner_name is not None:
+
+           # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+        # get all saved places by all users
+        querysavedplaces = current_session.query(SavedPlaces).filter(user_id = user_id, type_location = type_location).\
+            order_by(SavedPlaces.waiting_time)
+
+        saved_places = {}
+
+        if querysavedplaces is not None:
+
+            for location in querysavedplaces:
+
+                print(location.waiting_time,location.type_location)
+
+                saved_places.append({'user_id': location.user_id,
+                                     'created_timestamp': location.created_timestamp,
+                                     'modified_timestamp': location.modified_timestamp,
+                                     'location_lat': location.location_lat,
+                                     'location_long': location.location_long,
+                                     'address': location.address,
+                                     'waiting_time': location.waiting_time,
+                                     'type_location': location.type_location})
+
+        current_session.close()
+
+        # response = make_response(json.dumps(saved_places))
+        #
+        # response.content_type = "application/json"
+        #
+        # print(response)
+
+        print(saved_places)
+
+        return jsonify({"saved_places": saved_places})
+
+
+
+
+    return
+
+
 '''
 
 # Delete saved place
@@ -468,5 +540,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    #app.run()
+    #app.run(host="192.168.1.110")
+    app.run()

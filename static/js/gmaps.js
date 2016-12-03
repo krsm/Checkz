@@ -127,7 +127,7 @@ function addMarker(latLng, lat, long, map) {
         '<option value="Fun">See</option>' +
         '<option value="Health">Health</option>' +
         '</select>' + //Navigate
-        '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" >Get directions!</button>' +
+        '<button class="btn waves-effect waves-light blue" id="navigate-button" type="button" onclick="get_location_shortest_waitint_time(' + lat + ',' + long + ')" >Get directions!</button>' +
         '</div>' +
         '</div>';
 
@@ -173,6 +173,60 @@ function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_wait
         setFalsebooldisplayinfowindow();
 
 }
+
+
+function getDirections(userLat, userLng) {
+
+  $('#right-panel').removeClass('hidden');
+
+
+  var markLatLng = new google.maps.LatLng(parkLat, parkLng);
+
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+  var request = {
+    // window.userLocation is global
+    origin: userLocation,
+    destination: markLatLng,
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    }
+  });
+}
+
+
+
+//====================================================================================
+// this gets called when you click the navigate-button rendered in InfoWindow
+function get_location_shortest_waitint_time(fav_lat, fav_lng) {
+    // grabbing user id from html that only shows if user is in session
+    var userId = $('#logout-link').data('userid');
+    if (userId !== undefined) {
+        // Getting value of type_location from HTML
+        var type_location = document.getElementById('type_selected_navigate').value // Variable to be send to endpoint
+        debugger;
+        var markerData = {
+            'type_location': type_location,
+            'user_id': userId,
+            'location_lat': fav_lat,
+            'location_long': fav_lng
+        };
+
+          $.get('/get_direction_shortest_waiting_time', userData, getDirections);
+
+
+    } else {
+        alert('You need to be logged in to navigate to previous saved spots.');
+    }
+} //====================================================================================
+
+
+
 
 
 //====================================================================================
