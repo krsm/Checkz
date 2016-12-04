@@ -13,10 +13,44 @@
 {% block body %}
 
 <!-- Maps group -->
-<div class="container">
-<div id="map_container"></div>
-<div id="map" style="width:100%;height:1200px"></div>
-</div>
+
+
+<div class="row">
+
+    <div id="map" style="width:100%;height:1250px" class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
+      <!-- Grey navigation panel
+
+            This content will be:
+        3-columns-wide on large screens,
+        4-columns-wide on medium screens,
+        12-columns-wide on small screens  -->
+
+    </div>
+
+    <div class="fixed-action-btn">
+       <a class="btn-floating btn-large red">
+         <i class="large material-icons">mode_edit</i>
+       </a>
+       <ul>
+         <li><a class="btn-floating green action-favourites-showmodal"><i class="material-icons">favorite</i> Show Info about favorite</a></li>
+       </ul>
+     </div>
+
+
+    <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
+      <!-- Teal page content
+
+            This content will be:
+        9-columns-wide on large screens,
+        8-columns-wide on medium screens,
+        12-columns-wide on small screens  -->
+
+    </div>
+
+  </div>
+
+
+
 
 <!-- Javascript Functions related to Map -->
 
