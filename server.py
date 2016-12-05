@@ -9,6 +9,7 @@ from flask import abort, url_for
 import geofuntcions as gf
 from models import connect_to_db, db, User, SavedPlaces
 
+
 #related to sqlalchemy
 
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -465,7 +466,11 @@ def get_direction_shortest_time():
         # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
         # get all saved places by all users
-        querysavedplaces = SavedPlaces.query.filter_by(user_id = user_id,type_location = type_location).order_by(SavedPlaces.waiting_time)
+        querysavedplaces = [SavedPlaces.query.filter_by(user_id = user_id,type_location = type_location).order_by('waitingtime').first()]
+
+        data = [query.serialize for query in querysavedplaces]
+
+        # print(data)
 
         saved_places = []
 
@@ -482,10 +487,12 @@ def get_direction_shortest_time():
                                      'location_long': location.location_long,
                                      'address': location.address,
                                      'waiting_time': location.waiting_time,
-                                     'type_location': location.type_location})
-
-                saved_places.append({'current_location_lat': location_lat,
-                                    'current_location_long':location_long})
+                                     'type_location': location.type_location,
+                                     'current_location_lat': location_lat,
+                                     'current_location_long': location_long})
+                #
+                # saved_places.append({'current_location_lat': location_lat,
+                #                     'current_location_long':location_long})
 
         current_session.close()
 
@@ -498,8 +505,8 @@ def get_direction_shortest_time():
         #
         # print(response)
 
-        for s in saved_places:
-            print(s)
+        # for s in saved_places:
+        #     print(s)
 
         return jsonify({"saved_places": saved_places})
 
@@ -542,5 +549,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     #DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    #app.run()
+    #app.run(host="192.168.1.110")
+    app.run()

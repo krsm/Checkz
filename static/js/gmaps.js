@@ -13,13 +13,13 @@ var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
 
+
+
+
 // ====================================
-var directionsService = new google.maps.DirectionsService();
-var directionsDisplay = new google.maps.DirectionsRenderer({
-  polylineOptions: {
-    strokeColor: "orange"
-  }
-});
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService;
+
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -39,6 +39,9 @@ var favMap;
 //var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
+
+    directionsDisplay= new google.maps.DirectionsRenderer();
+
     //====================================================================================
     // Code related to geocoding
     //  // grab search-term from URL
@@ -66,6 +69,9 @@ function initFavMap() {
         streetViewControl: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }); // End of favMap
+
+     directionsDisplay.setMap(favMap);
+
     // ==============================================================
     // Related to geocoding
     // address = /** @type {!HTMLInputElement} */
@@ -190,14 +196,16 @@ function getDirections(response) {
   } else {
       //var placefavLatLng;
       //  var placefavMark;
-      for (var i = 0; i < response['saved_places'].length; i++) {
+    //  var x = response['saved_places'].length - (response['saved_places'].length -1);//hahahaha
+
+      for (var i = 0; i < response['saved_places'].length ; i++) {
           // unpacking response data
           //variables related to destination
           dest_lat = parseFloat(response['saved_places'][i]['location_lat']);
           dest_long = parseFloat(response['saved_places'][i]['location_long']);
-          //variables related to current user location
-          current_location_lat = response['saved_places'][i]['current_location_lat'];
-          current_location_long = response['saved_places'][i]['current_location_long'];
+          // //variables related to current user location
+          current_location_lat = parseFloat(response['saved_places'][i]['current_location_lat']);
+          current_location_long = parseFloat(response['saved_places'][i]['current_location_long']);
           //
           // saved_places.append({'current_location_lat': location_lat,
           //               'current_location_long':location_long})
@@ -205,10 +213,13 @@ function getDirections(response) {
           var markLatLng = new google.maps.LatLng(dest_lat, dest_long);
           //variable relate to user current location
           var curLatLng = new google.maps.LatLng(current_location_lat, current_location_long);
+          //
+          alert(markLatLng);
+          alert(curLatLng);
 
         //  directionsDisplay.setMap(favMap);
           // directionsDisplay.setPanel(document.getElementById('right-panel'));
-
+          //
           var request = {
             // window.userLocation is global
             origin: curLatLng,
@@ -217,13 +228,48 @@ function getDirections(response) {
           };
 
           directionsService.route(request, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-              directionsDisplay.setDirections(result);
-              alert("directionsService");
-            }
-          });
+    if (status == 'OK') {
+      directionsDisplay.setDirections(result);
+    }
+  });
 
-        }}
+
+
+    //       alert(curLatLng);
+    //       alert(markLatLng);
+    //
+    //       directionsService.route(request, function(result, status) {
+    // if (status == 'OK') {
+    //   directionsDisplay.setDirections(result);
+    // }
+  // });
+
+
+
+          // directionsService.route({
+          //
+          //   origin: curLatLng,
+          //   destination: markLatLng,
+          //   travelMode: google.maps.TravelMode.DRIVING
+          //
+          // }, function(result, status) {
+          //    if (status == google.maps.DirectionsStatus.OK) {
+          //   //
+          //   //   var directionsDisplay = new google.maps.DirectionsRenderer({
+          //   //     map: favMap,
+          //   //     directions: result,
+          //   //     draggable: true,
+          //   //     polylineOptions: {
+          //   // //       strokeColor: "orange"
+          //   // //     }
+          //   // //   });
+          //   //   // directionsDisplay.setDirections(result);
+          //   alert("directionsService");
+          //    }
+          // });
+
+        }// End of for loop
+      }//End of else
 
 
 }//End of function
@@ -542,6 +588,8 @@ function hideListings() {
         markers[i].setMap(null);
         //alert(markers[i].position[0]);
     }
+    // directionsDisplay.setMap(null);
+
 } //====================================================================================
 // Code related to geocoding
 //====================================================================================
