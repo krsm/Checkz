@@ -214,8 +214,8 @@ function getDirections(response) {
           //variable relate to user current location
           var curLatLng = new google.maps.LatLng(current_location_lat, current_location_long);
           //
-          alert(markLatLng);
-          alert(curLatLng);
+          // alert(markLatLng);
+          // alert(curLatLng);
 
         //  directionsDisplay.setMap(favMap);
           // directionsDisplay.setPanel(document.getElementById('right-panel'));
@@ -385,7 +385,7 @@ function makeSavedMarkers(response) {
     Long - Over 30 min
     ***/
             // Adding previous saved locations to map
-            addMarkerPreviousPlaces(place_lat, place_long, favMap,place_waiting_time);
+            addMarkerPreviousPlaces(place_lat, place_long, favMap,place_waiting_time,place_type_location);
             // Adding infoWindow to the previous saved locations
         } // end of for
 
@@ -395,7 +395,7 @@ function makeSavedMarkers(response) {
 //====================================================================================
 // Add markers for previous saved places
 
-function addMarkerPreviousPlaces(lat, long, map, waiting_time) {
+function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
     // Add function to show
     var myLatLng = {
         lat: lat,
@@ -412,17 +412,64 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time) {
     // Add function to show
     var aux_icon;
 
+    // switch (type_location) {
+    //   case "Fun":
+    //     aux_icon = '/static/img/food_green.png'
+    //   case "Food":
+    //     aux_icon = '/static/img/food_green.png'
+    //   case "Health":
+    //   aux_icon = '/static/img/food_green.png'
+    // }
+
     if( waiting_time < 20){
       //aux_icon: 'http://maps.google.com/mapfiles/ms/icons/green.png'
-      aux_icon ='http://maps.google.com/mapfiles/ms/icons/green.png';
+
+      switch (type_location) {
+        case "Fun":
+          aux_icon = '/static/img/fun_green.png'
+                    break
+        case "Eat":
+          aux_icon = '/static/img/food_green.png'
+                    break
+        case "Health":
+          aux_icon = '/static/img/health_green.png'
+                    break
+      }
+
+      // aux_icon ='http://maps.google.com/mapfiles/ms/icons/green.png';
     }
     if ((20 < waiting_time) && (waiting_time < 45)){
-      aux_icon= 'http://maps.google.com/mapfiles/ms/icons/yellow.png';
+
+      switch (type_location) {
+        case "Fun":
+          aux_icon = '/static/img/fun_yellow.png'
+          break
+        case "Eat":
+          aux_icon = '/static/img/food_yellow.png'
+                    break
+        case "Health":
+          aux_icon = '/static/img/health_yellow.png'
+                    break
+      }
+
+      // aux_icon= 'http://maps.google.com/mapfiles/ms/icons/yellow.png';
     //  icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
     }
     if (waiting_time > 45){
+
+      switch (type_location) {
+        case "Fun":
+          aux_icon = '/static/img/fun_red.png'
+                    break
+        case "Eat":
+          aux_icon = '/static/img/food_red.png'
+                    break
+        case "Health":
+        aux_icon = '/static/img/health_red.png'
+                  break
+      }
       //aux_icon: 'http://maps.google.com/mapfiles/ms/icons/red.png'
-        aux_icon ='http://maps.google.com/mapfiles/ms/icons/red.png';
+        // aux_icon ='http://maps.google.com/mapfiles/ms/icons/red.png';
     }
 
     var marker = new google.maps.Marker({
@@ -439,6 +486,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time) {
     var aux_waiting_time = Math.round(waiting_time);
     var contentWaitinTime = '<div id="content">' +
         '<p>Current Waiting Time : ' + aux_waiting_time + ' min</p>' +
+        '<p>Type of location : ' + type_location + '</p>' +
         '<p>Update Waiting Time </p>' +
         '<form action="#">' +
         '<p class="range-field">' +
