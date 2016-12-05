@@ -307,7 +307,6 @@ def remove_favorite_place():
 
     #to_be_removed = current_session.query(SavedPlaces).filter_by(SavedPlaces.user_id == user_id, SavedPlaces.location_lat ==location_lat,
     #                                                         SavedPlaces.location_long == location_long).first()
-
     to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                              SavedPlaces.location_long == location_long).delete()
 
