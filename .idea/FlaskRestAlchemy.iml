@@ -7,6 +7,8 @@
     <orderEntry type="module" module-name="Flask_JS" />
     <orderEntry type="module" module-name="park-place-master" />
     <orderEntry type="module" module-name="JqueryFlask" />
+    <orderEntry type="module" module-name="tempo" />
+    <orderEntry type="module" module-name="Clock_app" />
   </component>
   <component name="ReSTService">
     <option name="workdir" value="$MODULE_DIR$" />

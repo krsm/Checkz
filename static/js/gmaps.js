@@ -13,9 +13,6 @@ var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
 
-
-
-
 // ====================================
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService;
@@ -53,10 +50,11 @@ function initFavMap() {
     // Enf of Code related to geocoding
     //====================================================================================
     //Initialize value
-    // set LatLng to SF
+    // set LatLng to Durham
     var sfLatLng = {
-        lat: 37.780919,
-        lng: -122.46568 //  37.780919, -122.465680
+        lat: 35.9940,
+        lng: 78.8986 //
+        //35.9940° N, 78.8986° W
     };
     // create a map object and specify the DOM element for display
     // map appears in map.html
@@ -233,40 +231,6 @@ function getDirections(response) {
     }
   });
 
-
-
-    //       alert(curLatLng);
-    //       alert(markLatLng);
-    //
-    //       directionsService.route(request, function(result, status) {
-    // if (status == 'OK') {
-    //   directionsDisplay.setDirections(result);
-    // }
-  // });
-
-
-
-          // directionsService.route({
-          //
-          //   origin: curLatLng,
-          //   destination: markLatLng,
-          //   travelMode: google.maps.TravelMode.DRIVING
-          //
-          // }, function(result, status) {
-          //    if (status == google.maps.DirectionsStatus.OK) {
-          //   //
-          //   //   var directionsDisplay = new google.maps.DirectionsRenderer({
-          //   //     map: favMap,
-          //   //     directions: result,
-          //   //     draggable: true,
-          //   //     polylineOptions: {
-          //   // //       strokeColor: "orange"
-          //   // //     }
-          //   // //   });
-          //   //   // directionsDisplay.setDirections(result);
-          //   alert("directionsService");
-          //    }
-          // });
 
         }// End of for loop
       }//End of else
@@ -485,7 +449,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
 
     var aux_waiting_time = Math.round(waiting_time);
     var contentWaitinTime = '<div id="content">' +
-        '<p>Current Waiting Time : ' + aux_waiting_time + ' min</p>' +
+        '<p>Current Waiting Time : ' + aux_waiting_time + 'min, '+ 'Type of location: ' + type_location +'</p>' +
         '<p>Type of location : ' + type_location + '</p>' +
         '<p>Update Waiting Time </p>' +
         '<form action="#">' +
@@ -524,6 +488,7 @@ function RemovePreviousSaved(lat, long) {
         };
         $.post('/remove_favorite_place', delData, function() {
             alert('That spot has been deleted.');
+            remove_marker(lat, long);
         });
         // getting remaining positions and populating the screen
         $.get('/get_favorite_places', userData, makeSavedMarkers);
@@ -605,8 +570,6 @@ function close_marker(lat, long) {
 
     var new_marker_position = new google.maps.LatLng(lat, long);
 
-    //alert(new_marker_position);
-
     for (var i = 0; i < markers.length; i++) {
 
         var marker_oldLat = markers[i].getPosition().lat();
@@ -618,17 +581,11 @@ function close_marker(lat, long) {
             } // end of if long
         } // end of id lat
 
-        //
-        // var old_marker_position =  new google.maps.LatLng(marker_oldLat, marker_oldLng);
-        //
-        // alert(old_marker_position);
+    } // End of for
 
-        // if(old_marker_position == new_marker_position){
-        //
-        // }
-    }
+} // End of close_marker
 
-}
+
 
 // function to hide all markers
 function hideListings() {
@@ -707,6 +664,52 @@ function getAddress(lat, long) {
 } //====================================================================================
 // End of Code related to geocoding
 //====================================================================================
+
+
+// function to remove a marker
+function remove_marker(lat, long) {
+
+  //var to_be_removed_marker_position = new google.maps.LatLng(lat, long);
+
+  for (var i = 0; i < markers.length; i++) {
+
+      var aux_maker_Lat = markers[i].getPosition().lat();
+      var aux_marker_Lng = markers[i].getPosition().lng();
+
+      if (lat == aux_maker_Lat) {
+          if (long == aux_marker_Lng) {
+              markers[i] = [];
+          } // end of if long
+      } // end of id lat
+
+    } // end of for
+
+    // directionsDisplay.setMap(null);
+
+} //====================================================================================
+
+
+// //function will hide an specific marker based on a predefinied position
+// function close_marker(lat, long) {
+//
+//     var new_marker_position = new google.maps.LatLng(lat, long);
+//
+//     for (var i = 0; i < markers.length; i++) {
+//
+//         var marker_oldLat = markers[i].getPosition().lat();
+//         var marker_oldLng = markers[i].getPosition().lng();
+//
+//         if (lat == marker_oldLat) {
+//             if (long == marker_oldLng) {
+//                 markers[i].setMap(null);
+//             } // end of if long
+//         } // end of id lat
+//
+//     } // End of for
+//
+// } // End of close_marker
+
+
 
 function closeAllInfoWindows(lat, long) {
     for (var i = 0; i < infoWindows.length; i++) {

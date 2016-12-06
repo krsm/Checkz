@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/Clock_app/.idea/Clock_app.iml" filepath="$PROJECT_DIR$/../../../GitHub/Clock_app/.idea/Clock_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" filepath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../Flask_JS/.idea/Flask_JS.iml" filepath="$PROJECT_DIR$/../Flask_JS/.idea/Flask_JS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JqueryFlask/.idea/JqueryFlask.iml" filepath="$PROJECT_DIR$/../JqueryFlask/.idea/JqueryFlask.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" filepath="$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/tempo/.idea/tempo.iml" filepath="$PROJECT_DIR$/../../../GitHub/tempo/.idea/tempo.iml" />
     </modules>
   </component>
 </project>

@@ -37,6 +37,12 @@
             <a href="#!" class="brand-logo">  Checkz </a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
+                        <li class="search">
+          <div class="search-wrapper card">
+            <input id="search"><i class="material-icons">search</i>
+            <div class="search-results"></div>
+          </div>
+        </li>
                 <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
                 {% if session.get('user_id') %}
