@@ -32,31 +32,8 @@
 
     <!--  Nav Bar-->
     <nav>
-  <div class="nav-wrapper">
-    <div class="row">
-      <div class="col s10">
-        <form>
-          <div class="input-field">
-            <input id="search" type="search" />
-            <label for="search"><i class="material-icons">search</i></label>
-          </div>
-        </form>
-      </div>
-      <div class="col s2">
-        <ul class="right">
-          <li><a href="#"><i class="material-icons">close</i></a></li>
-          <li><a href="#"><i class="material-icons">link</i></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-
-
-
-    <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">  Checkz </a>
+            <a href={{url_for("about_page")}} class="brand-logo">  Checkz </a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                         <li class="search">
@@ -76,8 +53,8 @@
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
                 <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for( "logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
                 {% else %}
-                <li><a href={{url_for( "register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
-                <li><a href={{url_for( "login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
+                <li><a href={{url_for("register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
+                <li><a href={{url_for("login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
                 {% endif %}
 
             </ul>

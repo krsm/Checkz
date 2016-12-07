@@ -2,6 +2,11 @@
 
 {% block body %}
 
+{% block head %}
+
+<title>Checkz -Log In</title>
+
+{% endblock %}
 
 <div class="row">
 
@@ -13,31 +18,39 @@
         <h2>Sign in to your account</h2>
     </div>
     <br>
-    <form class="col s12" action="{{url_for( 'login' )}}"  method="POST" >
+    <form class="col s12" action="{{url_for( 'login' )}}" method="POST">
         <div class="row">
             <div class="input-field col s6">
 
                 <i class="material-icons prefix">account_circle</i>
-                <input id = "email" type="text" placeholder="Email" name="email" ><br>
+                <input id="email" type="text" placeholder="Email" name="email">
+                <br>
                 <i class="material-icons prefix">lock</i>
                 <input type="password" placeholder="Password" name="password">
+                <br>
 
             </div>
         </div>
         <button class="btn waves-effect waves-light" type="submit" name="action">Login
             <i class="material-icons right">send</i>
-        </button><br>
+        </button>
+        <br>
+        <br>
+
     </form>
 
     {% if error %}
-    <p class="error"><strong>Note:</strong> {{ error }}</p><br>
+    <p class="error"><strong>Note:</strong> {{ error }}</p>
+    <br>
     {% endif %}
     {% endif %}
 
     <div class="col s12">
         Don't have an account?
-        <a href="{{url_for( 'register' )}}" >Register</a>
+        <a href="{{url_for( 'register' )}}">Register</a>
         for a free one instead.
+        <br>
+
     </div>
 
     {% endblock %}

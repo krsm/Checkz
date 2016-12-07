@@ -45,6 +45,10 @@ app.secret_key = os.urandom(24)
 #     if 'username' in session:
 #         g.user = session['username']
 
+#
+
+
+
 @app.route('/register', methods=['POST','GET'])
 def register():
     error = None
@@ -99,7 +103,7 @@ def register():
         return render_template('register.html')
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST','GET'])
 def login():
     current_session = db.session  # open database session
     error = None
@@ -137,6 +141,17 @@ def logout():
 @app.route('/')
 def home():
     return render_template("map.html")
+
+@app.route('/render_map')
+def render_map():
+    return render_template("map.html")
+
+
+# about the page
+@app.route('/about_page')
+def about_page():
+    return render_template("about.html")
+
 
 
 # ------------------------------------------------------
