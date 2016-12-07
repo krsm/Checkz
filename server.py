@@ -157,7 +157,7 @@ def about_page():
 # ------------------------------------------------------
 # ------------------------------------------------------
 # Inserting data
-# Using Method Post
+# Using Method Postr
 # ------------------------------------------------------
 # ------------------------------------------------------
 #   Endpoints related to User Table
@@ -290,7 +290,7 @@ def save_favorite_place():
                     except Exception as e:
                         current_session.rollback()
                         current_session.flush()  # for resetting non-commited .add()
-                        print(e)
+                        # print(e)
                     finally:
                         current_session.close()
                         return "OK modified timestamp update,type_location"  # exit function
@@ -400,7 +400,7 @@ def get_updated_waiting_time():
         #
         # print(response)
 
-        print(saved_places)
+        # print(saved_places)
 
         return jsonify({"saved_places": saved_places})
 

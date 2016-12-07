@@ -12,7 +12,7 @@ var address;
 var autocomplete;
 // ====================================
 var directionsDisplay;
-var directionsService = new google.maps.DirectionsService;
+var directionsService = new google.maps.DirectionsService();
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -191,6 +191,18 @@ function getDirections(response) {
       directionsService.route(request, function (result, status) {
         if (status == 'OK') {
           directionsDisplay.setDirections(result);
+          //open a window
+          // panel=window.open('about:blank','panel','width=200,height=200,scrollbars=yes');
+          // //create a document inside te window
+          // // panel.document.open();
+          // panel.document.write('<body/>');
+          // // panel.document.close();
+          // //set the panel
+          // directionsDisplay.setPanel(panel.document.body);
+          // //bring window into front
+          // panel.focus();
+          // 
+          // directionsDisplay.setPanel($('#myModal'));
         }
       });
     } // End of for loop
@@ -381,8 +393,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
   var infowindow = new google.maps.InfoWindow();
   var aux_waiting_time = Math.round(waiting_time);
   var contentWaitinTime = '<div id="content">' +
-  '<p>Current Waiting Time : ' + aux_waiting_time + 'min, ' + 'Type of location: ' + type_location + '</p>' +
-  '<p>Type of location : ' + type_location + '</p>' +
+  '<p>Current Waiting Time : ' + aux_waiting_time + 'min , ' + 'Type of location: ' + type_location + '</p>' +
   '<p>Update Waiting Time </p>' +
   '<form action="#">' +
   '<p class="range-field">' +
@@ -504,12 +515,25 @@ function close_marker(lat, long) {
 } // End of close_marker
 // function to hide all markers
 
+
+// // // function to clear routes on the map
+// function clear_routes(){
+//   // directionsDisplay.setMap(null);
+//
+//   // Clear past routes
+// if (directionsDisplay != null) {
+//     directionsDisplay.setMap(null);
+//     directionsDisplay = null;
+// }
+// }
+
+
+
 function hideListings() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
-    //alert(markers[i].position[0]);
-  }  // directionsDisplay.setMap(null);
-
+  }// end of for
+  // clear_routes();
 } //====================================================================================
 // Code related to geocoding
 //====================================================================================
