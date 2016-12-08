@@ -21,7 +21,7 @@
             <div class="navbar-fixed">
                 <form>
                     <div class="input-field">
-                        <input id="pac-input" type="search" required>
+                        <input id="pac-input" type="search" required placeholder="Enter a location">
                         <label for="pac-input"><i class="material-icons">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
@@ -30,18 +30,16 @@
         </nav>
     </div>
 
+
+
     <!--  Nav Bar-->
     <nav>
         <div class="nav-wrapper">
             <a href={{url_for("about_page")}} class="brand-logo">  Checkz </a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                        <li class="search">
 
-            <input id="search"><i class="material-icons">search</i>
-            <div class="search-results"></div>
 
-        </li>
                 <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
                 {% if session.get('user_id') %}
@@ -87,10 +85,10 @@
 </head>
 
 <body>
-    <!--Import jQuery before materialize.js-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-    <script>
+<!--Import jQuery before materialize.js-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+<script>
         $(document).ready(function() {
             $(".button-collapse").sideNav();
         });
@@ -98,34 +96,34 @@
 
 
 
-    {% block body %}{% endblock %}
+{% block body %}{% endblock %}
 </body>
 
 
-   <footer class="page-footer">
-          <div class="container">
-            <div class="row">
-              <div class="col l6 s12">
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
                 <h5 class="white-text">Footer Content</h5>
                 <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-              </div>
-              <div class="col l4 offset-l2 s12">
+            </div>
+            <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
                 <ul>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
                 </ul>
-              </div>
             </div>
-          </div>
-          <div class="footer-copyright">
-            <div class="container">
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
             © 2014 Copyright Text
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-          </div>
-        </footer>
+        </div>
+    </div>
+</footer>
 
 </html>

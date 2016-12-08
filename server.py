@@ -455,6 +455,20 @@ def update_waiting_time():
     return "update_waiting_time_done"
 
 
+
+# route to return info about places to user
+# before user be logged in
+@app.route('/get_info_about_close_locations', methods=['GET'])
+def get_info_about_close_locations():
+
+    location_lat = request.args.get('location_lat')
+    location_long = request.args.get('location_long'
+
+
+
+    return "ok"
+
+
 # route to update the waiting time
 # ----------------------------------------------------------------------
 @app.route('/get_direction_shortest_time', methods=['GET'])
@@ -488,7 +502,7 @@ def get_direction_shortest_time():
 
         saved_places = []
 
-        if querysavedplaces is not None:
+        if len(querysavedplaces) is not None:
 
             for location in querysavedplaces:
 

@@ -11,7 +11,7 @@ var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
 // ====================================
-var directionsDisplay;
+var directionsDisplay = new google.maps.DirectionsRenderer();
 var directionsService = new google.maps.DirectionsService();
 // ====================================
 // helper variable related to display infoWindow
@@ -29,7 +29,7 @@ var favMap;
 //var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
-  directionsDisplay = new google.maps.DirectionsRenderer();
+
   //====================================================================================
   // Code related to geocoding
   //  // grab search-term from URL
@@ -58,7 +58,7 @@ function initFavMap() {
     streetViewControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }); // End of favMap
-  directionsDisplay.setMap(favMap);
+  // directionsDisplay.setMap(favMap);
   // ==============================================================
   // Related to geocoding
   // address = /** @type {!HTMLInputElement} */
@@ -156,6 +156,11 @@ function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_wait
 
 // Function to display directions in the map
 function getDirections(response) {
+
+  directionsDisplay.setMap(favMap);
+
+
+
   if (response['saved_places'].length == 0) {
     alert('User does not have saved any previous favorite place of selected type!')
   } else {
@@ -191,6 +196,8 @@ function getDirections(response) {
       directionsService.route(request, function (result, status) {
         if (status == 'OK') {
           directionsDisplay.setDirections(result);
+
+           directionsDisplay.setPanel(document.getElementById('myModal'));
           //open a window
           // panel=window.open('about:blank','panel','width=200,height=200,scrollbars=yes');
           // //create a document inside te window
@@ -201,8 +208,8 @@ function getDirections(response) {
           // directionsDisplay.setPanel(panel.document.body);
           // //bring window into front
           // panel.focus();
-          // 
-          // directionsDisplay.setPanel($('#myModal'));
+          //
+          //  directionsDisplay.setPanel(document.getElementById("myModal"));
         }
       });
     } // End of for loop
