@@ -1,3 +1,8 @@
+
+      <input id="pac-input" type="text" placeholder="Enter a location">
+    <button id="hp-search" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+
+
     <nav>
         <div class="navbar-fixed light-green darken-1">
             <a href="#!" class="brand-logo">Checkz</a>

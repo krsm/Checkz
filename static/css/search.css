@@ -1,0 +1,10 @@
+    .button {
+      float: right;
+    }
+    .input {
+      overflow: hidden;
+      padding: 0 3px 0 0;
+    }
+    .input input {
+      width: 100%
+    }

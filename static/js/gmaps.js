@@ -11,7 +11,10 @@ var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
 // ====================================
-var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsDisplay = new google.maps.DirectionsRenderer({
+              polylineOptions: {
+                strokeColor: 'green',
+              }});
 var directionsService = new google.maps.DirectionsService();
 // ====================================
 // helper variable related to display infoWindow
@@ -61,16 +64,17 @@ function initFavMap() {
   // directionsDisplay.setMap(favMap);
   // ==============================================================
   // Related to geocoding
-  // address = /** @type {!HTMLInputElement} */
-  // (document.getElementById('pac-input'));
-  // // create an autocomplete search bar
-  // autocomplete = new google.maps.places.Autocomplete(address);
-  //alert(autocomplete);
-  // document.getElementById('pac-input').addEventListener('click', addMarkerSearch(autocomplete));
-  //addMarkerSearch
+  address = /** @type {!HTMLInputElement} */
+  (document.getElementById('pac-input'));
+  // create an autocomplete search bar
+  autocomplete = new google.maps.places.Autocomplete(address);
+  alert(autocomplete);
+  document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
+    document.getElementById('pac-input').addEventListener('keypress',  handle(e));
+  // addMarkerSearch
   // Event listenter to get previous favotires places
-  //var userId = $('#logout-link').data('userid');
-  //document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
+  // var userId = $('#logout-link').data('userid');
+  document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
   // Event listenter to trigger locateUser
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
@@ -91,6 +95,18 @@ function initFavMap() {
   // Set the infoWindow bool to false then will have an event click
   document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
+
+//======================================
+//to be deleted    function handle(e){
+
+function handle(e){
+    if(e.keyCode === 13){
+        e.preventDefault(); // Ensure it is only this code that rusn
+        alert("Enter was pressed was presses");
+    }
+}
+
+//======================================
 
 function addMarker(latLng, lat, long, map) {
   //marker_address = getAddress(f_lat, f_lng);
@@ -164,6 +180,8 @@ function getDirections(response) {
   if (response['saved_places'].length == 0) {
     alert('User does not have saved any previous favorite place of selected type!')
   } else {
+    // hide previous markers
+    hideListings();
     //var placefavLatLng;
     //  var placefavMark;
     //  var x = response['saved_places'].length - (response['saved_places'].length -1);//hahahaha

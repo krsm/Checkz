@@ -462,7 +462,7 @@ def update_waiting_time():
 def get_info_about_close_locations():
 
     location_lat = request.args.get('location_lat')
-    location_long = request.args.get('location_long'
+    location_long = request.args.get('location_long')
 
 
 
@@ -494,7 +494,7 @@ def get_direction_shortest_time():
         # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
         # get all saved places by all users
-        querysavedplaces = [SavedPlaces.query.filter_by(user_id = user_id,type_location = type_location).order_by('waitingtime').first()]
+        querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
 
         data = [query.serialize for query in querysavedplaces]
 
