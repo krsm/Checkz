@@ -30,7 +30,7 @@ RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 # Create a flask app and set a random secret key
 # Create the app
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = os.urandom(32)
 
 
 # raises error if you use an undefined variable in Jinja2
@@ -128,7 +128,7 @@ def login():
         # error = "405  Method not allowed"
         return render_template("login.html", error=error)
 
-    current_session.close()
+        current_session.close()
 
 @app.route('/logout/')
 def logout():

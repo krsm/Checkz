@@ -64,13 +64,13 @@ function initFavMap() {
   // directionsDisplay.setMap(favMap);
   // ==============================================================
   // Related to geocoding
-  address = /** @type {!HTMLInputElement} */
-  (document.getElementById('pac-input'));
-  // create an autocomplete search bar
-  autocomplete = new google.maps.places.Autocomplete(address);
-  alert(autocomplete);
-  document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
-    document.getElementById('pac-input').addEventListener('keypress',  handle(e));
+  // address = /** @type {!HTMLInputElement} */
+  // (document.getElementById('pac-input'));
+  // // create an autocomplete search bar
+  // autocomplete = new google.maps.places.Autocomplete(address);
+  // alert(autocomplete);
+  // document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
+  // document.getElementById('pac-input').addEventListener('keypress',  handle(e));
   // addMarkerSearch
   // Event listenter to get previous favotires places
   // var userId = $('#logout-link').data('userid');
@@ -99,12 +99,12 @@ function initFavMap() {
 //======================================
 //to be deleted    function handle(e){
 
-function handle(e){
-    if(e.keyCode === 13){
-        e.preventDefault(); // Ensure it is only this code that rusn
-        alert("Enter was pressed was presses");
-    }
-}
+// function handle(e){
+//     if(e.keyCode === 13){
+//         e.preventDefault(); // Ensure it is only this code that rusn
+//         alert("Enter was pressed was presses");
+//     }
+// }
 
 //======================================
 
@@ -265,7 +265,6 @@ function createFavoriteSpot(fav_lat, fav_lng) {
   if (userId !== undefined) {
     // Getting value of type_location from HTML
     var type_location = document.getElementById('type_selected_location').value // Variable to be send to endpoint
-    debugger;
     var markerData = {
       'type_location': type_location,
       'user_id': userId,
