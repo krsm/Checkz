@@ -47,8 +47,6 @@ app.secret_key = os.urandom(32)
 
 #
 
-
-
 @app.route('/register', methods=['POST','GET'])
 def register():
     error = None
@@ -118,28 +116,32 @@ def login():
 
             session['username'] = possible_user.username
             session['user_id'] = possible_user.id
-            return render_template("map.html")
+            current_session.close()
+            return redirect(url_for("home_page"))
 
         else:
             error = "Invalid Credentials. Please try again."
+            current_session.close()
             return render_template("login.html", error=error)
 
     else:
-        # error = "405  Method not allowed"
+       # error = "405  Method not allowed"
+        current_session.close()
         return render_template("login.html", error=error)
 
-        current_session.close()
+
 
 @app.route('/logout/')
 def logout():
     session.pop('username', None)
     # this remove the entire session dictionary
     session.clear()
-    return render_template("map.html")
+    # to avoid to show logout in the url_browser
+    return redirect(url_for("home_page"))
 
 # Homepage
 @app.route('/')
-def home():
+def home_page():
     return render_template("map.html")
 
 @app.route('/render_map')
