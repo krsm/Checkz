@@ -9,33 +9,26 @@
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection" />
 
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="description" content=" Save favotite places in advance, update waiting time, navigate to the shortest waiting time + shortest ETA. Wait less, do more.">
+    <meta name="keywords" content="waiting time, location, navigation, do more, wait less, python, flask, save time">
+    <meta name="author" content="krsm1984">
 
     <title>Checkz - Wait less, do more.</title>
 
-    <!--NavBar-->
-
-    <!--Fixed Search Nav Bar-->
-    <div class="navbar-fixed">
-        <nav>
-            <div class="navbar-fixed">
-                <form>
-                    <div class="input-field">
-                        <input id="pac-input" type="search" required>
-                        <label for="pac-input"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
-                    </div>
-                </form>
-            </div>
-        </nav>
-    </div>
 
     <!--  Nav Bar-->
     <nav>
-        <div class="nav-wrapper">
-            <a href={{url_for("about_page")}} class="brand-logo">  Checkz </a>
+        <div class="nav-wrapper indigo">
+            <a href={{url_for("about_page")}} class="brand-logo"> Checkz </a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
+
+
+                <!--  from materialize website-->
+                <li><input type="search" id="search_text" placeholder="Enter a Location"></li>
+
 
                 <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
