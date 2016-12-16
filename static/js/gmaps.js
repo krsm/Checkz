@@ -64,12 +64,12 @@ function initFavMap() {
   // directionsDisplay.setMap(favMap);
   // ==============================================================
   // Related to geocoding
-  // address = /** @type {!HTMLInputElement} */
-  // (document.getElementById('pac-input'));
+  address = /** @type {!HTMLInputElement} */
+  (document.getElementById('search_input'));
   // // create an autocomplete search bar
-  // autocomplete = new google.maps.places.Autocomplete(address);
+  autocomplete = new google.maps.places.Autocomplete(address);
   // alert(autocomplete);
-  // document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
+   document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
   // document.getElementById('pac-input').addEventListener('keypress',  handle(e));
   // addMarkerSearch
   // Event listenter to get previous favotires places
@@ -93,7 +93,7 @@ function initFavMap() {
   // Event listenter to get favotites previous savaed places
   document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
   // Set the infoWindow bool to false then will have an event click
-  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
+//  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
 
 //======================================
@@ -175,13 +175,11 @@ function getDirections(response) {
 
   directionsDisplay.setMap(favMap);
 
-
-
   if (response['saved_places'].length == 0) {
     alert('User does not have saved any previous favorite place of selected type!')
   } else {
     // hide previous markers
-    hideListings();
+  //  hideListings();
     //var placefavLatLng;
     //  var placefavMark;
     //  var x = response['saved_places'].length - (response['saved_places'].length -1);//hahahaha
@@ -284,12 +282,14 @@ function createFavoriteSpot(fav_lat, fav_lng) {
 function getFavoriteSpots() {
   var userId = $('#logout-link').data('userid');
   //alert('function getFavoriteSpots was trigged')
-  if (userId !== undefined && userId !== null) {
+  if (userId !== undefined) {
     var userData = {
       'user_id': userId
     };
     $.get('/get_favorite_places', userData, makeSavedMarkers);
-  } // end of if UserId
+  } else {
+    alert('You need to be logged in to see favorite spots.');
+  }// end of if UserId
 
 } //====================================================================================
 // this function is called to get updated waiting time
