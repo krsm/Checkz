@@ -3,6 +3,7 @@
 
 <head>
 
+
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -55,9 +56,11 @@
             <!--  Mobile Nav Bar-->
             <ul class="side-nav" id="mobile-demo">
 
-                <li><a id="my_location_link_mobile"><i class="material-icons right">my_location</i>My location</a></li>
-                <li><a id="show_fav_link_mobile"><i class="material-icons right">grade</i>Show Favorites</a></li>
-                <li><a id="clear_markers_mobile"><i class="material-icons right">delete</i>Clear Map</a></li>
+                <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
+                {% if session.get('user_id') %}
+                <li><a id="show_fav_link"><i class="material-icons right">grade</i>Show Favorites</a></li>
+                {% endif %}
+                <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Map</a></li>
 
                 {% if session.get('user_id') %}
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
@@ -103,7 +106,7 @@
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="white-text">Checkz Content</h5>
+                <h5 class="white-text">Footer Content</h5>
                 <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
             </div>
             <div class="col l4 offset-l2 s12">
@@ -123,9 +126,9 @@
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
     </div>
-
+    
     <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
-
+    
     <p class="made-with-love text-muted small">Made with <i class="fa fa-heart"></i> in NC, USA
 </footer>
 

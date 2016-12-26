@@ -13,7 +13,7 @@ var autocomplete;
 // ====================================
 var directionsDisplay = new google.maps.DirectionsRenderer({
               polylineOptions: {
-                strokeColor: 'green',
+                strokeColor: 'blue',
               }});
 var directionsService = new google.maps.DirectionsService();
 // ====================================
@@ -63,13 +63,13 @@ function initFavMap() {
   }); // End of favMap
   // directionsDisplay.setMap(favMap);
   // ==============================================================
-  // Related to geocoding
-  address = /** @type {!HTMLInputElement} */
-  (document.getElementById('search_input'));
-  // // create an autocomplete search bar
-  autocomplete = new google.maps.places.Autocomplete(address);
-  // alert(autocomplete);
-   document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
+  // // Related to geocoding
+  // address = /** @type {!HTMLInputElement} */
+  // (document.getElementById('search_input'));
+  // // // create an autocomplete search bar
+  // autocomplete = new google.maps.places.Autocomplete(address);
+  // //alert(autocomplete);
+  //  document.getElementById('pac-input').addEventListener('keypress', addMarkerSearch(autocomplete));
   // document.getElementById('pac-input').addEventListener('keypress',  handle(e));
   // addMarkerSearch
   // Event listenter to get previous favotires places
@@ -79,6 +79,20 @@ function initFavMap() {
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
   document.getElementById('clear_markers').addEventListener('click', hideListings);
+
+  //########################################################################
+  // -----------------------
+  // Mobile links
+  // Event listenter to get previous favotires places
+  document.getElementById('show_fav_link_mobile').addEventListener('click', getFavoriteSpots);
+  // Event listenter to trigger locateUser
+  document.getElementById('my_location_link_mobile').addEventListener('click', locateUser);
+  // Event listenter to clear button - to remove all adde markers from map
+  document.getElementById('clear_markers_mobile').addEventListener('click', hideListings);
+
+  // End of Mobile links
+  // -----------------------
+  //########################################################################
   // Event listener to any click in the screen to add a marker
   favMap.addListener('click', function (e) {
     // creating lat and long variables
@@ -90,8 +104,9 @@ function initFavMap() {
     addMarker(e.latLng, e_lat, e_long, favMap);
   }); // End of Function to listen to click event and addd a marker
   // ==============================================================
+  //TODO remove data below
   // Event listenter to get favotites previous savaed places
-  document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
+  //document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
   // Set the infoWindow bool to false then will have an event click
 //  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
@@ -563,6 +578,7 @@ function hideListings() {
 //====================================================================================
 
 function addMarkerSearch(hpAddress) {
+  alert("addMarkerSearch");
   if (hpAddress !== 0) {
     var decodeAddress = decodeURIComponent(hpAddress);
     var aux_address = decodeAddress.split('+').join(' ');
