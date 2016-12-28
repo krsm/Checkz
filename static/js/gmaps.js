@@ -11,11 +11,20 @@ var geocoder = new google.maps.Geocoder();
 var address;
 var autocomplete;
 // ====================================
-var directionsDisplay = new google.maps.DirectionsRenderer({
-              polylineOptions: {
-                strokeColor: 'blue',
-              }});
-var directionsService = new google.maps.DirectionsService();
+// var directionsDisplay = new google.maps.DirectionsRenderer({
+//               polylineOptions: {
+//                 strokeColor: 'blue',
+//               }});
+
+
+ var directionsDisplay = new google.maps.DirectionsRenderer({
+   polylineOptions: {
+     strokeColor: 'green'
+   }
+ });
+
+
+var directionsService = new google.maps.DirectionsService;
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -55,7 +64,7 @@ function initFavMap() {
   favMap = new google.maps.Map(document.getElementById('map'), {
     center: sfLatLng,
     scrollwheel: true,
-    zoom: 13,
+    zoom: 15,
     zoomControl: true,
     panControl: true,
     streetViewControl: true,
@@ -187,14 +196,13 @@ function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_wait
 
 // Function to display directions in the map
 function getDirections(response) {
-
-  directionsDisplay.setMap(favMap);
+//TODO verify if there is an impact the change below
 
   if (response['saved_places'].length == 0) {
     alert('User does not have saved any previous favorite place of selected type!')
   } else {
     // hide previous markers
-  //  hideListings();
+    hideListings();
     //var placefavLatLng;
     //  var placefavMark;
     //  var x = response['saved_places'].length - (response['saved_places'].length -1);//hahahaha
@@ -218,36 +226,75 @@ function getDirections(response) {
       //  directionsDisplay.setMap(favMap);
       // directionsDisplay.setPanel(document.getElementById('right-panel'));
       //
-      var request = {
-        // window.userLocation is global
-        origin: curLatLng,
-        destination: markLatLng,
-        travelMode: google.maps.TravelMode.DRIVING
-      };
-      directionsService.route(request, function (result, status) {
-        if (status == 'OK') {
+      //=====================================================
+      // //It willl be commented
+      // var request = {
+      //   // window.userLocation is global
+      //   origin: curLatLng,
+      //   destination: markLatLng,
+      //   travelMode: google.maps.TravelMode.DRIVING
+      // };
+      // directionsService.route(request, function (result, status) {
+      //   if (status == 'OK') {
+      //     directionsDisplay.setMap(favMap);
+      //     directionsDisplay.setDirections(result);
+      //     //open a window
+      //     // panel=window.open('about:blank','panel','width=200,height=200,scrollbars=yes');
+      //     // //create a document inside te window
+      //     // // panel.document.open();
+      //     // panel.document.write('<body/>');
+      //     // // panel.document.close();
+      //     // //set the panel
+      //     // directionsDisplay.setPanel(panel.document.body);
+      //     // //bring window into front
+      //     // panel.focus();
+      //     //
+      //     //  directionsDisplay.setPanel(document.getElementById("myModal"));
+      //   }
+      // });
+
+      //End of will be commented
+      //=====================================================
+
+
+       //var directionsService = new google.maps.DirectionsService;
+       directionsService.route({
+         // The origin is the passed in marker's position.
+         origin: curLatLng,
+         // The destination is user entered address.
+         destination: markLatLng,
+         travelMode: google.maps.TravelMode.DRIVING
+       }, function(result, status) {
+         if (status === google.maps.DirectionsStatus.OK) {
+
+          directionsDisplay.setMap(favMap);
           directionsDisplay.setDirections(result);
 
-           directionsDisplay.setPanel(document.getElementById('myModal'));
-          //open a window
-          // panel=window.open('about:blank','panel','width=200,height=200,scrollbars=yes');
-          // //create a document inside te window
-          // // panel.document.open();
-          // panel.document.write('<body/>');
-          // // panel.document.close();
-          // //set the panel
-          // directionsDisplay.setPanel(panel.document.body);
-          // //bring window into front
-          // panel.focus();
-          //
-          //  directionsDisplay.setPanel(document.getElementById("myModal"));
-        }
-      });
+          //  var directionsDisplay = new google.maps.DirectionsRenderer({
+          //    map: favMap,
+          //    directions: response,
+          //    draggable: true,
+          //    polylineOptions: {
+          //      strokeColor: 'orange'
+          //    }
+          //  });
+         } else {
+           window.alert('Directions request failed due to ' + status);
+         }
+       });
+
     } // End of for loop
 
   } //End of else
 
 } //End of function
+
+//==================================
+
+
+
+
+
 //====================================================================================
 // this gets called when you click the navigate-button rendered in InfoWindow
 
@@ -555,16 +602,16 @@ function close_marker(lat, long) {
 // function to hide all markers
 
 
-// // // function to clear routes on the map
-// function clear_routes(){
-//   // directionsDisplay.setMap(null);
-//
-//   // Clear past routes
-// if (directionsDisplay != null) {
-//     directionsDisplay.setMap(null);
-//     directionsDisplay = null;
-// }
-// }
+// // function to clear routes on the map
+function clear_routes(){
+  // directionsDisplay.setMap(null);
+
+  // Clear past routes
+if (directionsDisplay != null) {
+    directionsDisplay.setMap(null);
+    directionsDisplay = null;
+}
+}
 
 
 
@@ -572,7 +619,7 @@ function hideListings() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
   }// end of for
-  // clear_routes();
+  clear_routes();
 } //====================================================================================
 // Code related to geocoding
 //====================================================================================

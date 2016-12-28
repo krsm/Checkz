@@ -95,7 +95,8 @@ def register():
             finally:
                 current_session.close()
 
-        return render_template('map.html')
+        return redirect(url_for("home_page"))
+
     else:
         #error = "405  Method not allowed"
         return render_template('register.html')
@@ -125,7 +126,7 @@ def login():
             return render_template("login.html", error=error)
 
     else:
-       # error = "405  Method not allowed"
+        #error = "405  Method not allowed"
         current_session.close()
         return render_template("login.html", error=error)
 
@@ -471,6 +472,7 @@ def get_info_about_close_locations():
     return "ok"
 
 
+#TODO improve the follow query an
 # route to update the waiting time
 # ----------------------------------------------------------------------
 @app.route('/get_direction_shortest_time', methods=['GET'])
@@ -481,66 +483,73 @@ def get_direction_shortest_time():
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
     waiting_time = request.args.get('updated_waiting_time')
-    type_location = request.args.get('type_location')
+    type_location = str(request.args.get('type_location'))
 
-    created_timestamp = datetime.datetime.now()
-    modified_timestamp = datetime.datetime.now()  # get a new data to update
+    possible_locations = ["Eat","Fun","Health"]
 
-    # ---------------------------
-    current_session = db.session  # open database session
-    # query table USer to get username and then query by user
-    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+    saved_places = []
 
-    if owner_name is not None:
+    if type_location in possible_locations:
+        print("True")
+        print(type_location)
+    else:
+        print("false")
+        print(type_location)
 
-        # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    #type_location.isspace()
 
-        # get all saved places by all users
-        querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
+    if type_location in possible_locations:
 
-        data = [query.serialize for query in querysavedplaces]
+        current_session = db.session  # open database session
+        # query table USer to get username and then query by user
+        owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
-        # print(data)
+        if owner_name is not None:
 
-        saved_places = []
+            # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-        if len(querysavedplaces) is not None:
+            # get all saved places by all users
+            querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
 
-            for location in querysavedplaces:
+            #data = [query.serialize for query in querysavedplaces]
 
-                #print(location.waiting_time,location.type_location)
+            for s in querysavedplaces:
 
-                saved_places.append({'user_id': location.user_id,
-                                     'created_timestamp': location.created_timestamp,
-                                     'modified_timestamp': location.modified_timestamp,
-                                     'location_lat': location.location_lat,
-                                     'location_long': location.location_long,
-                                     'address': location.address,
-                                     'waiting_time': location.waiting_time,
-                                     'type_location': location.type_location,
-                                     'current_location_lat': location_lat,
-                                     'current_location_long': location_long})
-                #
-                # saved_places.append({'current_location_lat': location_lat,
-                #                     'current_location_long':location_long})
+                print(s)
+
+            x = (len(querysavedplaces))
+
+            if len(querysavedplaces) is not None:
+
+                for location in querysavedplaces:
+
+                    #print(location.waiting_time,location.type_location)
+
+                    saved_places.append({'user_id': location.user_id,
+                                         'created_timestamp': location.created_timestamp,
+                                         'modified_timestamp': location.modified_timestamp,
+                                         'location_lat': location.location_lat,
+                                         'location_long': location.location_long,
+                                         'address': location.address,
+                                         'waiting_time': location.waiting_time,
+                                         'type_location': location.type_location,
+                                         'current_location_lat': location_lat,
+                                         'current_location_long': location_long})
+                    #
+                    # saved_places.append({'current_location_lat': location_lat,
+                    #                     'current_location_long':location_long})
 
         current_session.close()
-
-
-
-
-        # response = make_response(json.dumps(saved_places))
-        #
-        # response.content_type = "application/json"
-        #
-        # print(response)
-
-        # for s in saved_places:
-        #     print(s)
-
+        print(len(saved_places))
+        return jsonify({"saved_places": saved_places})
+    else:
+        print(len(saved_places))
         return jsonify({"saved_places": saved_places})
 
 
+def isblank_string():
+
+    pass
 
 
 '''

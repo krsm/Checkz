@@ -43,7 +43,7 @@ def get_location_address(lat,long):
     """
     place = str(lat)+","+str(long)
 
-    print(place)
+    #print(place)
 
 
     geolocator = Nominatim()
