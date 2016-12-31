@@ -9,6 +9,7 @@ from flask import abort, url_for
 import geofuntcions as gf
 from models import connect_to_db, db, User, SavedPlaces
 
+import maps as maps
 
 #related to sqlalchemy
 
@@ -29,12 +30,12 @@ RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
 
 # Create a flask app and set a random secret key
 # Create the app
-app = Flask(__name__)
+app = Flask("Checkz")
 app.secret_key = os.urandom(32)
 
-
+#
 # raises error if you use an undefined variable in Jinja2
-#app.jinja_env.undefined = StrictUndefined
+# app.jinja_env.undefined = StrictUndefined
 
 # ================================================================================
 #  Registration, Login, and User Profile
@@ -44,8 +45,6 @@ app.secret_key = os.urandom(32)
 #     g.user = None
 #     if 'username' in session:
 #         g.user = session['username']
-
-#
 
 @app.route('/register', methods=['POST','GET'])
 def register():
@@ -475,6 +474,79 @@ def get_info_about_close_locations():
 #TODO improve the follow query an
 # route to update the waiting time
 # ----------------------------------------------------------------------
+# @app.route('/get_direction_shortest_time', methods=['GET'])
+# def get_direction_shortest_time():
+#     # parsing request data
+#     # -------------------------
+#     user_id = request.args.get('user_id')
+#     location_lat = request.args.get('location_lat')
+#     location_long = request.args.get('location_long')
+#     waiting_time = request.args.get('updated_waiting_time')
+#     type_location = str(request.args.get('type_location'))
+#
+#     possible_locations = ["Eat","Fun","Health"]
+#
+#     saved_places = []
+#
+#     if type_location in possible_locations:
+#         print("True")
+#         print(type_location)
+#     else:
+#         print("false")
+#         print(type_location)
+#
+#     #type_location.isspace()
+#
+#     if type_location in possible_locations:
+#
+#         current_session = db.session  # open database session
+#         # query table USer to get username and then query by user
+#         owner_name = current_session.query(User).filter_by(id=user_id).first().username
+#
+#         if owner_name is not None:
+#
+#             # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#
+#             # get all saved places by all users
+#             querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
+#
+#             #data = [query.serialize for query in querysavedplaces]
+#
+#             for s in querysavedplaces:
+#
+#                 print(s)
+#
+#             x = (len(querysavedplaces))
+#
+#             if len(querysavedplaces) is not None:
+#
+#                 for location in querysavedplaces:
+#
+#                     #print(location.waiting_time,location.type_location)
+#
+#                     saved_places.append({'user_id': location.user_id,
+#                                          'created_timestamp': location.created_timestamp,
+#                                          'modified_timestamp': location.modified_timestamp,
+#                                          'location_lat': location.location_lat,
+#                                          'location_long': location.location_long,
+#                                          'address': location.address,
+#                                          'waiting_time': location.waiting_time,
+#                                          'type_location': location.type_location,
+#                                          'current_location_lat': location_lat,
+#                                          'current_location_long': location_long})
+#                     #
+#                     # saved_places.append({'current_location_lat': location_lat,
+#                     #                     'current_location_long':location_long})
+#
+#         current_session.close()
+#         print(len(saved_places))
+#         return jsonify({"saved_places": saved_places})
+#     else:
+#         print(len(saved_places))
+#         return jsonify({"saved_places": saved_places})
+
+
+
 @app.route('/get_direction_shortest_time', methods=['GET'])
 def get_direction_shortest_time():
     # parsing request data
@@ -490,15 +562,6 @@ def get_direction_shortest_time():
     saved_places = []
 
     if type_location in possible_locations:
-        print("True")
-        print(type_location)
-    else:
-        print("false")
-        print(type_location)
-
-    #type_location.isspace()
-
-    if type_location in possible_locations:
 
         current_session = db.session  # open database session
         # query table USer to get username and then query by user
@@ -509,7 +572,7 @@ def get_direction_shortest_time():
             # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
             # get all saved places by all users
-            querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
+            querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).all]
 
             #data = [query.serialize for query in querysavedplaces]
 
@@ -547,9 +610,28 @@ def get_direction_shortest_time():
         return jsonify({"saved_places": saved_places})
 
 
-def isblank_string():
+# TODO parse json response to get address
+@app.route('/get_formatted_address', methods=['GET'])
+def formatted_address():
 
-    pass
+    # parsing request data
+    # -------------------------
+    user_id = request.args.get('user_id')
+    location_lat = request.args.get('location_lat')
+    location_long = request.args.get('location_long')
+
+
+    current_session = db.session  # open database session
+    # query table USer to get username and then query by user
+    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+
+    if owner_name is not None:
+
+        address = []
+
+        address.append({'address': maps.formatted_address(location_lat, location_long)})
+
+        return jsonify({"formatted_address": formatted_address})
 
 
 '''
@@ -586,7 +668,7 @@ if __name__ == '__main__':
     app.debug = True
     #pdb.set_trace()
     # Use the DebugToolbar
-    #DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     #app.run(host="192.168.1.110")
     app.run()

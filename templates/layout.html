@@ -42,7 +42,8 @@
                 <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
                 <li><a id="show_fav_link"><i class="material-icons right">grade</i>Show Favorites</a></li>
-                <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Map</a></li>
+                <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Markers</a></li>
+                <li><a id="clear_routes"><i class="material-icons right">loop</i>Clear Route</a></li>
 
                 {% if session.get('user_id') %}
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
@@ -58,6 +59,9 @@
                 <li><a id="my_location_link_mobile"><i class="material-icons right">my_location</i>My location</a></li>
                 <li><a id="show_fav_link_mobile"><i class="material-icons right">grade</i>Show Favorites</a></li>
                 <li><a id="clear_markers_mobile"><i class="material-icons right">delete</i>Clear Map</a></li>
+                <li><a id="clear_routes_mobile"><i class="material-icons right">loop</i>Clear Route</a></li>
+
+
 
                 {% if session.get('user_id') %}
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>

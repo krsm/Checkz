@@ -15,16 +15,15 @@ var autocomplete;
 //               polylineOptions: {
 //                 strokeColor: 'blue',
 //               }});
-
-
- var directionsDisplay = new google.maps.DirectionsRenderer({
-   polylineOptions: {
-     strokeColor: 'green'
-   }
- });
-
-
-var directionsService = new google.maps.DirectionsService;
+//
+//  var directionsDisplay = new google.maps.DirectionsRenderer({
+//    polylineOptions: {
+//      strokeColor: 'green'
+//    }
+//  });
+//
+//
+// var directionsService = new google.maps.DirectionsService;
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -41,7 +40,6 @@ var favMap;
 //var infoWindow = new google.maps.InfoWindow();
 // Initialize Map
 function initFavMap() {
-
   //====================================================================================
   // Code related to geocoding
   //  // grab search-term from URL
@@ -88,7 +86,8 @@ function initFavMap() {
   document.getElementById('my_location_link').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
   document.getElementById('clear_markers').addEventListener('click', hideListings);
-
+  // Event listenter to clear routes from map
+  document.getElementById('clear_routes').addEventListener('click', reload_page);
   //########################################################################
   // -----------------------
   // Mobile links
@@ -98,7 +97,8 @@ function initFavMap() {
   document.getElementById('my_location_link_mobile').addEventListener('click', locateUser);
   // Event listenter to clear button - to remove all adde markers from map
   document.getElementById('clear_markers_mobile').addEventListener('click', hideListings);
-
+  // Event listenter to clear routes from map
+  document.getElementById('clear_routes_mobile').addEventListener('click', reload_page);
   // End of Mobile links
   // -----------------------
   //########################################################################
@@ -117,19 +117,23 @@ function initFavMap() {
   // Event listenter to get favotites previous savaed places
   //document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
   // Set the infoWindow bool to false then will have an event click
-//  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
+  //  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
-
 //======================================
 //to be deleted    function handle(e){
-
 // function handle(e){
 //     if(e.keyCode === 13){
 //         e.preventDefault(); // Ensure it is only this code that rusn
 //         alert("Enter was pressed was presses");
 //     }
 // }
+// function to reload page
+// used to clean routes
 
+function reload_page() {
+  // reload page so routes are clean
+  location.reload();
+} // End of  functio to reload page
 //======================================
 
 function addMarker(latLng, lat, long, map) {
@@ -169,8 +173,8 @@ function addMarker(latLng, lat, long, map) {
   bindInfoWindow(marker, map, infowindow, content_string, bool_display_infowindow);
   markers.push(marker);
 } // End of Function
-
 // Function to add infowindow to Marker
+
 function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_waiting_time) {
   if (bool_updated_waiting_time == false) {
     google.maps.event.addListener(marker, 'click', function () {
@@ -186,18 +190,17 @@ function bindInfoWindow(marker, map, infowindow, html_content, bool_updated_wait
     infowindow.setContent(html_content);
     infowindow.open(map, marker);
     //infowindow.marker = marker;
-  }  // // Make sure the marker property is cleared if the infowindow is closed.
+  } // // Make sure the marker property is cleared if the infowindow is closed.
   // infowindow.addListener('closeclick', function() {
   //     infowindow.marker = null;
   // });
 
   setFalsebooldisplayinfowindow();
-}// End of function
-
+} // End of function
 // Function to display directions in the map
-function getDirections(response) {
-//TODO verify if there is an impact the change below
 
+function getDirections(response) {
+  //TODO verify if there is an impact the change below
   if (response['saved_places'].length == 0) {
     alert('User does not have saved any previous favorite place of selected type!')
   } else {
@@ -207,7 +210,7 @@ function getDirections(response) {
     //  var placefavMark;
     //  var x = response['saved_places'].length - (response['saved_places'].length -1);//hahahaha
     for (var i = 0; i < response['saved_places'].length; i++) {
-      // unpacking response data
+      // unpacking resphideListingsonse data
       //variables related to destination
       dest_lat = parseFloat(response['saved_places'][i]['location_lat']);
       dest_long = parseFloat(response['saved_places'][i]['location_long']);
@@ -252,51 +255,51 @@ function getDirections(response) {
       //     //  directionsDisplay.setPanel(document.getElementById("myModal"));
       //   }
       // });
-
       //End of will be commented
       //=====================================================
-
-
-       //var directionsService = new google.maps.DirectionsService;
-       directionsService.route({
-         // The origin is the passed in marker's position.
-         origin: curLatLng,
-         // The destination is user entered address.
-         destination: markLatLng,
-         travelMode: google.maps.TravelMode.DRIVING
-       }, function(result, status) {
-         if (status === google.maps.DirectionsStatus.OK) {
-
-          directionsDisplay.setMap(favMap);
-          directionsDisplay.setDirections(result);
-
-          //  var directionsDisplay = new google.maps.DirectionsRenderer({
-          //    map: favMap,
-          //    directions: response,
-          //    draggable: true,
-          //    polylineOptions: {
-          //      strokeColor: 'orange'
-          //    }
-          //  });
-         } else {
-           window.alert('Directions request failed due to ' + status);
-         }
-       });
-
+      var directionsService = new google.maps.DirectionsService;
+      directionsService.route({
+        // The origin is the passed in marker's position.
+        origin: curLatLng,
+        // The destination is user entered address.
+        destination: markLatLng,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function (result, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          //
+          //  directionsDisplay.setMap(favMap);
+          //  directionsDisplay.setDirections(result);
+          var directionsDisplay = new google.maps.DirectionsRenderer({
+            map: favMap,
+            directions: result,
+            draggable: false,
+            polylineOptions: {
+              strokeColor: 'green'
+            }
+          });
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
     } // End of for loop
 
   } //End of else
 
 } //End of function
-
 //==================================
-
-
-
-
-
 //====================================================================================
 // this gets called when you click the navigate-button rendered in InfoWindow
+//TODO finish this function
+function get_formatted_address(){
+
+  var markerData = {
+    'location_lat': fav_lat,
+    'location_long': fav_lng
+  };
+
+  $.get('/get_formatted_address', markerData, get_formatted_address);
+
+}
 
 function get_location_shortest_time(fav_lat, fav_lng) {
   // grabbing user id from html that only w if user is in session
@@ -351,7 +354,7 @@ function getFavoriteSpots() {
     $.get('/get_favorite_places', userData, makeSavedMarkers);
   } else {
     alert('You need to be logged in to see favorite spots.');
-  }// end of if UserId
+  } // end of if UserId
 
 } //====================================================================================
 // this function is called to get updated waiting time
@@ -391,7 +394,6 @@ function makeSavedMarkers(response) {
       place_long = parseFloat(response['saved_places'][i]['location_long']);
       place_waiting_time = response['saved_places'][i]['waiting_time'] || '';
       place_type_location = response['saved_places'][i]['type_location'];
-
       // Adding previous saved locations to map
       addMarkerPreviousPlaces(place_lat, place_long, favMap, place_waiting_time, place_type_location);
       // Adding infoWindow to the previous saved locations
@@ -436,7 +438,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
       case 'Health':
         aux_icon = '/static/img/health_green.png'
         break
-    }    // aux_icon ='http://maps.google.com/mapfiles/ms/icons/green.png';
+    } // aux_icon ='http://maps.google.com/mapfiles/ms/icons/green.png';
 
   }
   if ((20 < waiting_time) && (waiting_time < 45)) {
@@ -450,7 +452,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
       case 'Health':
         aux_icon = '/static/img/health_yellow.png'
         break
-    }    // aux_icon= 'http://maps.google.com/mapfiles/ms/icons/yellow.png';
+    } // aux_icon= 'http://maps.google.com/mapfiles/ms/icons/yellow.png';
     //  icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
 
   }
@@ -465,7 +467,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
       case 'Health':
         aux_icon = '/static/img/health_red.png'
         break
-    }    //aux_icon: 'http://maps.google.com/mapfiles/ms/icons/red.png'
+    } //aux_icon: 'http://maps.google.com/mapfiles/ms/icons/red.png'
     // aux_icon ='http://maps.google.com/mapfiles/ms/icons/red.png';
 
   }
@@ -600,32 +602,28 @@ function close_marker(lat, long) {
 
 } // End of close_marker
 // function to hide all markers
-
-
 // // function to clear routes on the map
-function clear_routes(){
-  // directionsDisplay.setMap(null);
 
+function clear_routes() {
+  // directionsDisplay.setMap(null);
   // Clear past routes
-if (directionsDisplay != null) {
+  if (directionsDisplay != null) {
     directionsDisplay.setMap(null);
     directionsDisplay = null;
+  }
 }
-}
-
-
-
 function hideListings() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
-  }// end of for
-  clear_routes();
+  } // end of for
+  //clear_routes();
+
 } //====================================================================================
 // Code related to geocoding
 //====================================================================================
 
 function addMarkerSearch(hpAddress) {
-  alert("addMarkerSearch");
+  alert('addMarkerSearch');
   if (hpAddress !== 0) {
     var decodeAddress = decodeURIComponent(hpAddress);
     var aux_address = decodeAddress.split('+').join(' ');
