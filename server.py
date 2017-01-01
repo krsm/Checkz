@@ -256,8 +256,15 @@ def save_favorite_place():
     #type_location = None
     #address = request.args.get("address")
 
+
+    #TODO verify address
     # to be improved and use google geocoding
     address = gf.get_location_address(locationlat, locationlong)
+    possible_destination_address = maps.formatted_address(locationlat, locationlong)
+
+    print(address)
+    print("----------------------------")
+    print(possible_destination_address)
 
     # create object to insert in the database
     # prepare query statement
@@ -557,6 +564,13 @@ def get_direction_shortest_time():
     waiting_time = request.args.get('updated_waiting_time')
     type_location = str(request.args.get('type_location'))
 
+    #TODO insert error treatment for address
+    current_address = maps.formatted_address(location_lat,location_long)
+
+    # print(current_address)
+
+
+    #TODO change the possible tyoe of location as a global variable
     possible_locations = ["Eat","Fun","Health"]
 
     saved_places = []
@@ -567,47 +581,53 @@ def get_direction_shortest_time():
         # query table USer to get username and then query by user
         owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
+        # print(owner_name)
+
         if owner_name is not None:
 
             # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+            #TODO evaluate all queries using session
+            # querysavedplaces = SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).all
 
-            # get all saved places by all users
-            querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).all]
+            #querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=owner_name).all()
 
-            #data = [query.serialize for query in querysavedplaces]
+            querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
 
-            for s in querysavedplaces:
+            traffic_time = {}
+            aux_dic_traffic_time = {}
 
-                print(s)
+            for location in querysavedplaces:
 
-            x = (len(querysavedplaces))
+                #print(location.id)
+                #FIXME improve query to remove this if statement
+                if location.type_location == type_location:
 
-            if len(querysavedplaces) is not None:
+                    duration_time_traffic = maps.get_duration_in_traffic(current_address, location.address)
 
-                for location in querysavedplaces:
+                    duration_time_traffic = float(duration_time_traffic.split()[0])
 
-                    #print(location.waiting_time,location.type_location)
+                    if location.waiting_time is not None:
 
-                    saved_places.append({'user_id': location.user_id,
-                                         'created_timestamp': location.created_timestamp,
-                                         'modified_timestamp': location.modified_timestamp,
-                                         'location_lat': location.location_lat,
-                                         'location_long': location.location_long,
-                                         'address': location.address,
-                                         'waiting_time': location.waiting_time,
-                                         'type_location': location.type_location,
-                                         'current_location_lat': location_lat,
-                                         'current_location_long': location_long})
-                    #
-                    # saved_places.append({'current_location_lat': location_lat,
-                    #                     'current_location_long':location_long})
+                        waiting_time = float(location.waiting_time)
 
+                        total_time = duration_time_traffic + waiting_time
+                        #
+                        traffic_time[location.id] = total_time
+
+                        aux_dic_traffic_time[location.id] = [location.location_lat,location.location_long]
+
+                        #TODO improve this function - maybe use new dict functionality
+                        min_traffic_time = min(traffic_time, key=lambda x: traffic_time.get(x))
+
+            saved_places.append({'location_lat': aux_dic_traffic_time[min_traffic_time][0],
+                                             'location_long': aux_dic_traffic_time[min_traffic_time][1],
+                                             'current_location_lat': location_lat,
+                                             'current_location_long': location_long})
         current_session.close()
-        print(len(saved_places))
-        return jsonify({"saved_places": saved_places})
     else:
-        print(len(saved_places))
-        return jsonify({"saved_places": saved_places})
+        pass
+    # print(len(saved_places))
+    return jsonify({"saved_places": saved_places})
 
 
 # TODO parse json response to get address
@@ -655,6 +675,21 @@ def delete_saved_place():
 # @app.errorhandler(404)
 # def not_found(error):
 #     return make_response(jsonify({'error': 'Not found'}), 404)
+
+#
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     resp = jsonify({"error": "not found"})
+#     resp.status_code = 404
+#     return resp
+#
+#
+# @app.errorhandler(401)
+# def unauthorized(error):
+#     resp = jsonify({"error": "unauthorized"})
+#     resp.status_code = 401
+#     return resp
+
 # # -----------------------------
 
 #lat = request.args.get('lat')

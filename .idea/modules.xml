@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/Clock_app/.idea/Clock_app.iml" filepath="$PROJECT_DIR$/../../../GitHub/Clock_app/.idea/Clock_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" filepath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_database/.idea/SQLAlchemy_database.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_database/.idea/SQLAlchemy_database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" filepath="$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/tempo/.idea/tempo.iml" filepath="$PROJECT_DIR$/../../../GitHub/tempo/.idea/tempo.iml" />
     </modules>
   </component>
