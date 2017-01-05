@@ -1,16 +1,53 @@
-
-      /* Always set the map height explicitly to define the size of the div
+/* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-.controls {
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+}
+
+#map {
+    height: 100%;
+}
+
+
+/* Optional: Makes the sample page fill the window. */
+
+html, body {
+    height: 100%;
+}
+
+input[type=search] {
+    /*color: red;
+	text-align: right;*/
+    /*cursor: pointer;
+	display: block;*/
+    width: 80%;
+    /*letter-spacing: 4px;
+	text-shadow: 0 0 2px black;
+	word-spacing: 20px;*/
+    /*float: left;*/
+    /*margin: 0 0 10px 10px;*/
+}
+
+#button-input {
+    background-color: #f44336;
+    /* Red */
+    width: 15%;
+    color: white;
+    padding: 20px 2px;
+    border: none;
+    text-decoration: none;
+    /*display: inline-block;*/
+    /*font-size: 12px;*/
+    text-align: auto;
+}
+
+
+/*.controls {
         margin-top: 10px;
         border: 1px solid transparent;
         border-radius: 2px 0 0 2px;
@@ -38,4 +75,4 @@
 
       .pac-container {
         font-family: Roboto;
-      }
+      }*/

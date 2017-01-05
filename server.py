@@ -242,7 +242,7 @@ def save_favorite_place():
 
     # parsing request data
     # -------------------------
-    a = request
+    # a = request
     #content = request.get_json(force=True)
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
@@ -256,15 +256,14 @@ def save_favorite_place():
     #type_location = None
     #address = request.args.get("address")
 
-
     #TODO verify address
     # to be improved and use google geocoding
     address = gf.get_location_address(locationlat, locationlong)
     possible_destination_address = maps.formatted_address(locationlat, locationlong)
 
-    print(address)
-    print("----------------------------")
-    print(possible_destination_address)
+    # print(address)
+    # print("----------------------------")
+    # print(possible_destination_address)
 
     # create object to insert in the database
     # prepare query statement
@@ -565,13 +564,12 @@ def get_direction_shortest_time():
     type_location = str(request.args.get('type_location'))
 
     #TODO insert error treatment for address
-    current_address = maps.formatted_address(location_lat,location_long)
+    current_address = maps.formatted_address(location_lat, location_long)
 
     # print(current_address)
 
-
     #TODO change the possible tyoe of location as a global variable
-    possible_locations = ["Eat","Fun","Health"]
+    possible_locations = ["Eat", "Fun", "Health"]
 
     saved_places = []
 
@@ -611,10 +609,10 @@ def get_direction_shortest_time():
                         waiting_time = float(location.waiting_time)
 
                         total_time = duration_time_traffic + waiting_time
-                        #
+
                         traffic_time[location.id] = total_time
 
-                        aux_dic_traffic_time[location.id] = [location.location_lat,location.location_long]
+                        aux_dic_traffic_time[location.id] = [location.location_lat, location.location_long]
 
                         #TODO improve this function - maybe use new dict functionality
                         min_traffic_time = min(traffic_time, key=lambda x: traffic_time.get(x))
@@ -626,7 +624,7 @@ def get_direction_shortest_time():
         current_session.close()
     else:
         pass
-    # print(len(saved_places))
+    #TODO verify else
     return jsonify({"saved_places": saved_places})
 
 
@@ -677,7 +675,7 @@ def delete_saved_place():
 #     return make_response(jsonify({'error': 'Not found'}), 404)
 
 #
-# @app.errorhandler(404)
+# @app.errorhandler(404)juli
 # def page_not_found(error):
 #     resp = jsonify({"error": "not found"})
 #     resp.status_code = 404
@@ -689,7 +687,6 @@ def delete_saved_place():
 #     resp = jsonify({"error": "unauthorized"})
 #     resp.status_code = 401
 #     return resp
-
 # # -----------------------------
 
 #lat = request.args.get('lat')
@@ -705,5 +702,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    #app.run(host="192.168.1.110")
+    # app.run(host="192.168.1.110")
     app.run()
