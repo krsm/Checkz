@@ -45,7 +45,7 @@
                 <li><input type="search" id="search_text" placeholder="Enter a Location"></li>
                 <li><button class="btn waves-light red" type="submit">Search</button></li> -->
 
-                <li><a id="populate_map_link"><i class="material-icons right">my_location</i>Populate Map</a></li>
+                <li><a href={{url_for("show_details")}}><i class="material-icons right">apps</i>Details</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
                 <li><a id="show_fav_link"><i class="material-icons right">grade</i>Show Favorites</a></li>
                 <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Markers</a></li>
@@ -55,8 +55,8 @@
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
                 <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for( "logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
                 {% else %}
-                <li><a href={{url_for( "register")}}><i class="material-icons right">person add</i> Sign Up</a></li>
-                <li><a href={{url_for( "login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
+                <li><a href={{url_for("register")}}><i class="material-icons right">person_add</i> Sign Up</a></li>
+                <li><a href={{url_for("login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
                 {% endif %}
             </ul>
             <!--  Mobile Nav Bar-->
@@ -219,24 +219,24 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Checkz Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <p class="grey-text text-lighten-4">Wait less, do more. Checkz!</p>
             </div>
             <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
+                <h5 class="white-text">Contact</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="!">email@email.com</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
+        <!--<p class="made-with-love text-muted small">Made in NC, USA</p>-->
         <div class="container">
             © 2016-2017 Checkz
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
     </div>
 
-    <p class="made-with-love text-muted small">Made in NC, USA</p>
 </footer>
 
 </html>

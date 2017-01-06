@@ -652,6 +652,16 @@ def formatted_address():
         return jsonify({"formatted_address": formatted_address})
 
 
+
+#============================================================
+# Code related to show details page
+@app.route('/get_formatted_address', methods=['GET'])
+def formatted_address():
+
+
+
+
+#============================================================
 '''
 
 # Delete saved place
