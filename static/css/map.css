@@ -38,12 +38,14 @@ input[type=search] {
     /* Red */
     width: 15%;
     color: white;
-    padding: 20px 2px;
+    padding: 2px 2px;
     border: none;
     text-decoration: none;
     /*display: inline-block;*/
     /*font-size: 12px;*/
     text-align: auto;
+
+    border-radius: 4px
 }
 
 

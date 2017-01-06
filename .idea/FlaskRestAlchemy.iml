@@ -11,6 +11,9 @@
     <orderEntry type="module" module-name="Clock_app" />
     <orderEntry type="module" module-name="news_partners" />
     <orderEntry type="module" module-name="SQLAlchemy_database" />
+    <orderEntry type="module" module-name="SQLAlchemy_database" />
+    <orderEntry type="module" module-name="SQLAlchemy_db" />
+    <orderEntry type="module" module-name="SQLAlchemy_db" />
   </component>
   <component name="ReSTService">
     <option name="workdir" value="$MODULE_DIR$" />
