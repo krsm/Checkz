@@ -12,7 +12,7 @@ var favMap;
 var address;
 var autocomplete;
 // create a geocoder object
-// var geocoder = new google.maps.Geocoder();
+var geocoder = new google.maps.Geocoder();
 // ====================================
 // var directionsDisplay = new google.maps.DirectionsRenderer({
 //               polylineOptions: {
@@ -74,33 +74,74 @@ function initFavMap() {
     // directionsDisplay.setMap(favMap);
     // ==============================================================
     // // Related to geocoding
-    address = /** @type {!HTMLInputElement} */
-        (document.getElementById('address-input'));
+    // address = /** @type {!HTMLInputElement} */
+    //     (document.getElementById('address-input'));
     // // // create an autocomplete search bar
+    address = document.getElementById('address-input');
     autocomplete = new google.maps.places.Autocomplete(address);
     //
     document.getElementById('button-input').addEventListener('click', function() {
 
         // create a geocode var
-        var geocoder = new google.maps.Geocoder();
+        // var geocoder = new google.maps.Geocoder();
 
         // addMarkerSearch(autocomplete);
 
         //
         if (autocomplete !== 0) {
 
+            var autolalng = autocomplete.getPlace().geometry.location;
+            var autola = autolalng.lat();
+            var autolng = autolalng.lng();
+
+            alert(autolalng);
+            alert(autola);
+            alert(autolng);
+            addMarker(autolalng,autola,autolng,favMap);
             try {
-                var decodeAddress = decodeURIComponent(autocomplete);
-                var aux_address = decodeAddress.split('+').join(' ');
+                // var decodeAddress = decodeURIComponent(autocomplete);
+                // var aux_address = decodeAddress.split('+').join(' ');
+
+
+                // It was another function
+                // geocoder.geocode({
+                //     'address': aux_address
+                // }, function(results, status) {
+                //     // if the status comes back OK, get the destination location
+                //     if (status === google.maps.GeocoderStatus.OK) {
+                //         dest = results[0].geometry.location;
+                //         map.setCenter(dest);
+                //         deslat = dest.lat();
+                //         deslng = dest.lng();
+                //         alert(deslat, delng);
+                //         addMarker(dest, deslat, deslng, favMap);
+                //         // // create a marker of destination, place on map
+                //         // var marker1 = new google.maps.Marker({
+                //         //   map: map,
+                //         //   //animation: google.maps.Animation.DROP,
+                //         //   position: dest
+                //         // });
+                //         // addInfoWindowFavoritePlaces(deslat,deslng,marker1);
+                //         // markers.push(marker);
+                //     } else {
+                //         alert('Something went wrong: ' + status);
+                //     }
+                // });
+
+
+
+
+
+
             } catch (e) {
                 console.error(e);
             }
 
-            alert('decodeAddress' + aux_address);
-            // geocodeAddress(favMap, aux_address);
+            // alert('decodeAddress' + aux_address);
+            // // geocodeAddress(favMap, aux_address);
         } else {
 
-            alert("it was else");
+            // alert("it was else");
         }
 
 

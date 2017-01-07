@@ -20,7 +20,7 @@ html, body {
     height: 100%;
 }
 
-input[type=search] {
+input[type=text] {
     /*color: red;
 	text-align: right;*/
     /*cursor: pointer;
@@ -78,5 +78,3 @@ input[type=search] {
       .pac-container {
         font-family: Roboto;
       }*/
-
-

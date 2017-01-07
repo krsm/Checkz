@@ -5,3 +5,5 @@
 import os
 
 GOOGLE_API = os.environ['GOOGLE_API_KEY']
+
+print(GOOGLE_API)
