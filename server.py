@@ -655,8 +655,9 @@ def formatted_address():
 
 #============================================================
 # Code related to show details page
-@app.route('/get_formatted_address', methods=['GET'])
-def formatted_address():
+@app.route('/show_details', methods=['GET'])
+def render_show_details():
+    return render_template("show_details.html")
 
 
 

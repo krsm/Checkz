@@ -44,8 +44,14 @@
                 <li><i class="material-icons">search</i></li>
                 <li><input type="search" id="search_text" placeholder="Enter a Location"></li>
                 <li><button class="btn waves-light red" type="submit">Search</button></li> -->
+<!--
+                <div id="panel">
+                    <input id="address" type="textbox" placeholder="Enter a location to Checkz!">
+                    <input id="input" type="button" value="Search">
+                </div> -->
 
-                <li><a href={{url_for("show_details")}}><i class="material-icons right">apps</i>Details</a></li>
+
+                <li><a href={{url_for( "render_show_details")}}><i class="material-icons right">apps</i>Details</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
                 <li><a id="show_fav_link"><i class="material-icons right">grade</i>Show Favorites</a></li>
                 <li><a id="clear_markers"><i class="material-icons right">delete</i>Clear Markers</a></li>
@@ -55,8 +61,8 @@
                 <li><a href="#"><span></span>Signed in as {{ session['username'] }}<i class="material-icons right">lock</i></a></li>
                 <li><a id="logout-link" data-userid="{{ session['user_id'] }}" href={{url_for( "logout")}}><i class="material-icons right">lock_open</i>Logout</a></li>
                 {% else %}
-                <li><a href={{url_for("register")}}><i class="material-icons right">person_add</i> Sign Up</a></li>
-                <li><a href={{url_for("login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
+                <li><a href={{url_for( "register")}}><i class="material-icons right">person_add</i> Sign Up</a></li>
+                <li><a href={{url_for( "login")}}><i class="material-icons right">fingerprint</i> Login </a></li>
                 {% endif %}
             </ul>
             <!--  Mobile Nav Bar-->
@@ -78,126 +84,27 @@
             </ul>
         </div>
     </nav>
-<!--  Mobile Nav Bar-->
+    <!--  Mobile Nav Bar-->
     <nav>
         <div class="navbar-fixed indigo" id="search-div">
-            <form class="col s12">
+            <form>
                 <!-- <i class="material-icons prefix">account_circle</i> -->
                 <!-- <div class="row" id="search-address"> -->
                 <!-- <i class="material-icons">local_dining</i> -->
-                <input id="address-input" type="search" placeholder="   Enter a location to Checkz!" required>
+                <input id="address-input" type="textbox" placeholder="   Enter a location to Checkz!">
+
+                <!--<button id="button-input" type="button">Search</button>-->
 
                 <input id="button-input" type="button" value="Search">
                 <!-- <button id="button-input" class="btn waves-effect waves-light red" type="submit">Send</button> -->
             </form>
         </div>
     </nav>
-
-    <!-- <nav>
-        <section class="newsletter container bg-black">
-            <div class="navbar-fixed indigo" id="newsletter">
-                <div class="bg-black" id="newsletter">
-                    <form>
-                        type="search" TODO comment
-                        <input class="bg-black" name="search" placeholder="Enter a location to Checkz!">
-                        <button class="bg-white red"> Search </button>
-                    </form>
-                </div>
-        </section>
-    </nav> -->
-
-    <!-- NEWSLETTER -->
-    <!-- <section class="newsletter container bg-black">
-        <h2> Inscreva-se agora! </h2>
-        <h3>  Receba novidades, dicas e muito mais </h3>
-        <form>
-            <input class="bg-black radius" type="email" name="email" placeholder="Seu email">
-            <button class="bg-white radius"> Cadastrar </button>
-        </form>
-    </section> -->
-
-    <!-- <nav>
-        <div class="nav-wrapper">
-            <div class="row">
-                <div class="col s10">
-                    <form>
-                        <div class="input-field">
-                            <input id="search" type="search" />
-                            <label for="search"><i class="material-icons">search</i></label>
-                        </div>
-                    </form>
-                </div>
-                <div class="col s2">
-                    <ul class="right">
-                        <li><a href="#"><i class="material-icons">close</i></a></li>
-                        <li><a href="#"><i class="material-icons">link</i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-
-
-    <!-- <nav>
-        <div class="nav-wrapper indigo">
-            <div class="row">
-                <div class="col s10">
-                    <form>
-                        <div class="input-field">
-                            <input id="search" type="search" />
-                            <label for="search"><i class="material-icons">search</i></label>
-                        </div>
-                    </form>
-                </div>
-                <div class="col s2">
-                    <ul class="right">
-                        <li><a href="#"><i class="material-icons">close</i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-
-    <!-- <nav>
-        <div class="nav-wrapper">
-            <div class="row">
-                <div class="col s10">
-                    <form>
-                        <div class="input-field">
-                            <input id="search-te" type="search" placeholder="Enter a Location to Checkz!">
-                            <label for="search"><i class="material-icons">search</i></label>
-                        </div>
-                    </form>
-                </div>
-                <div class="col s2">
-                    <ul class="right">
-                        <li><a href="#"><i class="material-icons">close</i></a></li>
-                        <li><a href="#"><i class="material-icons">link</i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-
-
-
-
-    <!--Fixed Search Nav Bar-->
-    <!--
-    <nav>
-        <div class="navbar-fixed indigo">
-            <form class="col s12">
-                <div class="col s8">
-                    <form>
-                        <div class="input-field">
-                            <input type="search" id="search_input" placeholder="Enter a Location to Checkz!">
-                            <label for="search_input"><i class="material-icons">search</i></label>
-                            <i class="material-icons">close</i>
-                        </div>
-                </div>
-                </form>
-        </div>
-    </nav> -->
+<!-- 
+    <div id="floating-panel">
+        <input id="address" type="textbox" placeholder="Enter a location to Checkz!">
+        <input id="input" type="button" value="Search">
+    </div> -->
 
 
     {% block head %} {% endblock %}

@@ -72,13 +72,18 @@ function initFavMap() {
     // directionsDisplay.setMap(favMap);
     // ==============================================================
     // // Related to geocoding
-    // address = /** @type {!HTMLInputElement} */
-    //     (document.getElementById('address-input'));
-    // // // // create an autocomplete search bar
-    // autocomplete = new google.maps.places.Autocomplete(address);
-    // alert(autocomplete);
-    // document.getElementById('button-input').addEventListener('click', addMarkerSearch(autocomplete));
-    // document.getElementById('button-input').addEventListener('click', teste_address(autocomplete));
+    address = /** @type {!HTMLInputElement} */
+        (document.getElementById('address-input'));
+    // // // create an autocomplete search bar
+    autocomplete = new google.maps.places.Autocomplete(address);
+    //
+    document.getElementById('button-input').addEventListener('click', function() {
+
+
+        addMarkerSearch(autocomplete);
+
+    }); // End document.getElementById('button-input').addEventListener
+    // document.getElementById('button-input').addEventListener('click', teste_address("teste"));
     // document.getElementById('pac-input').addEventListener('keypress',  handle(e));
     // addMarkerSearch
     // Event listenter to get previous favotires places
@@ -631,15 +636,19 @@ function hideListings() {
 //====================================================================================
 
 function addMarkerSearch(hpAddress) {
-    alert('addMarkerSearch');
+    alert('Function addMarkerSearch was called');
     if (hpAddress !== 0) {
         var decodeAddress = decodeURIComponent(hpAddress);
         var aux_address = decodeAddress.split('+').join(' ');
-        geocodeAddress(geocoder, favMap, aux_address);
+        // aux_geocode = geocoder
+        geocodeAddress(favMap, aux_address);
+    } else {
+        alert('hpAddress');
+        alert(hpAddress);
     }
 }
 
-function geocodeAddress(geocoder, map, address) {
+function geocodeAddress(map, address) {
     // clear the pre-existing markers and reset holdMarkers array to empty
     //hideListings() - TODO verify the need to clean the markers
     // geocode user's destination in lat lngs
@@ -652,6 +661,7 @@ function geocodeAddress(geocoder, map, address) {
             map.setCenter(dest);
             deslat = dest.lat();
             deslng = dest.lng();
+            alert(deslat, delng);
             addMarker(dest, deslat, deslng, map);
             // // create a marker of destination, place on map
             // var marker1 = new google.maps.Marker({

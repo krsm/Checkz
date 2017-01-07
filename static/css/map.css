@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     font-size: 100%;
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-family: 'Lato', sans-serif;
 }
 
@@ -36,7 +36,7 @@ input[type=search] {
 #button-input {
     background-color: #f44336;
     /* Red */
-    width: 15%;
+    width: 10%;
     color: white;
     padding: 2px 2px;
     border: none;
@@ -78,3 +78,5 @@ input[type=search] {
       .pac-container {
         font-family: Roboto;
       }*/
+
+
