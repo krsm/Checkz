@@ -6,10 +6,13 @@ var dest;
 var deslat;
 var deslng;
 var marker_address; // variable to receive address based on the lat, and long
-// create a geocoder object
-var geocoder = new google.maps.Geocoder();
+// create a map global variable
+var favMap;
+// create an address, and autocomplete
 var address;
 var autocomplete;
+// create a geocoder object
+// var geocoder = new google.maps.Geocoder();
 // ====================================
 // var directionsDisplay = new google.maps.DirectionsRenderer({
 //               polylineOptions: {
@@ -38,8 +41,7 @@ function setFalsebooldisplayinfowindow() {
 // ====================================
 //====================================================================
 
-var favMap;
-//var infoWindow = new google.maps.InfoWindow();
+
 // Initialize Map
 function initFavMap() {
     //====================================================================================
@@ -79,8 +81,29 @@ function initFavMap() {
     //
     document.getElementById('button-input').addEventListener('click', function() {
 
+        // create a geocode var
+        var geocoder = new google.maps.Geocoder();
 
-        addMarkerSearch(autocomplete);
+        // addMarkerSearch(autocomplete);
+
+        //
+        if (autocomplete !== 0) {
+
+            try {
+                var decodeAddress = decodeURIComponent(autocomplete);
+                var aux_address = decodeAddress.split('+').join(' ');
+            } catch (e) {
+                console.error(e);
+            }
+
+            alert('decodeAddress' + aux_address);
+            // geocodeAddress(favMap, aux_address);
+        } else {
+
+            alert("it was else");
+        }
+
+
 
     }); // End document.getElementById('button-input').addEventListener
     // document.getElementById('button-input').addEventListener('click', teste_address("teste"));
@@ -138,9 +161,9 @@ function initFavMap() {
 // used to clean routes
 
 
-function teste_address(h) {
-    alert(h);
-}
+// function teste_address(h) {
+//     alert(h);
+// }
 
 function reload_page() {
     // reload page so routes are clean
@@ -641,10 +664,12 @@ function addMarkerSearch(hpAddress) {
         var decodeAddress = decodeURIComponent(hpAddress);
         var aux_address = decodeAddress.split('+').join(' ');
         // aux_geocode = geocoder
+        // alert('Function addMarkerSearch was called 2 ');
+        alert('decodeAddress' + aux_address);
         geocodeAddress(favMap, aux_address);
     } else {
-        alert('hpAddress');
-        alert(hpAddress);
+        // alert('hpAddress');
+        // alert(hpAddress);
     }
 }
 
@@ -765,4 +790,4 @@ $(document).ready(function() {
     $('select').material_select();
     // related to display the infoWindow
     setFalsebooldisplayinfowindow();
-});
+}); // End document ready

@@ -660,8 +660,6 @@ def render_show_details():
     return render_template("show_details.html")
 
 
-
-
 #============================================================
 '''
 
