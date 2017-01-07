@@ -74,10 +74,10 @@ function initFavMap() {
     // directionsDisplay.setMap(favMap);
     // ==============================================================
     // // Related to geocoding
-    // address = /** @type {!HTMLInputElement} */
-    //     (document.getElementById('address-input'));
+    address = /** @type {!HTMLInputElement} */
+        (document.getElementById('address-input'));
     // // // create an autocomplete search bar
-    address = document.getElementById('address-input');
+    // address = document.getElementById('address-input');
     autocomplete = new google.maps.places.Autocomplete(address);
     //
     document.getElementById('button-input').addEventListener('click', function() {
@@ -94,9 +94,9 @@ function initFavMap() {
             var autola = autolalng.lat();
             var autolng = autolalng.lng();
 
-            alert(autolalng);
-            alert(autola);
-            alert(autolng);
+            // alert(autolalng);
+            // alert(autola);
+            // alert(autolng);
             addMarker(autolalng,autola,autolng,favMap);
             try {
                 // var decodeAddress = decodeURIComponent(autocomplete);
