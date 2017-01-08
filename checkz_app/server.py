@@ -6,14 +6,14 @@ import os
 from flask import Flask, render_template, redirect, request, session, jsonify
 from flask import abort, url_for
 
-import geofuntcions as gf
-from models import connect_to_db, db, User, SavedPlaces
+import checkz_app.geofuntcions as gf
+from checkz_app.models import connect_to_db, db, User, SavedPlaces
 
-import maps as maps
+import checkz_app.maps as maps
 
 #related to sqlalchemy
 
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 
 
@@ -101,7 +101,7 @@ def register():
         return render_template('register.html')
 
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     current_session = db.session  # open database session
     error = None
@@ -130,7 +130,7 @@ def login():
         return render_template("login.html", error=error)
 
 
-
+#TODO confirm need to decorate function with login required
 @app.route('/logout/')
 def logout():
     session.pop('username', None)
@@ -153,6 +153,11 @@ def render_map():
 @app.route('/about_page')
 def about_page():
     return render_template("about.html")
+
+
+# login required decorator
+def logout_required():
+    pass
 
 
 
@@ -711,5 +716,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    # app.run(host="192.168.1.110")
-    app.run()
+    app.run(host="192.168.1.110")
+    # app.run()

@@ -13,19 +13,15 @@
 
     <!--Import materialize.css-->
     <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection" /> -->
-
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
     <!--Import map.css-->
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}" media="screen,projection" />
 
-    <!--Import search_adress.css-->
-    <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/search_address.css') }}" media="screen,projection" /> -->
-
     <meta name="description" content=" Save favorite places in advance, update waiting time, navigate to the shortest waiting time + shortest ETA. Wait less, do more.">
     <meta name="keywords" content="waiting time, location, navigation, do more, wait less, python, flask, save time">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="km">
+    <meta name="author" content="krsm">
 
     <!--Import favicon-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -40,16 +36,6 @@
             <ul class="right hide-on-med-and-down">
 
                 <!--  from materialize website-->
-                <!--
-                <li><i class="material-icons">search</i></li>
-                <li><input type="search" id="search_text" placeholder="Enter a Location"></li>
-                <li><button class="btn waves-light red" type="submit">Search</button></li> -->
-<!--
-                <div id="panel">
-                    <input id="address" type="textbox" placeholder="Enter a location to Checkz!">
-                    <input id="input" type="button" value="Search">
-                </div> -->
-
 
                 <li><a href={{url_for("render_show_details")}}><i class="material-icons right">apps</i>Details</a></li>
                 <li><a id="my_location_link"><i class="material-icons right">my_location</i>My location</a></li>
@@ -68,6 +54,7 @@
             <!--  Mobile Nav Bar-->
             <ul class="side-nav" id="mobile-demo">
 
+                <li><a href={{url_for("render_show_details")}}><i class="material-icons right">apps</i>Details</a></li>
                 <li><a id="my_location_link_mobile"><i class="material-icons right">my_location</i>My location</a></li>
                 <li><a id="show_fav_link_mobile"><i class="material-icons right">grade</i>Show Favorites</a></li>
                 <li><a id="clear_markers_mobile"><i class="material-icons right">delete</i>Clear Map</a></li>
@@ -88,7 +75,7 @@
     <nav>
         <div class="navbar-fixed indigo" id="search-div">
             <form>
-                <input id="address-input" type="text" placeholder="   Enter a location to Checkz!">
+                <input id="address-input" type="text" placeholder="Enter a location to Checkz!">
                 <input id="button-input" type="button" value="Search">
             </form>
         </div>
@@ -99,16 +86,20 @@
 </head>
 
 <body>
-    <!--Import jQuery before materialize.js-->
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>-->
-    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-    <script>
+<!--Import jQuery before materialize.js-->
+<!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script> -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>-->
+<!-- <script src="{{ url_for('static', filename='js/materialize.js') }}"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script>
         $(document).ready(function() {
             $(".button-collapse").sideNav();
         });
     </script>
-    {% block body %}{% endblock %}
+{% block body %}{% endblock %}
 </body>
 <footer class="page-footer indigo">
     <div class="container">

@@ -1,63 +1,19 @@
-{% extends "layout.html" %}
-
-{% block head %}
+{% extends "layout.html" %} {% block head %}
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&libraries=places&callback=initFavMap"
-        async defer></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&libraries=places&callback=initFavMap" async defer></script> -->
 
-
-{% endblock %}
-
-{% block body %}
+{% endblock %} {% block body %}
 
 <!-- Maps group -->
 
-    <div id="map"> <!-- Note that "m4 l3" was added -->
-      <!-- Grey navigation panel
-
-            This content will be:
-        3-columns-wide on large screens,
-        4-columns-wide on medium screens,
-        12-columns-wide on small screens  -->
-
-    </div>
-
-
-  <!--
-    <div class="fixed-action-btn">
-       <a class="btn-floating btn-large red">
-         <i class="large material-icons">mode_edit</i>
-       </a>
-       <ul>
-         <li><a class="btn-floating green action-favourites-showmodal"><i class="material-icons">favorite</i> Show Info about favorite</a></li>
-       </ul>
-     </div>
-
-
--->
-
-
-
-
+<div id="map">
+</div>
 
 <!-- Javascript Functions related to Map -->
-
- <!--<script type="'text/javascript" src="{{ url_for('static', filename='js/gmaps.js')}}"></script>-->
-
 <script src="/static/js/gmaps.js"></script>
-<!--
-<script type="text/javascript">
 
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&v=3&callback=initFavMap&libraries=places">
 </script>
--->
-
-<!--
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvtcBj2zu72YftC9jBtclZAkcXgJ5qlI&callback=initFavMap">
-</script>
-
--->
-
 {% endblock %}

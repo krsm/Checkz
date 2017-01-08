@@ -1,3 +1,4 @@
+"use strict";
 // create global map, destination coordinates, and address
 // Create a new blank array for all the listing markers. To be used with the clear button
 var markers = [];
@@ -11,8 +12,11 @@ var favMap;
 // create an address, and autocomplete
 var address;
 var autocomplete;
+var autocomplete_dest;
 // create a geocoder object
 var geocoder = new google.maps.Geocoder();
+// create a bound object
+var bounds = new google.maps.LatLngBounds();
 // ====================================
 // var directionsDisplay = new google.maps.DirectionsRenderer({
 //               polylineOptions: {
@@ -65,7 +69,7 @@ function initFavMap() {
     favMap = new google.maps.Map(document.getElementById('map'), {
         center: LatLng,
         scrollwheel: false,
-        zoom: 13,
+        zoom: 11,
         zoomControl: true,
         panControl: true,
         streetViewControl: true,
@@ -73,85 +77,39 @@ function initFavMap() {
     }); // End of favMap
     // directionsDisplay.setMap(favMap);
     // ==============================================================
-    // // Related to geocoding
+    // Related to geocoding
     address = /** @type {!HTMLInputElement} */
         (document.getElementById('address-input'));
     // // // create an autocomplete search bar
     // address = document.getElementById('address-input');
-    autocomplete = new google.maps.places.Autocomplete(address);
-    //
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById('address-input'));
+    // Event listenter to trigger
     document.getElementById('button-input').addEventListener('click', function() {
 
-        // create a geocode var
-        // var geocoder = new google.maps.Geocoder();
-
-        // addMarkerSearch(autocomplete);
-
-        //
         if (autocomplete !== 0) {
 
-            var autolalng = autocomplete.getPlace().geometry.location;
-            var autola = autolalng.lat();
-            var autolng = autolalng.lng();
-
-            // alert(autolalng);
-            // alert(autola);
-            // alert(autolng);
-            addMarker(autolalng,autola,autolng,favMap);
             try {
-                // var decodeAddress = decodeURIComponent(autocomplete);
-                // var aux_address = decodeAddress.split('+').join(' ');
 
-
-                // It was another function
-                // geocoder.geocode({
-                //     'address': aux_address
-                // }, function(results, status) {
-                //     // if the status comes back OK, get the destination location
-                //     if (status === google.maps.GeocoderStatus.OK) {
-                //         dest = results[0].geometry.location;
-                //         map.setCenter(dest);
-                //         deslat = dest.lat();
-                //         deslng = dest.lng();
-                //         alert(deslat, delng);
-                //         addMarker(dest, deslat, deslng, favMap);
-                //         // // create a marker of destination, place on map
-                //         // var marker1 = new google.maps.Marker({
-                //         //   map: map,
-                //         //   //animation: google.maps.Animation.DROP,
-                //         //   position: dest
-                //         // });
-                //         // addInfoWindowFavoritePlaces(deslat,deslng,marker1);
-                //         // markers.push(marker);
-                //     } else {
-                //         alert('Something went wrong: ' + status);
-                //     }
-                // });
-
-
-
-
+                var autolalng = autocomplete.getPlace().geometry.location;
+                var autola = autolalng.lat();
+                var autolng = autolalng.lng();
+                // call function to add a marker
+                addMarker(autolalng, autola, autolng, favMap);
 
 
             } catch (e) {
                 console.error(e);
             }
 
-            // alert('decodeAddress' + aux_address);
-            // // geocodeAddress(favMap, aux_address);
-        } else {
-
-            // alert("it was else");
         }
 
-
+        document.getElementById("address-input").innerHTML = " Enter a location to Checkz!";
 
     }); // End document.getElementById('button-input').addEventListener
-    // document.getElementById('button-input').addEventListener('click', teste_address("teste"));
-    // document.getElementById('pac-input').addEventListener('keypress',  handle(e));
-    // addMarkerSearch
-    // Event listenter to get previous favotires places
-    // var userId = $('#logout-link').data('userid');
+
+    // ====================================================================
+
+    // Event listenter to get previous favotires places;
     document.getElementById('show_fav_link').addEventListener('click', getFavoriteSpots);
     // Event listenter to trigger locateUser
     document.getElementById('my_location_link').addEventListener('click', locateUser);
@@ -173,6 +131,11 @@ function initFavMap() {
     // End of Mobile links
     // -----------------------
     //########################################################################
+    // init autocomplete function related to address
+    // initAutocomplete();
+    //########################################################################
+
+
     // Event listener to any click in the screen to add a marker
     favMap.addListener('click', function(e) {
         // creating lat and long variables
@@ -191,25 +154,38 @@ function initFavMap() {
     //  document.getElementById('show_fav_link').addEventListener('click', setFalsebooldisplayinfowindow);
 } // End of Initialize Map
 //======================================
-//to be deleted    function handle(e){
-// function handle(e){
-//     if(e.keyCode === 13){
-//         e.preventDefault(); // Ensure it is only this code that rusn
-//         alert("Enter was pressed was presses");
-//     }
-// }
-// function to reload page
-// used to clean routes
 
-
-// function teste_address(h) {
-//     alert(h);
-// }
-
+// Part of code related to autocomplete address and insert a marker
+// function initAutocomplete() {
+//
+//     autocomplete_dest = new google.maps.places.Autocomplete(document.getElementById('address-input'));
+//
+//     autocomplete_dest.addListener('plance_changed', fillAddress);
+//
+//     document.getElementById('button-input').addEventListener('click', function() {
+//
+//
+//
+//
+//     });
+//
+// } // End of function initAutocomplete
+//
+//
+// function fillAddress() {
+//     // Get latitude, longitude, and complete addresses for origin input by users
+//     var place = autocomplete_dest.getPlace();
+//     alert(place);
+//
+// } // End of function fillAddress
+//
+//
+// // End of Part of code related to autocomplete address and insert a marker
+// ===============================================
 function reload_page() {
     // reload page so routes are clean
     location.reload();
-} // End of  functio to reload page
+} // End of  function to reload page
 //======================================
 
 function addMarker(latLng, lat, long, map) {
@@ -247,7 +223,18 @@ function addMarker(latLng, lat, long, map) {
         '</div>' +
         '</div>';
     bindInfoWindow(marker, map, infowindow, content_string, bool_display_infowindow);
+    //push marker to markers list
     markers.push(marker);
+    // set bounds
+    // var boundMarkers = new google.maps.LatLngBounds();
+    // var currentMarker = new google.maps.LatLng(lat, long);
+    // boundMarkers.extend(currentMarker);
+    // favMap.fitBounds(boundMarkers);
+
+    // window.userLocation = new google.maps.LatLng(lat, long);
+    // bounds.extend(marker.position);
+    // // Extend the boundaries of the map for each marker
+    // map.fitBounds(bounds);
 } // End of Function
 // Function to add infowindow to Marker
 
@@ -552,8 +539,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
         map: map,
         icon: aux_icon
     });
-    // Push the marker to our array of markers.
-    //markers.push(marker);
+
     var infowindow = new google.maps.InfoWindow();
     var aux_waiting_time = Math.round(waiting_time);
     var contentWaitinTime = '<div id="content">' +
@@ -569,6 +555,7 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
         '<button class="btn waves-effect waves-light red" id="remove_saved_places" type="button" onclick="RemovePreviousSaved(' + lat + ',' + long + ')" >Uncheckz!</button>' +
         '</div>';
     bindInfoWindow(marker, map, infowindow, contentWaitinTime, bool_display_infowindow);
+    // Push the marker to our array of markers.
     markers.push(marker);
 } // End offunction addMarkerPreviousPlaces
 //====================================================================================
@@ -591,7 +578,7 @@ function RemovePreviousSaved(lat, long) {
         });
         // getting remaining positions and populating the screen
         $.get('/get_favorite_places', userData, makeSavedMarkers);
-        //location.reload();
+
     }
 } //====================================================================================
 
@@ -606,9 +593,7 @@ function UpdateWaitingTime(lat, long) {
             'location_long': long,
             'updated_waiting_time': updated_waiting_time
         };
-        $.post('/update_waiting_time', updatedData, function() {
-            //alert(updated_waiting_time);
-        });
+        $.post('/update_waiting_time', updatedData, function() {});
         // attempt to close the marker to avoid duplicate infowindow
         setTruebooldisplayinfowindow();
         close_marker(lat, long);
@@ -638,7 +623,7 @@ function locateUser() {
             markers.push(favMark);
             // Call function to display pop up to save place as favorite
             addInfoWindowFavoritePlaces(lat, long, favMark);
-            window.userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            window.userLocation = new google.maps.LatLng(lat, long);
             // anything that needs to ref userLocation MUST happen before the end of this function
         }, function() {
             handleNoGeolocation(browserSupportFlag);
