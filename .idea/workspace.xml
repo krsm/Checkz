@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38ea5bf8-f696-4b02-bc72-2825f08363ee" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/CheckzDB" afterPath="$PROJECT_DIR$/checkz_app/CheckzDB" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" afterPath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/geofuntcions.py" afterPath="$PROJECT_DIR$/checkz_app/geofuntcions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/server.py" afterPath="$PROJECT_DIR$/checkz_app/server.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/static/js/gmaps.js" afterPath="$PROJECT_DIR$/checkz_app/static/js/gmaps.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.py" afterPath="$PROJECT_DIR$/run.py" />
     </list>
     <ignored path="FlaskRestAlchemy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +27,21 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/checkz_app/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="198">
+              <caret line="23" column="30" lean-forward="true" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
               <folding>
                 <element signature="e#32#47#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="geofuntcions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_app/geofuntcions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -111,16 +116,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="environment.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/environment.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="15" lean-forward="false" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/checkz_app/setup.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -147,6 +142,8 @@
       <find>teste_address     document.getElementById('clear_markers').addEventListener('click', hideListings);</find>
       <find>&lt;!DOCTYPE html&gt; &lt;html&gt;  &lt;head&gt;     &lt;!--Import Google Icon Font--&gt;     &lt;link href=&quot;http://fonts.googleapis.com/icon?family=Material+Icons&quot; rel=&quot;stylesheet&quot;&gt;      &lt;!--Import materialize.css--&gt;     &lt;!--&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;{{ url_for('static', filename='css/materialize.css') }}&quot; media=&quot;screen,projection&quot; /&gt;--&gt;            &lt;!-- Compiled and minified CSS --&gt;   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css&quot;&gt;    &lt;!-- Compiled and minified JavaScript --&gt;   &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js&quot;&gt;&lt;/script&gt;      &lt;!--Let browser know website is optimized for mobile--&gt;     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;      &lt;link rel=&quot;shortcut icon&quot; href=&quot;{{ url_for('static', filename='favicon.ico') }}&quot;&gt;        {% block head %} {% endblock %} &lt;/head&gt;  &lt;body&gt;       {% block body %}{% endblock %} &lt;/body&gt;    &lt;/html&gt; &lt;footer&gt;    {% block footer %}{% endblock %} &lt;/footer&gt;</find>
       <find>get_favorite_places</find>
+      <find>RADIUS_CIRCLE</find>
+      <find>RADIUS_SAVED_PLACES</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -156,7 +153,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../../../GitHub/Clock_app/clock/tests.py" />
         <option value="$PROJECT_DIR$/templates/login2.html" />
         <option value="$PROJECT_DIR$/templates/map.html" />
         <option value="$PROJECT_DIR$/templates/register.html" />
@@ -206,6 +202,7 @@
         <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/blue_apps/api/get_data.py" />
         <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/blue_apps/__init__.py" />
         <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/checkz_app/geofuntcions.py" />
         <option value="$PROJECT_DIR$/checkz_app/server.py" />
       </list>
     </option>
@@ -683,11 +680,6 @@
           <line>2</line>
           <option name="timeStamp" value="196" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/checkz_app/server.py</url>
-          <line>175</line>
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -704,7 +696,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/login.html" />
     <entry file="file://$PROJECT_DIR$/templates/register.html" />
     <entry file="file://$PROJECT_DIR$/templates/teste" />
     <entry file="file://$USER_HOME$/anaconda3/envs/py35/lib/python3.5/site-packages/werkzeug/__init__.py">
@@ -948,10 +939,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_app/geofuntcions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/checkz_app/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="198">
+          <caret line="23" column="30" lean-forward="true" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
           <folding>
             <element signature="e#32#47#0" expanded="true" />
           </folding>

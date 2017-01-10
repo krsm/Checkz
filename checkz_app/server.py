@@ -26,7 +26,7 @@ from sqlalchemy.sql import func
 # it is in meters
 
 RADIUS_CIRCLE = 3   # distance used to be same place in meters
-RADIUS_SAVED_PLACES = 30000  # considering closed places in radius of 30km
+RADIUS_SAVED_PLACES = 24.1402  # 15 miles  = 24.1402 considering closed places in radius
 
 # ------------------------------------------------
 
@@ -479,7 +479,18 @@ def get_info_about_close_locations():
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
 
+    current_session = db.session  # open database session
 
+    # get all saved places by all users
+    querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+
+    # parsing query
+    for location in querysavedplaces:
+        # verify if the distance of the newlocation is already in the database, or if there is a close location
+        # verifying that calculating distance of 2 points, it will be considered as same place if the distance btw 2 points is smaller than 10 m
+        distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
+                                                              float(location.location_lat),
+                                                              float(location.location_long), RADIUS_SAVED_PLACES)
 
     return "ok"
 

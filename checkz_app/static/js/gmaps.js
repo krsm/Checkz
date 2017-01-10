@@ -85,22 +85,20 @@ function initFavMap() {
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('address-input'));
     // Event listenter to trigger
     document.getElementById('button-input').addEventListener('click', function() {
-
+      // asssure that there is a text-address
         if (autocomplete !== 0) {
 
             try {
-
                 var autolalng = autocomplete.getPlace().geometry.location;
                 var autola = autolalng.lat();
                 var autolng = autolalng.lng();
                 // call function to add a marker
+                //TODO create bound function in this case
+                //It is working for the first time that function is called
                 addMarker(autolalng, autola, autolng, favMap);
-
-
             } catch (e) {
                 console.error(e);
             }
-
         }
 
         // TODO evaluate else condition
@@ -211,7 +209,7 @@ function addMarker(latLng, lat, long, map) {
         '<option value="Eat">Eat</option>' +
         '<option value="Fun">Fun</option>' +
         '<option value="Health">Health</option>' +
-        '</select>' + //Waiting time
+        '</select>' + //Type of location
         '<button class="btn waves-effect waves-light green" id="favotite-button" type="button" onclick="createFavoriteSpot(' + lat + ',' + long + ')" > Checkz! </button>' +
         '<p> </p>' +
         '<label> Directions to shortest waiting time </label>' +
@@ -339,7 +337,7 @@ function getDirections(response) {
                         directions: result,
                         draggable: false,
                         polylineOptions: {
-                            strokeColor: 'red'
+                            strokeColor: 'blue'
                         }
                     });
                 } else {
@@ -365,9 +363,10 @@ function get_formatted_address() {
     $.get('/get_formatted_address', markerData, get_formatted_address);
 
 }
-
+// function to get info about the shortest waiting time
 function get_location_shortest_time(fav_lat, fav_lng) {
     // grabbing user id from html that only w if user is in session
+    //TODO create function to verify if user is in the database and logged in
     var userId = $('#logout-link').data('userid');
     if (userId !== undefined) {
         // Getting value of type_location from HTML
@@ -423,7 +422,7 @@ function getInfoCloseLocations(lat, long) {
     // } // end of if UserId
 
 } //====================================================================================
-//Function to parse data related to 
+//Function to parse data related to pre
 function showInfoCloseLocations(response) {
     /***
 {'saved_places'[{'user_id': place.user_id,
@@ -438,7 +437,8 @@ function showInfoCloseLocations(response) {
     // Verify if response was empty
     //=== 	equal value and equal type
     if (response['saved_places'].length == 0) {
-        alert('User does not have saved any previous favorite place!')
+        // alert('User does not have saved any previous favorite place!')
+        alert('No information available related to close places in a range of 30 miles! Create and account and Checkz!favorite places.')
     } else {
         var place_lat, place_long, place_waiting_time, place_type_location;
         for (var i = 0; i < response['saved_places'].length; i++) {
@@ -447,8 +447,9 @@ function showInfoCloseLocations(response) {
             place_long = parseFloat(response['saved_places'][i]['location_long']);
             place_waiting_time = response['saved_places'][i]['waiting_time'] || '';
             place_type_location = response['saved_places'][i]['type_location'];
+            alert(place_lat, place_long,place_waiting_time );
             // Adding previous saved locations to map
-            addMarkerPreviousPlaces(place_lat, place_long, favMap, place_waiting_time, place_type_location);
+            // addMarkerPreviousPlaces(place_lat, place_long, favMap, place_waiting_time, place_type_location);
             // Adding infoWindow to the previous saved locations
         } // end of for
 
