@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="SQLAlchemy_db" />
     <orderEntry type="module" module-name="SQLAlchemy_db" />
     <orderEntry type="module" module-name="park-place-master" />
+    <orderEntry type="module" module-name="FlaskBluerprintsApp" />
   </component>
   <component name="ReSTService">
     <option name="workdir" value="$MODULE_DIR$" />

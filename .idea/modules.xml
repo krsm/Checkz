@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/.idea/FlaskBluerprintsApp.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/.idea/FlaskBluerprintsApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" filepath="$PROJECT_DIR$/.idea/FlaskRestAlchemy.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_database.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_database.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_db.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_db.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" filepath="$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" filepath="$PROJECT_DIR$/../00 - Examples/park-place-master/.idea/park-place-master.iml" />
     </modules>
   </component>
 </project>

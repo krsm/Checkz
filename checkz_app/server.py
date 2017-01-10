@@ -11,11 +11,13 @@ from checkz_app.models import connect_to_db, db, User, SavedPlaces
 
 import checkz_app.maps as maps
 
+# contain the possible type of locations allowed to users save
+TYPE_OF_LOCATIONS = ["Eat", "Fun", "Health"]
+
 #related to sqlalchemy
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
-
 
 
 # ----------------------
@@ -228,6 +230,8 @@ def get_all_favorite_places():
     # response.content_type = "application/json"
     #
     # print(response)
+
+    print(saved_places)
 
     return jsonify({"saved_places": saved_places})
     #return response
@@ -467,10 +471,8 @@ def update_waiting_time():
 
     return "update_waiting_time_done"
 
-
-
 # route to return info about places to user
-# before user be logged in
+# before user be logged in, display info related to places save by others
 @app.route('/get_info_about_close_locations', methods=['GET'])
 def get_info_about_close_locations():
 
@@ -716,5 +718,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    # app.run()
+    # app.run(host="192.168.1.110")
+    app.run()

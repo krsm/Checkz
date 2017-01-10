@@ -1,4 +1,4 @@
-// "use strict";
+"use strict";
 // create global map, destination coordinates, and address
 // Create a new blank array for all the listing markers. To be used with the clear button
 var markers = [];
@@ -102,8 +102,6 @@ function initFavMap() {
             }
 
         }
-
-        // TODO evaluate else condition
 
         document.getElementById("address-input").innerHTML = " Enter a location to Checkz!";
 
@@ -406,60 +404,9 @@ function createFavoriteSpot(fav_lat, fav_lng) {
     } else {
         alert('You need to be logged in to favorite spots.');
     }
-
 } //====================================================================================
-// this gets called when a marker is created and the user it not logged in
-// To display info related to
-function getInfoCloseLocations(lat, long) {
-    //alert('function getFavoriteSpots was trigged')
-    // if (userId !== undefined) {
-    var userData = {
-        'location_lat': lat,
-        'location_long': long
-    };
-    $.get('/get_info_about_close_locations', userData, showInfoCloseLocations);
-    // } else {
-    alert('Displaying data related to places saved by other users! Log in to save places.');
-    // } // end of if UserId
-
-} //====================================================================================
-//Function to parse data related to 
-function showInfoCloseLocations(response) {
-    /***
-{'saved_places'[{'user_id': place.user_id,
-'created_timestamp': place.created_timestamp,
-'modified_timestamp': place.modified_timestamp,
-'location_lat': place.location_lat,
-'location_long': place.location_long,
-'address': place.address,
-'waiting_time': place.waiting_time,
-'type_location': place.type_location})
-***/
-    // Verify if response was empty
-    //=== 	equal value and equal type
-    if (response['saved_places'].length == 0) {
-        alert('User does not have saved any previous favorite place!')
-    } else {
-        var place_lat, place_long, place_waiting_time, place_type_location;
-        for (var i = 0; i < response['saved_places'].length; i++) {
-            // unpacking response data
-            place_lat = parseFloat(response['saved_places'][i]['location_lat']);
-            place_long = parseFloat(response['saved_places'][i]['location_long']);
-            place_waiting_time = response['saved_places'][i]['waiting_time'] || '';
-            place_type_location = response['saved_places'][i]['type_location'];
-            // Adding previous saved locations to map
-            addMarkerPreviousPlaces(place_lat, place_long, favMap, place_waiting_time, place_type_location);
-            // Adding infoWindow to the previous saved locations
-        } // end of for
-
-    } // end of else
-
-} // End of function makeMarkers
-//====================================================================================
-
-
-
 // this gets called when you click the fav-button rendered in InfoWindow
+
 function getFavoriteSpots() {
     var userId = $('#logout-link').data('userid');
     //alert('function getFavoriteSpots was trigged')
@@ -504,7 +451,6 @@ function makeSavedMarkers(response) {
     if (response['saved_places'].length == 0) {
         alert('User does not have saved any previous favorite place!')
     } else {
-        var place_lat, place_long, place_waiting_time, place_type_location;
         for (var i = 0; i < response['saved_places'].length; i++) {
             // unpacking response data
             place_lat = parseFloat(response['saved_places'][i]['location_lat']);
