@@ -1,19 +1,26 @@
-{% extends "layout.html" %} {% block head %}
+{% extends "layout.html" %}
 
+{% block body %}
 
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&libraries=places&callback=initFavMap" async defer></script> -->
+<!--<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0" type="text/javascript"></script>-->
 
-{% endblock %} {% block body %}
+<script src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&v=3&libraries=places">
+</script>
+
+<!--<script async defer-->
+        <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&callback=initFavMap">-->
+<!--</script>-->
 
 <!-- Maps group -->
 
-<div id="map">
-</div>
+<div class="hidden" id="right-panel"></div>
+<div id="map"></div>
 
 <!-- Javascript Functions related to Map -->
 <script src="/static/js/gmaps.js"></script>
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0&v=3&callback=initFavMap&libraries=places">
-</script>
+
+
+
 {% endblock %}

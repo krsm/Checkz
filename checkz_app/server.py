@@ -12,7 +12,7 @@ from checkz_app.models import connect_to_db, db, User, SavedPlaces
 import checkz_app.maps as maps
 
 # contain the possible type of locations allowed to users save
-TYPE_OF_LOCATIONS = ["Eat", "Fun", "Health"]
+type_of_locations = ["Eat", "Fun", "Health"]
 
 #related to sqlalchemy
 
@@ -26,7 +26,7 @@ from sqlalchemy.sql import func
 # it is in meters
 
 RADIUS_CIRCLE = 3   # distance used to be same place in meters
-RADIUS_SAVED_PLACES = 24.1402  # 15 miles  = 24.1402 considering closed places in radius
+RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
 
 # ------------------------------------------------
 
@@ -426,7 +426,6 @@ def get_updated_waiting_time():
 @app.route('/update_waiting_time', methods=['POST'])
 def update_waiting_time():
 
-
     # parsing request data
     # -------------------------
 
@@ -479,20 +478,46 @@ def get_info_about_close_locations():
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
 
+    saved_places = []
+
     current_session = db.session  # open database session
 
     # get all saved places by all users
-    querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+    # TODO get the most update waiting time, use time_stamp to query
+    # querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+    querysavedplaces = current_session.query(SavedPlaces).order_by(SavedPlaces.modified_timestamp.desc()).all()
 
     # parsing query
     for location in querysavedplaces:
         # verify if the distance of the newlocation is already in the database, or if there is a close location
-        # verifying that calculating distance of 2 points, it will be considered as same place if the distance btw 2 points is smaller than 10 m
-        distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
-                                                              float(location.location_lat),
-                                                              float(location.location_long), RADIUS_SAVED_PLACES)
+        # verifying that calculating distance of 2 points, it will be considered as close place if the distance btw 2 points is smaller than 15 miles
+        distance_location, close_location = gf.verify_distance(float(location_lat), float(location_long),
+                                                               float(location.location_lat),
+                                                               float(location.location_long), RADIUS_SAVED_PLACES)
+        # distance_location in meters
+        # dispplay info related to 10 locations max
+        if close_location is True and (len(saved_places) <= 5):
 
-    return "ok"
+            #TODO different users can save the same location as diffrerent type
+            #Create logic to verify if it is the same as place, and just append
+            # if the place does not exist already in the list,
+            # The waiting time is already the same...
+            saved_places.append({'user_id': location.user_id,
+                                 'created_timestamp': location.created_timestamp,
+                                 'modified_timestamp': location.modified_timestamp,
+                                 'location_lat': location.location_lat,
+                                 'location_long': location.location_long,
+                                 'address': location.address,
+                                 'waiting_time': location.waiting_time,
+                                 'type_location': location.type_location})
+
+
+
+    current_session.close()
+
+    # print(saved_places)
+
+    return jsonify({"saved_places": saved_places})
 
 
 #TODO improve the follow query an
@@ -587,11 +612,13 @@ def get_direction_shortest_time():
     # print(current_address)
 
     #TODO change the possible tyoe of location as a global variable
-    possible_locations = ["Eat", "Fun", "Health"]
+    # possible_locations = TYPE_OF_LOCATIONS
 
     saved_places = []
 
-    if type_location in possible_locations:
+    # type_of_locations is a global variable what contains possible types of places
+
+    if type_location in type_of_locations:
 
         current_session = db.session  # open database session
         # query table USer to get username and then query by user
@@ -636,9 +663,9 @@ def get_direction_shortest_time():
                         min_traffic_time = min(traffic_time, key=lambda x: traffic_time.get(x))
 
             saved_places.append({'location_lat': aux_dic_traffic_time[min_traffic_time][0],
-                                             'location_long': aux_dic_traffic_time[min_traffic_time][1],
-                                             'current_location_lat': location_lat,
-                                             'current_location_long': location_long})
+                                 'location_long': aux_dic_traffic_time[min_traffic_time][1],
+                                 'current_location_lat': location_lat,
+                                 'current_location_long': location_long})
         current_session.close()
     else:
         pass
@@ -729,5 +756,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    # app.run(host="192.168.1.110")
-    app.run()
+    app.run(host="192.168.1.110")
+    # app.run()

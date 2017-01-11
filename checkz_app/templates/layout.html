@@ -13,7 +13,7 @@
 
     <!--Import materialize.css-->
     <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection" /> -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
     <!--Import map.css-->
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}" media="screen,projection" />
@@ -75,11 +75,14 @@
     <nav>
         <div class="navbar-fixed indigo" id="search-div">
             <form>
-                <input id="address-input" type="text" placeholder="Enter a location to Checkz!">
+                <input class="autocomplete" id="address-input" type="text" placeholder="Enter a location to Checkz!">
+                <!--<label for="address-input">Enter a location to Checkz</label>-->
                 <input id="button-input" type="button" value="Search">
             </form>
         </div>
     </nav>
+
+
 
 
     {% block head %} {% endblock %}
@@ -93,7 +96,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!-- Compiled and minified JavaScript -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 <script>
         $(document).ready(function() {
             $(".button-collapse").sideNav();

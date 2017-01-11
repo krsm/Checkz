@@ -48,6 +48,21 @@ input[type=text] {
     border-radius: 4px
 }
 
+        #right-panel {
+            height: 100%;
+            float: right;
+            width: 350px;
+            overflow: auto;
+            padding: 5px;
+        }
+        #right-panel.hidden {
+/*            width: 0px;
+            transition: width 2s;*/
+            display: none;
+        }
+
+
+
 
 /*.controls {
         margin-top: 10px;
