@@ -405,14 +405,6 @@ def get_updated_waiting_time():
 
         current_session.close()
 
-        # response = make_response(json.dumps(saved_places))
-        #
-        # response.content_type = "application/json"
-        #
-        # print(response)
-
-        # print(saved_places)
-
         return jsonify({"saved_places": saved_places})
 
 
@@ -750,5 +742,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    # app.run(host="192.168.1.110")
-    app.run()
+    app.run(host="192.168.1.110")
+    # app.run()

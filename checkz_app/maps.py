@@ -44,9 +44,9 @@ def get_duration_in_traffic(origins, destinations):
 
     return matrix['rows'][0]['elements'][0]['duration_in_traffic']['text']
 
-
+#
 # if __name__ == "__main__":
-
+#
 # origins = ["Mebane, North Caolina"]
 # destinations = ["Morrisville, North Carolina"]
 #

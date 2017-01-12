@@ -19,8 +19,12 @@ var geocoder = new google.maps.Geocoder();
 var bounds = new google.maps.LatLngBounds();
 // ====================================
 // create a single directions route
-var directionsService = new google.maps.DirectionsService;
-var directionsDisplay = new google.maps.DirectionsRenderer;
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer({
+  polylineOptions: {
+    strokeColor: "purple"
+  }
+});
 //
 // ====================================
 // helper variable related to display infoWindow
@@ -33,11 +37,9 @@ function setTruebooldisplayinfowindow() {
 function setFalsebooldisplayinfowindow() {
     bool_display_infowindow = false;
 } // End of helper variable related to infoWindow
-// ====================================
-//====================================================================
+
 // Initialize Map
 function initFavMap() {
-    //====================================================================================
 
     //====================================================================================
     //Initialize value
@@ -270,30 +272,33 @@ function getDirections(response) {
             var curLatLng = new google.maps.LatLng(current_location_lat, current_location_long);
 
 
-            // var request = {
-            //     // window.userLocation is global
-            //     origin: curLatLng,
-            //     destination: markLatLng,
-            //     travelMode: google.maps.TravelMode.DRIVING
-            // };
-            //
-            // directionsService.route(request, function(result, status) {
-            //     if (status == 'OK') {
-            //         directionsDisplay.setDirections(result);
-            //     }
-            // });
+            directionsDisplay.setMap(favMap);
+            directionsDisplay.setPanel(document.getElementById('right-panel'));
 
-            directionsService.route({
+
+            var request = {
+                // window.userLocation is global
                 origin: curLatLng,
                 destination: markLatLng,
-                travelMode: 'DRIVING'
-            }, function(response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, function(result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(result);
                 }
             });
+            // directionsService.route({
+            //     origin: curLatLng,
+            //     destination: markLatLng,
+            //     travelMode: 'DRIVING'
+            // }, function(response, status) {
+            //     if (status === 'OK') {
+            //         directionsDisplay.setDirections(response);
+            //     } else {
+            //         window.alert('Directions request failed due to ' + status);
+            //     }
+            // });
 
 
 
@@ -892,7 +897,7 @@ function getAddress(lat, long) {
 // End of Code related to geocoding
 //====================================================================================
 // function to remove a marker
-
+//TODO delete function
 function remove_marker(lat, long) {
     //var to_be_removed_marker_position = new google.maps.LatLng(lat, long);
     for (var i = 0; i < markers.length; i++) {
@@ -947,9 +952,7 @@ $(document).ready(function() {
     // Event to load the map
     google.maps.event.addDomListener(window, 'load', initFavMap);
 
-    directionsDisplay.setMap(favMap);
-    directionsDisplay.setPanel(document.getElementById('right-panel'));
-    //
+
     // var geocoder = new google.maps.Geocoder();
     // var bounds = new google.maps.LatLngBounds();
     // related to materialize library
