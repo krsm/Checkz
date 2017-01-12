@@ -4,20 +4,19 @@ import datetime
 import os
 
 from flask import Flask, render_template, redirect, request, session, jsonify
-from flask import abort, url_for
+from flask import url_for
 
 import checkz_app.geofuntcions as gf
+import checkz_app.maps as maps
 from checkz_app.models import connect_to_db, db, User, SavedPlaces
 
-import checkz_app.maps as maps
-
-# contain the possible type of locations allowed to users save
+# contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
 
 #related to sqlalchemy
 
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
+# from flask_sqlalchemy import SQLAlchemy
+# from sqlalchemy.sql import func
 
 
 # ----------------------
@@ -158,7 +157,7 @@ def about_page():
 
 
 # login required decorator
-def logout_required():
+def login_required():
     pass
 
 
@@ -212,8 +211,6 @@ def get_all_favorite_places():
 
         for place in allsavedplaces:
 
-            #if place.user_id:
-
             saved_places.append({'user_id': place.user_id,
                                  'created_timestamp': place.created_timestamp,
                                  'modified_timestamp': place.modified_timestamp,
@@ -225,14 +222,6 @@ def get_all_favorite_places():
 
     current_session.close()
 
-    # response = make_response(json.dumps(saved_places))
-    #
-    # response.content_type = "application/json"
-    #
-    # print(response)
-
-    print(saved_places)
-
     return jsonify({"saved_places": saved_places})
     #return response
 
@@ -243,51 +232,46 @@ def get_all_favorite_places():
 # - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
-@app.route('/save_favorite_place/', methods=['POST','GET'])
+@app.route('/save_favorite_place/', methods=['POST', 'GET'])
 def save_favorite_place():
     """ Save user's favorite spot to db """
-    #if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'user_id' in request.json:
-    #    abort(404)
-
     # parsing request data
     # -------------------------
-    # a = request
-    #content = request.get_json(force=True)
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
     user_id = request.form["user_id"]
     locationlat = request.form["location_lat"]
     locationlong = request.form["location_long"]
-    #waiting_time = request.form["waiting_time"]
     type_location = request.form["type_location"]
 
     waiting_time = None
-    #type_location = None
-    #address = request.args.get("address")
 
     #TODO verify address
     # to be improved and use google geocoding
-    address = gf.get_location_address(locationlat, locationlong)
-    possible_destination_address = maps.formatted_address(locationlat, locationlong)
-
-    # print(address)
-    # print("----------------------------")
-    # print(possible_destination_address)
+    # address = (locationlat, locationlong)
+    address = maps.formatted_address(locationlat, locationlong)
 
     # create object to insert in the database
     # prepare query statement
 
-    # create query to confirm that username already exists in the table user
-    # otherwise insert in the table
+    saved_places = []
+    bool_aux = True
 
-    current_session = db.session  # open database session
-    username = current_session.query(User).filter_by(id=user_id).first().username
+    # type_of_locations is a global variable what contains possible types of places
+    if type_location in type_of_locations:
 
-    if username is not None:
+        # create query to confirm that username already exists in the table user
+        # otherwise insert in the table
+
+        current_session = db.session  # open database session
+        # username = current_session.query(User).filter_by(id=user_id).first().username
+        #
+        # if username is not None:
 
         querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
 
         if querysavedplaces is not None:
+
             # parsing previous locations to confirm if it is unique the new entry
             for location in querysavedplaces:
 
@@ -300,6 +284,8 @@ def save_favorite_place():
                     location.modified_timestamp = modified_timestamp
                     #update type_location
                     location.type_location = type_location
+                    #update aux_variable
+                    bool_aux = False
                     # then commit that change
                     try:
                         # current_session.add(querysavedplaces)  # add opened statement to opened session
@@ -310,21 +296,29 @@ def save_favorite_place():
                         # print(e)
                     finally:
                         current_session.close()
-                        return "OK modified timestamp update,type_location"  # exit function
 
-        savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
-                                  location_lat=locationlat, location_long=locationlong,
-                                  address=address, waiting_time=waiting_time, type_location=type_location,
-                                  user_id=user_id)
-        try:
-            current_session.add(savedplaces)  # add opened statement to opened session
-            current_session.commit()  # commit changes
-        except:
-            current_session.rollback()
-            current_session.flush()  # for resetting non-commited .add()
-        finally:
-            current_session.close()
-            return "new_favorite_location_inserted"
+                        # if bool_aux is False:
+                    saved_places.append({'favorite_save': "ok"})
+                    return jsonify({"saved_places": saved_places})
+
+            savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
+                                      location_lat=locationlat, location_long=locationlong,
+                                      address=address, waiting_time=waiting_time, type_location=type_location,
+                                      user_id=user_id)
+            try:
+                current_session.add(savedplaces)  # add opened statement to opened session
+                current_session.commit()  # commit changes
+            except:
+                current_session.rollback()
+                current_session.flush()  # for resetting non-commited .add()
+            finally:
+                current_session.close()
+                # just to confirm that the place was update
+            saved_places.append({'favorite_save': "ok"})
+            return jsonify({"saved_places": saved_places})
+
+
+    return jsonify({"saved_places": saved_places})
 
 # route to remove favorite place
 @app.route('/remove_favorite_place', methods=['POST'])
@@ -756,5 +750,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    # app.run()
+    # app.run(host="192.168.1.110")
+    app.run()

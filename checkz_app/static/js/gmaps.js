@@ -276,7 +276,7 @@ function getDirections(response) {
             //     destination: markLatLng,
             //     travelMode: google.maps.TravelMode.DRIVING
             // };
-
+            //
             // directionsService.route(request, function(result, status) {
             //     if (status == 'OK') {
             //         directionsDisplay.setDirections(result);
@@ -410,15 +410,23 @@ function createFavoriteSpot(fav_lat, fav_lng) {
             'location_lat': fav_lat,
             'location_long': fav_lng
         };
-        $.post('/save_favorite_place/', markerData, function() {
-            alert('Your marker has been favorited.');
-            // TO DO: Turn marker a different color
-        });
+        $.post('/save_favorite_place/', markerData, ConfirmFavoriteSpot);
     } else {
         alert('You need to be logged in to favorite spots.');
     }
 
 } //====================================================================================
+
+function ConfirmFavoriteSpot(response) {
+    if (response['saved_places'].length == 0) {
+        // alert('User does not have saved any previous favorite place!')
+        alert('You need to choose a location type. Marker has not been favorited.')
+    } else {
+        alert('Your marker has been favorited.');
+    }
+} // End of ConfirmFavoritePlace
+
+
 // this gets called when a marker is created and the user it not logged in
 // To display info related to
 function getInfoCloseLocations(lat, long) {
@@ -697,8 +705,10 @@ function RemovePreviousSaved(lat, long) {
             'user_id': userId
         };
         $.post('/remove_favorite_place', delData, function() {
+            // remove_marker(lat, long);
+            hideListings();
+            get_favorite_places();
             alert('That spot has been deleted.');
-            remove_marker(lat, long);
         });
         // getting remaining positions and populating the screen
         $.get('/get_favorite_places', userData, makeSavedMarkers);
