@@ -1,8 +1,8 @@
-# Import settings
-#   python3.5
+# -*- coding: utf-8 -*-
 import datetime
 import os
 
+from functools import wraps
 from flask import Flask, render_template, redirect, request, session, jsonify
 from flask import url_for
 
@@ -13,12 +13,6 @@ from checkz_app.models import connect_to_db, db, User, SavedPlaces
 # contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
 
-#related to sqlalchemy
-
-# from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.sql import func
-
-
 # ----------------------
 # Max distance btw 2 locations
 # it will be to compare the distance
@@ -28,7 +22,6 @@ RADIUS_CIRCLE = 3   # distance used to be same place in meters
 RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
 
 # ------------------------------------------------
-
 # Create a flask app and set a random secret key
 # Create the app
 app = Flask("Checkz")
@@ -38,6 +31,20 @@ app.secret_key = os.urandom(32)
 # raises error if you use an undefined variable in Jinja2
 # app.jinja_env.undefined = StrictUndefined
 
+
+# login required decorator
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if 'profile' not in session:
+            return redirect('/')
+        return f(*args, **kwargs)
+
+    return decorated
+
+
+# Application Routes
+# ------------------
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
@@ -155,17 +162,6 @@ def render_map():
 def about_page():
     return render_template("about.html")
 
-
-# login required decorator
-def login_required():
-    pass
-
-
-
-# ------------------------------------------------------
-# ------------------------------------------------------
-# Inserting data
-# Using Method Postr
 # ------------------------------------------------------
 # ------------------------------------------------------
 #   Endpoints related to User Table
@@ -692,45 +688,12 @@ def render_show_details():
 
 
 #============================================================
-'''
-
-# Delete saved place
-@app.route('/delete_saved_place/', method = ['POST'])
-def delete_saved_place():
-    if not request.json or not 'location_lat' in request.json or not 'location_long' in request.json or not 'username' in request.json:
-        abort(404)
-
-    return "ok"
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
-'''
-# ----------------------
-
-
-# # catch page error
-# # ----------------------
-# @app.errorhandler(404)
-# def not_found(error):
-#     return make_response(jsonify({'error': 'Not found'}), 404)
-
-#
-# @app.errorhandler(404)juli
-# def page_not_found(error):
-#     resp = jsonify({"error": "not found"})
-#     resp.status_code = 404
-#     return resp
-#
-#
-# @app.errorhandler(401)
-# def unauthorized(error):
-#     resp = jsonify({"error": "unauthorized"})
-#     resp.status_code = 401
-#     return resp
-# # -----------------------------
-
-#lat = request.args.get('lat')
-#long = request.args.get('long')
 
 if __name__ == '__main__':
 
@@ -742,5 +705,5 @@ if __name__ == '__main__':
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    app.run(host="192.168.1.110")
-    # app.run()
+    # app.run(host="192.168.1.110")
+    app.run()
