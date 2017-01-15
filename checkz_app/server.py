@@ -13,10 +13,13 @@ from checkz_app.models import connect_to_db, db, User, SavedPlaces
 # contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
 
+median_waiting_time = {"Eat":10, "Fun": 15, "Health": 20}
+
 # ----------------------
 # Max distance btw 2 locations
 # it will be to compare the distance
 # it is in meters
+#TODO move to a config/setup file togetther with all constants
 
 RADIUS_CIRCLE = 3   # distance used to be same place in meters
 RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
@@ -33,6 +36,7 @@ app.secret_key = os.urandom(32)
 
 
 # login required decorator
+#TODO verify usernma in the sesssion
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -142,22 +146,31 @@ def login():
 @app.route('/logout/')
 def logout():
     session.pop('username', None)
+    session.pop('user_id', None)
+    # session['user_id'] = None
+    # session['username'] = None
     # this remove the entire session dictionary
     session.clear()
     # to avoid to show logout in the url_browser
     return redirect(url_for("home_page"))
 
 # Homepage
+@app.route('/render_map')
 @app.route('/')
 def home_page():
     return render_template("map.html")
 
-@app.route('/render_map')
-def render_map():
-    return render_template("map.html")
+# # render_map route
+#
+# def render_map():
+#     return render_template("map.html")
 
+# Code related to show details page
+@app.route('/show_details', methods=['GET'])
+def render_show_details():
+    return render_template("show_details.html")
 
-# about the page
+# Code related to about page
 @app.route('/about_page')
 def about_page():
     return render_template("about.html")
@@ -171,21 +184,6 @@ def about_page():
 def get_all_favorite_places():
     """
     Query data related to all previous saved places and return as a json object
-
-    """
-    """
-
-            #  Return as a json object
-        return {'user_id': self.user_id,
-                'created_timestamp': self.created_timestamp,
-                'modified_timestamp': self.modified_timestamp,
-                'location_lat': self.location_lat,
-                'location_long': self.location_long,
-                'address': self.address,
-                'waiting_time': self.waiting_time,
-                'type_location': self.type_location}
-
-
     """
     user_id = request.args.get('user_id')
 
@@ -219,7 +217,6 @@ def get_all_favorite_places():
     current_session.close()
 
     return jsonify({"saved_places": saved_places})
-    #return response
 
     #TODO use @property method of class to serialize response
     #return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
@@ -236,22 +233,20 @@ def save_favorite_place():
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()
     user_id = request.form["user_id"]
-    locationlat = request.form["location_lat"]
-    locationlong = request.form["location_long"]
+    location_lat = request.form["location_lat"]
+    location_long = request.form["location_long"]
     type_location = request.form["type_location"]
 
     waiting_time = None
 
     #TODO verify address
     # to be improved and use google geocoding
-    # address = (locationlat, locationlong)
-    address = maps.formatted_address(locationlat, locationlong)
-
-    # create object to insert in the database
-    # prepare query statement
+    # address = (location_lat, location_long)
+    address = maps.formatted_address(location_lat, location_long)
 
     saved_places = []
-    bool_aux = True
+
+    # First interaction using all data related to the same user
 
     # type_of_locations is a global variable what contains possible types of places
     if type_location in type_of_locations:
@@ -261,17 +256,19 @@ def save_favorite_place():
 
         current_session = db.session  # open database session
         # username = current_session.query(User).filter_by(id=user_id).first().username
-        #
-        # if username is not None:
 
+        # query by all previous saved places of a certain user
         querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
+
+        # query all users previous saved places
+        all_users_places = current_session.query(SavedPlaces).all()
 
         if querysavedplaces is not None:
 
             # parsing previous locations to confirm if it is unique the new entry
             for location in querysavedplaces:
 
-                distance_location, same_location = gf.verify_distance(float(locationlat), float(locationlong),
+                distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
                                                                       float(location.location_lat),
                                                                       float(location.location_long), RADIUS_CIRCLE)
                 # if the user is inserting a place already saved, previous location will be kept,
@@ -280,11 +277,13 @@ def save_favorite_place():
                     location.modified_timestamp = modified_timestamp
                     #update type_location
                     location.type_location = type_location
-                    #update aux_variable
-                    bool_aux = False
+                elif address == location.address:
+                    location.modified_timestamp = modified_timestamp
+                    #update type_location
+                    location.type_location = type_location
                     # then commit that change
                     try:
-                        # current_session.add(querysavedplaces)  # add opened statement to opened session
+                        current_session.add(location)  # add opened statement to opened session
                         current_session.commit()  # commit changes
                     except Exception as e:
                         current_session.rollback()
@@ -293,28 +292,48 @@ def save_favorite_place():
                     finally:
                         current_session.close()
 
-                        # if bool_aux is False:
-                    saved_places.append({'favorite_save': "ok"})
+                    saved_places.append({'favorite_updated': "ok"})
                     return jsonify({"saved_places": saved_places})
 
-            savedplaces = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
-                                      location_lat=locationlat, location_long=locationlong,
-                                      address=address, waiting_time=waiting_time, type_location=type_location,
-                                      user_id=user_id)
-            try:
-                current_session.add(savedplaces)  # add opened statement to opened session
-                current_session.commit()  # commit changes
-            except:
-                current_session.rollback()
-                current_session.flush()  # for resetting non-commited .add()
-            finally:
-                current_session.close()
-                # just to confirm that the place was update
-            saved_places.append({'favorite_save': "ok"})
-            return jsonify({"saved_places": saved_places})
+            # saving a favorite place for the first time
+            ## to avoid to loop trough a empty object
+            if all_users_places is not None:
 
+                for previous in all_users_places:
 
-    return jsonify({"saved_places": saved_places})
+                    distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
+                                                                          float(previous.location_lat),
+                                                                          float(previous.location_long), RADIUS_CIRCLE)
+                    # lat and long are inside a certain RADIUS_CIRCLE
+                    if same_location is True:
+                        waiting_time = previous.waiting_time
+                    # in case of address is equal and lat and long are different
+                    elif address is previous.address:
+                        waiting_time = previous.waiting_time
+                    else:
+                        # in case of average waiting time will be used, based on the kind of place
+                        waiting_time = median_waiting_time[type_location]
+
+                # creating a new place to database
+                new_favorite = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
+                                           location_lat=location_lat, location_long=location_long,
+                                           address=address, waiting_time=waiting_time, type_location=type_location,
+                                           user_id=user_id)
+                try:
+                    current_session.add(new_favorite)  # add opened statement to opened session
+                    current_session.commit()  # commit changes
+                except:
+                    current_session.rollback()
+                    current_session.flush()  # for resetting non-commited .add()
+                finally:
+                    current_session.close()
+                    # just to confirm that the place was update
+                saved_places.append({'favorite_created': "ok"})
+                return jsonify({"saved_places": saved_places})
+
+    # case in what type_location was not defined
+    else:
+        return jsonify({"saved_places": saved_places})
 
 # route to remove favorite place
 @app.route('/remove_favorite_place', methods=['POST'])
@@ -331,9 +350,6 @@ def remove_favorite_place():
     #                                                         SavedPlaces.location_long == location_long).first()
     to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                              SavedPlaces.location_long == location_long).delete()
-
-    #print(to_be_removed)
-
     if to_be_removed is not None:
 
         try:
@@ -376,7 +392,7 @@ def get_updated_waiting_time():
         #to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
         #                                SavedPlaces.location_long == location_long).delete()
 
-        allsavedplaces = SavedPlaces.query.filter(SavedPlaces.user_id == user_id,SavedPlaces.location_lat == location_lat,
+        allsavedplaces = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                                   SavedPlaces.location_long == location_long).all()
 
 
@@ -416,6 +432,8 @@ def update_waiting_time():
     location_long = request.form.get('location_long')
     waiting_time = request.form.get('updated_waiting_time')
 
+    print(waiting_time)
+
     created_timestamp = datetime.datetime.now()
     modified_timestamp = datetime.datetime.now()  # get a new data to update
 
@@ -424,6 +442,10 @@ def update_waiting_time():
 
     # query table USer to get username and then query by user
     owner_name = current_session.query(User).filter_by(id=user_id).first().username
+
+    current_user_place = current_session.query(SavedPlaces).filter(SavedPlaces.location_lat == location_lat,
+                                                                   SavedPlaces.location_long == location_long,
+                                                                   SavedPlaces.user_id == user_id).first()
 
     if owner_name is not None:
 
@@ -434,7 +456,7 @@ def update_waiting_time():
 
             # parsing query
             for location in querysavedplaces:
-                # verify if the distance of the newlocation is already in the database, or if there is a close location
+                # verify if the distance of the new location is already in the database, or if there is a close location
                 # verifying that calculating distance of 2 points, it will be considered as same place if the distance btw 2 points is smaller than 10 m
                 distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
                                                                       float(location.location_lat),
@@ -442,13 +464,18 @@ def update_waiting_time():
                 if same_location is True:
                     location.modified_timestamp = modified_timestamp
                     location.waiting_time = waiting_time
+                if location.address is current_user_place:
+                    location.modified_timestamp = modified_timestamp
+                    location.waiting_time = waiting_time
+
                     try:
+                        current_session.add(location)
                         current_session.commit()  # commit changes
                     except:
                         current_session.rollback()
                         current_session.flush()  # for resetting non-commited .add()
-
-    current_session.close()
+                    finally:
+                        current_session.close()
 
     return "update_waiting_time_done"
 
@@ -471,7 +498,7 @@ def get_info_about_close_locations():
 
     # parsing query
     for location in querysavedplaces:
-        # verify if the distance of the newlocation is already in the database, or if there is a close location
+        # verify if the distance of the new location is already in the database, or if there is a close location
         # verifying that calculating distance of 2 points, it will be considered as close place if the distance btw 2 points is smaller than 15 miles
         distance_location, close_location = gf.verify_distance(float(location_lat), float(location_long),
                                                                float(location.location_lat),
@@ -492,89 +519,9 @@ def get_info_about_close_locations():
                                  'address': location.address,
                                  'waiting_time': location.waiting_time,
                                  'type_location': location.type_location})
-
-
-
     current_session.close()
 
-    # print(saved_places)
-
     return jsonify({"saved_places": saved_places})
-
-
-#TODO improve the follow query an
-# route to update the waiting time
-# ----------------------------------------------------------------------
-# @app.route('/get_direction_shortest_time', methods=['GET'])
-# def get_direction_shortest_time():
-#     # parsing request data
-#     # -------------------------
-#     user_id = request.args.get('user_id')
-#     location_lat = request.args.get('location_lat')
-#     location_long = request.args.get('location_long')
-#     waiting_time = request.args.get('updated_waiting_time')
-#     type_location = str(request.args.get('type_location'))
-#
-#     possible_locations = ["Eat","Fun","Health"]
-#
-#     saved_places = []
-#
-#     if type_location in possible_locations:
-#         print("True")
-#         print(type_location)
-#     else:
-#         print("false")
-#         print(type_location)
-#
-#     #type_location.isspace()
-#
-#     if type_location in possible_locations:
-#
-#         current_session = db.session  # open database session
-#         # query table USer to get username and then query by user
-#         owner_name = current_session.query(User).filter_by(id=user_id).first().username
-#
-#         if owner_name is not None:
-#
-#             # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-#
-#             # get all saved places by all users
-#             querysavedplaces = [SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).order_by('waitingtime').first()]
-#
-#             #data = [query.serialize for query in querysavedplaces]
-#
-#             for s in querysavedplaces:
-#
-#                 print(s)
-#
-#             x = (len(querysavedplaces))
-#
-#             if len(querysavedplaces) is not None:
-#
-#                 for location in querysavedplaces:
-#
-#                     #print(location.waiting_time,location.type_location)
-#
-#                     saved_places.append({'user_id': location.user_id,
-#                                          'created_timestamp': location.created_timestamp,
-#                                          'modified_timestamp': location.modified_timestamp,
-#                                          'location_lat': location.location_lat,
-#                                          'location_long': location.location_long,
-#                                          'address': location.address,
-#                                          'waiting_time': location.waiting_time,
-#                                          'type_location': location.type_location,
-#                                          'current_location_lat': location_lat,
-#                                          'current_location_long': location_long})
-#                     #
-#                     # saved_places.append({'current_location_lat': location_lat,
-#                     #                     'current_location_long':location_long})
-#
-#         current_session.close()
-#         print(len(saved_places))
-#         return jsonify({"saved_places": saved_places})
-#     else:
-#         print(len(saved_places))
-#         return jsonify({"saved_places": saved_places})
 
 
 
@@ -678,18 +625,8 @@ def formatted_address():
 
         return jsonify({"formatted_address": formatted_address})
 
-
-
 #============================================================
-# Code related to show details page
-@app.route('/show_details', methods=['GET'])
-def render_show_details():
-    return render_template("show_details.html")
-
-
-#============================================================
-
-
+# Errors Handling
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
@@ -697,13 +634,14 @@ def not_found(error):
 
 if __name__ == '__main__':
 
-
     connect_to_db(app)
 
     app.debug = True
     #pdb.set_trace()
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
-
+    #
     # app.run(host="192.168.1.110")
     app.run()
+    #
+    # update_wait_time_db()

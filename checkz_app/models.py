@@ -145,7 +145,7 @@ def insert_user():
 
 if __name__ == "__main__":
 
-    from server import app
+    from checkz_app.server import app
     connect_to_db(app)
     #insert_user()
     print("Connected to DB.")

@@ -1,2 +1,2 @@
-from .checkz_app import *
-
+# from .checkz_app import *
+#

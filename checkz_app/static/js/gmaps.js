@@ -16,16 +16,16 @@ var autocomplete_dest;
 // create a geocoder object
 var geocoder = new google.maps.Geocoder();
 // create a bound object
-var bounds = new google.maps.LatLngBounds();
+var map_bounds = new google.maps.LatLngBounds();
 // ====================================
 // create a single directions route
 var directionsService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer({
   polylineOptions: {
-    strokeColor: "purple"
+    strokeColor: "blue"
   }
 });
-//
+
 // ====================================
 // helper variable related to display infoWindow
 var bool_display_infowindow = new Boolean(false);
@@ -53,7 +53,7 @@ function initFavMap() {
     favMap = new google.maps.Map(document.getElementById('map'), {
         center: LatLng,
         scrollwheel: false,
-        zoom: 11,
+        zoom: 8,
         zoomControl: true,
         panControl: true,
         streetViewControl: true,
@@ -78,7 +78,7 @@ function initFavMap() {
                 // call function to add a marker
                 //TODO create bound function in this case
                 //It is working for the first time that function is called
-                addMarker(autolalng, autola, autolng, favMap);
+                addMarker(autolalng, autola, autolng, favMap, true);
             } catch (e) {
                 console.error(e);
             }
@@ -174,7 +174,7 @@ function reload_page() {
 } // End of  function to reload page
 //======================================
 
-function addMarker(latLng, lat, long, map) {
+function addMarker(latLng, lat, long, map, is_search = false) {
     //marker_address = getAddress(f_lat, f_lng);
     //alert(marker_address);
     //if (marker_address != 'not_available') {
@@ -211,11 +211,18 @@ function addMarker(latLng, lat, long, map) {
     bindInfoWindow(marker, map, infowindow, content_string, bool_display_infowindow);
     //push marker to markers list
     markers.push(marker);
+
+    //to zoom in map in case of search or sharing location
+    if (is_search == true){
+
+      map_bounds.extend(marker.position);
+      favMap.fitBounds(map_bounds);
+
+    }
     // set bounds
     // var boundMarkers = new google.maps.LatLngBounds();
     // var currentMarker = new google.maps.LatLng(lat, long);
-    // boundMarkers.extend(currentMarker);
-    // favMap.fitBounds(boundMarkers);
+
 
     // window.userLocation = new google.maps.LatLng(lat, long);
     // bounds.extend(marker.position);
@@ -271,7 +278,7 @@ function getDirections(response) {
             //variable relate to user current location
             var curLatLng = new google.maps.LatLng(current_location_lat, current_location_long);
 
-
+            // to display navigation on the panel
             directionsDisplay.setMap(favMap);
             directionsDisplay.setPanel(document.getElementById('right-panel'));
 
@@ -288,77 +295,6 @@ function getDirections(response) {
                     directionsDisplay.setDirections(result);
                 }
             });
-            // directionsService.route({
-            //     origin: curLatLng,
-            //     destination: markLatLng,
-            //     travelMode: 'DRIVING'
-            // }, function(response, status) {
-            //     if (status === 'OK') {
-            //         directionsDisplay.setDirections(response);
-            //     } else {
-            //         window.alert('Directions request failed due to ' + status);
-            //     }
-            // });
-
-
-
-
-            //=====================================================
-            // //It willl be commented
-            // var request = {
-            //   // window.userLocation is global
-            //   origin: curLatLng,
-            //   destination: markLatLng,
-            //   travelMode: google.maps.TravelMode.DRIVING
-            // };
-            // directionsService.route(request, function (result, status) {
-            //   if (status == 'OK') {
-            //     directionsDisplay.setMap(favMap);
-            //     directionsDisplay.setDirections(result);
-            //     //open a window
-            //     // panel=window.open('about:blank','panel','width=200,height=200,scrollbars=yes');
-            //     // //create a document inside te window
-            //     // // panel.document.open();
-            //     // panel.document.write('<body/>');
-            //     // // panel.document.close();
-            //     // //set the panel
-            //     // directionsDisplay.setPanel(panel.document.body);
-            //     // //bring window into front
-            //     // panel.focus();
-            //     //
-            //     //  directionsDisplay.setPanel(document.getElementById("myModal"));
-            //   }
-            // });
-            //End of will be commented
-            //=====================================================
-            // var directionsService = new google.maps.DirectionsService;
-            // directionsService.route({
-            //     // The origin is the passed in marker's position.
-            //     origin: curLatLng,
-            //     // The destination is user entered address.
-            //     destination: markLatLng,
-            //     travelMode: google.maps.TravelMode.DRIVING
-            // }, function(result, status) {
-            //     if (status === google.maps.DirectionsStatus.OK) {
-            //         //
-            //         //  directionsDisplay.setMap(favMap);
-            //         //  directionsDisplay.setDirections(result);
-            //         var directionsDisplay = new google.maps.DirectionsRenderer({
-            //             map: favMap,
-            //             directions: result,
-            //             draggable: false,
-            //             polylineOptions: {
-            //                 strokeColor: 'blue'
-            //             }
-            //         });
-            //     } else {
-            //         window.alert('Directions request failed due to ' + status);
-            //     }
-            // });
-
-
-
-
 
 
         } // End of for loop
@@ -572,16 +508,7 @@ function getFavoriteSpots() {
 // functtion for debugger
 
 function makeSavedMarkers(response) {
-    /***
-{'saved_places'[{'user_id': place.user_id,
-'created_timestamp': place.created_timestamp,
-'modified_timestamp': place.modified_timestamp,
-'location_lat': place.location_lat,
-'location_long': place.location_long,
-'address': place.address,
-'waiting_time': place.waiting_time,
-'type_location': place.type_location})
-***/
+
     // Verify if response was empty
     //=== 	equal value and equal type
     if (response['saved_places'].length == 0) {
@@ -604,7 +531,6 @@ function makeSavedMarkers(response) {
 } // End of function makeMarkers
 //====================================================================================
 // Add markers for previous saved places
-
 function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
     // Add function to show
     var myLatLng = {
@@ -694,6 +620,11 @@ function addMarkerPreviousPlaces(lat, long, map, waiting_time, type_location) {
     bindInfoWindow(marker, map, infowindow, contentWaitinTime, bool_display_infowindow);
     // Push the marker to our array of markers.
     markers.push(marker);
+    // // adding maps to variable map_bounds to display in the screen
+    // map_bounds.extend(marker.position);
+    // // Extend the boundaries of the map for each marker
+    // map.fitBounds(map_bounds);
+
 } // End offunction addMarkerPreviousPlaces
 //====================================================================================
 
@@ -852,7 +783,8 @@ function geocodeAddress(map, address) {
             deslat = dest.lat();
             deslng = dest.lng();
             alert(deslat, delng);
-            addMarker(dest, deslat, deslng, map);
+            // passing true to set zoom map
+            addMarker(dest, deslat, deslng, map, true);
             // // create a marker of destination, place on map
             // var marker1 = new google.maps.Marker({
             //   map: map,

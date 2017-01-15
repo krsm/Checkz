@@ -47,17 +47,17 @@ def get_duration_in_traffic(origins, destinations):
 #
 # if __name__ == "__main__":
 #
-# origins = ["Mebane, North Caolina"]
-# destinations = ["Morrisville, North Carolina"]
+#     origins = ["Mebane, North Caolina"]
+#     destinations = ["Morrisville, North Carolina"]
 #
-# now = datetime.now()
-# matrix = dm(gmaps, origins, destinations,
-#             mode="driving",
-#             language="en-AU",
-#             avoid="tolls",
-#             units="imperial",
-#             departure_time=now,
-#             traffic_model="optimistic")
-# # print(formatted_address(37.3860517, -122.0838511))
+#     now = datetime.now()
+#     matrix = dm(gmaps, origins, destinations,
+#                 mode="driving",
+#                 language="en-AU",
+#                 avoid="tolls",
+#                 units="imperial",
+#                 departure_time=now,
+#                 traffic_model="optimistic")
+#     # print(formatted_address(37.3860517, -122.0838511))
 #
-# print(matrix['rows'][0]['elements'][0]['duration_in_traffic']['text'])
+#     print(matrix['rows'][0]['elements'][0]['duration_in_traffic']['text'])
