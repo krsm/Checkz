@@ -53,7 +53,7 @@ function initFavMap() {
     favMap = new google.maps.Map(document.getElementById('map'), {
         center: LatLng,
         scrollwheel: false,
-        zoom: 8,
+        zoom: 15,
         zoomControl: true,
         panControl: true,
         streetViewControl: true,
