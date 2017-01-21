@@ -2,6 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../GitHub/FlaskRESTAPI" vcs="Git" />
   </component>
 </project>

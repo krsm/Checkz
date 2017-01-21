@@ -1,19 +1,23 @@
-# # instance/config.py
-# # to be created content
-#
-#
-# # import os
-# #
-# # GOOGLE_API = os.environ['GOOGLE_API_KEY']
-# #
-# # print(GOOGLE_API)
-#
-# # Statement for enabling the development environment
-# DEBUG = True
-#
-# # Define the application directory
-# import os
-# BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# instance/config.py
+# to be created content
+
+import os
+import sys
+
+# GOOGLE_API = os.environ.get('GOOGLE_API_KEY')
+
+GOOGLE_API = os.environ['GOOGLE_API_KEY']
+
+# GOOGLE_API = os.getenv('GOOGLE_API_KEY')
+
+print(GOOGLE_API)
+
+# Statement for enabling the development environment
+DEBUG = True
+
+# Define the application directory
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 #
 # # Define the database - we are working with
 # # SQLite for this example

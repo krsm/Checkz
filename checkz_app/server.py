@@ -28,6 +28,7 @@ RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in
 # Create a flask app and set a random secret key
 # Create the app
 app = Flask("Checkz")
+# TODO move to a config/setup file togetther with all constants
 app.secret_key = os.urandom(32)
 
 # raises error if you use an undefined variable in Jinja2
@@ -150,10 +151,12 @@ def logout():
     # to avoid to show logout in the url_browser
     return redirect(url_for("home_page"))
 
+
 # Homepage
 @app.route('/')
 def home_page():
     return render_template("map.html")
+
 
 # # render_map route
 # It is called when the logo is pressed
@@ -161,10 +164,12 @@ def home_page():
 def render_map():
     return render_template("map.html")
 
+
 # Code related to show details page
 @app.route('/show_details', methods=['GET'])
 def render_show_details():
     return render_template("show_details.html")
+
 
 # Code related to about page
 @app.route('/about_page')
@@ -175,6 +180,8 @@ def about_page():
 # ------------------------------------------------------
 #   Endpoints related to User Table
 # ------------------------------------------------------
+
+
 # get all previous saved places
 @app.route('/get_favorite_places', methods=['GET'])
 def get_all_favorite_places():
@@ -232,13 +239,10 @@ def save_favorite_place():
     location_long = float(request.form["location_long"])
     type_location = request.form["type_location"]
 
-    # in case of average waiting time will be used, based on the kind of place
-    waiting_time = median_waiting_time[type_location]
-
-    # TODO verify address
+    # TODO verify address with another geocode address
     # to be improved and use google geocoding
     address = maps.formatted_address(location_lat, location_long)
-
+    # variable to be returned as json
     saved_places = []
 
     # First interaction using all data related to the same user
@@ -246,74 +250,89 @@ def save_favorite_place():
     # type_of_locations is a global variable what contains possible types of places
     if type_location in type_of_locations:
 
+        # in case of average waiting time will be used, based on the kind of place
+        waiting_time = median_waiting_time[type_location]
+
         current_session = db.session  # open database session
         # username = current_session.query(User).filter_by(id=user_id).first().username
 
         # query by all previous saved places of a certain user
 
         current_user_places = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
-
+        #
         if current_user_places is not None:
 
             for user_places in current_user_places:
 
-                distance_location, same_location = gf.verify_distance(location_lat, location_long,
-                                                                      float(user_places.location_lat),
-                                                                      float(user_places.location_long), RADIUS_CIRCLE)
+                # print(user_places.address)
 
-                if address is user_places.address or same_location is True:
-                    #updating modified_timestamp
-                    user_places.modified_timestamp = modified_timestamp
+                # distance_location, same_location = gf.verify_distance(location_lat, location_long,
+                #                                                       float(user_places.location_lat),
+                #                                                       float(user_places.location_long), RADIUS_CIRCLE)
+
+                # if location is the same as previous saved one,
+                # it will be considered as an updated for
+                # a certain location
+                if address == user_places.address:
+                    # updating modified_timestamp
+                    user_places.modified_timestamp = datetime.datetime.utcnow()
                     # update type_location
                     user_places.type_location = type_location
-                    break
 
-            try:
-                current_session.add(user_places)  # add opened statement to opened session
-                current_session.commit()  # commit changes
-            except Exception as e:
-                current_session.rollback()
-                current_session.flush()  # for resetting non-commited .add()
+                    try:
+                        # current_session.add(user_places)  # add opened statement to opened session
+                        current_session.commit()  # commit changes
+                    except Exception as e:
+                        current_session.rollback()
+                        current_session.flush()  # for resetting non-commited .add()
 
-            # in this case user was saving/updating a previous saved location
-            saved_places.append({'favorite_updated': "ok"})
-            return jsonify({"saved_places": saved_places})
+                    # in this case user was saving/updating a previous saved location
+                    saved_places.append({'favorite_updated': "ok"})
+                    return jsonify({"saved_places": saved_places})
 
+        # # query all users previous saved places
+        # all_users_places = current_session.query(SavedPlaces).all()
+        #
+        # # saving a favorite place for the first time
+        # # to avoid to loop trough a empty object
+        # if all_users_places is not None:
+        #     for previous in all_users_places:
+        #
+        #         distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
+        #                                                               float(previous.location_lat),
+        #                                                               float(previous.location_long), RADIUS_CIRCLE)
+        #         # # lat and long are inside a certain RADIUS_CIRCLE
+        # if same_location is True or address is previous.address:
+        #     waiting_time = previous.waiting_time
+        #     # in case of address is equal and lat and long are different
+        #     # break
 
-        # query all users previous saved places
-        all_users_places = current_session.query(SavedPlaces).all()
+        # creating a new place to database
+        new_favorite = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
+                                   location_lat=location_lat, location_long=location_long,
+                                   address=address, waiting_time=waiting_time, type_location=type_location,
+                                   user_id=user_id)
+        try:
+            current_session.add(new_favorite)  # add opened statement to opened session
+            current_session.commit()  # commit changes
+        except Exception as e:
+            current_session.rollback()
+            current_session.flush()  # for resetting non-commited .add()
 
-        # saving a favorite place for the first time
-        # to avoid to loop trough a empty object
-        if all_users_places is not None:
-            for previous in all_users_places:
-
-                distance_location, same_location = gf.verify_distance(float(location_lat), float(location_long),
-                                                                      float(previous.location_lat),
-                                                                      float(previous.location_long), RADIUS_CIRCLE)
-                # lat and long are inside a certain RADIUS_CIRCLE
-                if same_location is True or address is previous.address:
-                    waiting_time = previous.waiting_time
-                    # in case of address is equal and lat and long are different
-
-            # creating a new place to database
-            new_favorite = SavedPlaces(created_timestamp=created_timestamp, modified_timestamp=modified_timestamp,
-                                       location_lat=location_lat, location_long=location_long,
-                                       address=address, waiting_time=waiting_time, type_location=type_location,
-                                       user_id=user_id)
-            try:
-                current_session.add(new_favorite)  # add opened statement to opened session
-                current_session.commit()  # commit changes
-            except Exception as e:
-                current_session.rollback()
-                current_session.flush()  # for resetting non-commited .add()
-
-            saved_places.append({'favorite_created': "ok"})
-            return jsonify({"saved_places": saved_places})
+        saved_places.append({'favorite_created': "ok"})
+        return jsonify({"saved_places": saved_places})
 
     # case in what type_location was not defined
     else:
         return jsonify({"saved_places": saved_places})
+
+
+# function to verify if a certain location is already in the database
+def is_location_on_database():
+
+    location_db = True
+
+    return location_db
 
 
 # route to remove favorite place
@@ -375,7 +394,6 @@ def get_updated_waiting_time():
         allsavedplaces = SavedPlaces.query.filter(SavedPlaces.user_id == user_id,
                                                   SavedPlaces.location_lat == location_lat,
                                                   SavedPlaces.location_long == location_long).all()
-
         # print(allsavedplaces)
 
         # TODO evaluate use the user current location to display just the saved places in a range closer to user current location

@@ -127,25 +127,9 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app)
 
-
-def insert_user():
-    email = "email@email.com"
-    password = 123
-    pending_user = "user"
-    created_timestamp = datetime.datetime.utcnow()
-
-    user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)
-
-    current_session = db.session  # open database session
-    current_session.add(user)  # add opened statement to opened session
-    current_session.commit()  #
-
-    print("insert_user was executed ")
-
-
 if __name__ == "__main__":
 
     from checkz_app.server import app
     connect_to_db(app)
-    #insert_user()
+
     print("Connected to DB.")
