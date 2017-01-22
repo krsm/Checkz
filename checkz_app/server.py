@@ -6,9 +6,15 @@ from functools import wraps
 from flask import Flask, render_template, redirect, request, session, jsonify
 from flask import url_for
 
+from checkz_app.utils import get_app_base_path, get_instance_folder_path
 import checkz_app.geofuntcions as gf
 import checkz_app.maps as maps
-from checkz_app.models import connect_to_db, db, User, SavedPlaces
+
+# related to configuration
+from checkz_app.config import configure_app
+# import related to database
+from checkz_app.models import db, User, SavedPlaces
+
 
 # contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
@@ -27,9 +33,19 @@ RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in
 # ------------------------------------------------
 # Create a flask app and set a random secret key
 # Create the app
-app = Flask("Checkz")
+app = Flask("Checkz",
+            instance_path=get_instance_folder_path(),
+            instance_relative_config=True,
+            template_folder='templates'
+            )
+# applying config
+configure_app(app)
+db.init_app(app)
+
+# app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
 # TODO move to a config/setup file togetther with all constants
-app.secret_key = os.urandom(32)
+# app.secret_key = os.urandom(32)
 
 # raises error if you use an undefined variable in Jinja2
 # app.jinja_env.undefined = StrictUndefined

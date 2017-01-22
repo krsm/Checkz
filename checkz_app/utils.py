@@ -9,7 +9,7 @@ def get_app_base_path():
 def get_instance_folder_path():
     return os.path.join(get_app_base_path(), 'instance')
 
-if __name__ == "__main__":
-
-    print(get_app_base_path())
-    print(get_instance_folder_path())
+# if __name__ == "__main__":
+#
+#     print(get_app_base_path())
+#     print(get_instance_folder_path())

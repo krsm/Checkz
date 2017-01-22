@@ -2,6 +2,10 @@
 # to be created content
 import os
 
+# related to geo functions
+RADIUS_CIRCLE = 3  # distance used to be same place in meters
+RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
+
 # Define the application directory
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -9,7 +13,6 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DEV_DB_NAME = "dev_checkz.db"
 
 PROD_DB_NAME = "checkz.db"
-
 
 class BaseConfig(object):
     # Statement for enabling the development environment
@@ -32,9 +35,6 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # API
     GOOGLE_API = os.environ['GOOGLE_API_KEY']
-
-
-
 
 class DevelopmentConfig(BaseConfig):
 
@@ -62,4 +62,18 @@ class DevelopmentConfig(BaseConfig):
 
 
 # dict with the possible configurations
+
+config = {
+
+    'development': "checkz_app.config.DevelopmentConfig",
+    'default': 'checkz_app.config.DevelopmentConfig',
+    'deployment': 'checkz_app.config.BaseConfig'
+
+}
+
+
+def configure_app(app):
+
+    config_name = "development"
+    app.config.from_object(config[config_name])
 
