@@ -4,8 +4,9 @@
 
 import os
 
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from checkz_app import db
 
 # ------------------------
 # debug imports
@@ -31,7 +32,7 @@ import datetime
 
 
 # ----------------------------------
-db = SQLAlchemy()
+# db = SQLAlchemy()
 # ----------------------------------
 # Database Mapper
 # ----------------------------------
@@ -112,22 +113,22 @@ class SavedPlaces(db.Model):
 ##############################################################################
 # Helper functions
 
-def connect_to_db(app):
-
-    """Connect the database to our Flask app."""
-    # create the sqlalchemy db
-    #curDir = os.getcwd()  # current working dir
-
-    curDir = os.path.abspath(os.path.dirname(__file__))
-
-    PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
-
-    # Configure to use our database
-    app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db.app = app
-    db.init_app(app)
+# def connect_to_db(app):
+#
+#     """Connect the database to our Flask app."""
+#     # create the sqlalchemy db
+#     #curDir = os.getcwd()  # current working dir
+#
+#     curDir = os.path.abspath(os.path.dirname(__file__))
+#
+#     PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
+#
+#     # Configure to use our database
+#     app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
+#     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#
+#     db.app = app
+#     db.init_app(app)
 
 # if __name__ == "__main__":
 #

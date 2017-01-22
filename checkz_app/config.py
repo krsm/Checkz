@@ -32,9 +32,12 @@ class BaseConfig(object):
     # # Define the database - we are working with
     # # SQLite for this example
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, PROD_DB_NAME)
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DATABASE_CONNECT_OPTIONS = {}
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
-    GOOGLE_API = os.environ['GOOGLE_API_KEY']
+    # GOOGLE_API = os.environ['GOOGLE_API_KEY']
+
+    GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 class DevelopmentConfig(BaseConfig):
 
@@ -55,15 +58,18 @@ class DevelopmentConfig(BaseConfig):
     # # Define the database - we are working with
     # # SQLite for this example
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, DEV_DB_NAME)
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DATABASE_CONNECT_OPTIONS = {}
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
-    GOOGLE_API = os.environ['GOOGLE_API_KEY']
+    # GOOGLE_API = os.environ['GOOGLE_API_KEY']
+
+    GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 
 
 # dict with the possible configurations
 
-config = {
+configure = {
 
     'development': "checkz_app.config.DevelopmentConfig",
     'default': 'checkz_app.config.DevelopmentConfig',
@@ -72,8 +78,8 @@ config = {
 }
 
 
-def configure_app(app):
-
-    config_name = "development"
-    app.config.from_object(config[config_name])
-
+# def configure_app(app):
+#
+#     config_name = "development"
+#     app.config.from_object(config[config_name])
+#
