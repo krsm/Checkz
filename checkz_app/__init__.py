@@ -1,2 +1,1 @@
-# from .checkz_app import *
-#
+# -*- coding: utf-8 -*-

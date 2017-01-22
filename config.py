@@ -1,6 +1,5 @@
 # instance/config.py
 # to be created content
-
 import os
 import sys
 
