@@ -34,6 +34,7 @@ app.secret_key = os.urandom(32)
 # raises error if you use an undefined variable in Jinja2
 # app.jinja_env.undefined = StrictUndefined
 
+
 # login required decorator
 # TODO verify username in the session
 def requires_auth(f):
@@ -631,15 +632,15 @@ def not_found(error):
     return render_template('404.html'), 404
 
 
-if __name__ == '__main__':
-    connect_to_db(app)
-
-    app.debug = True
-    # pdb.set_trace()
-    # Use the DebugToolbar
-    # DebugToolbarExtension(app)
-    #
-    # app.run(host="192.168.1.110")
-    app.run()
-    #
-    # update_wait_time_db()
+# if __name__ == '__main__':
+#     connect_to_db(app)
+#
+#     app.debug = True
+#     # pdb.set_trace()
+#     # Use the DebugToolbar
+#     # DebugToolbarExtension(app)
+#     #
+#     # app.run(host="192.168.1.110")
+#     app.run()
+#     #
+#     # update_wait_time_db()

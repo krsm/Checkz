@@ -129,9 +129,9 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app)
 
-if __name__ == "__main__":
-
-    from checkz_app.server import app
-    connect_to_db(app)
-
-    print("Connected to DB.")
+# if __name__ == "__main__":
+#
+#     from checkz_app.server import app
+#     connect_to_db(app)
+#
+#     print("Connected to DB.")
