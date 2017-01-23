@@ -4,12 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 from checkz_web.config import configure
 
+from checkz_data.database import db_session
+
 config_name = 'development'
 app = Flask('Checkz')
 app.config.from_object(configure[config_name])
 
+
+
 # Flask extensions
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 
 # def create_app(config_name=None):
 #

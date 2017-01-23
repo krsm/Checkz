@@ -7,31 +7,22 @@ from flask import url_for
 
 import checkz_web.geofuntcions as gf
 import checkz_web.maps as maps
-from checkz_web import db
-from checkz_data import User, SavedPlaces
+# from checkz_web import db
+from checkz_data.database import db_session
+from checkz_data.models import User, SavedPlaces
 
-# contains the possible type of locations allowed to users save
-type_of_locations = ["Eat", "Fun", "Health"]
+from . import app
 
-median_waiting_time = {"Eat": 10, "Fun": 15, "Health": 20}
-
-# ----------------------
-# Max distance btw 2 locations
-# it will be to compare the distance
-# it is in meters
-# TODO move to a config/setup file togetther with all constants
-
-RADIUS_CIRCLE = 3  # distance used to be same place in meters
-RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
+from checkz_web.constants import RADIUS_CIRCLE, RADIUS_SAVED_PLACES, type_of_locations, median_waiting_time
 
 # ------------------------------------------------
 # Create a flask app and set a random secret key
 # Create the app
-app = Flask("Checkz"
-            # instance_path=get_instance_folder_path(),
-            # instance_relative_config=True,
-            # template_folder='templates'
-            )
+# app = Flask("Checkz"
+#             # instance_path=get_instance_folder_path(),
+#             # instance_relative_config=True,
+# #             # template_folder='templates'
+#             )
 # applying config
 # configure_app(app)
 # db.init_app(app)
@@ -92,7 +83,7 @@ def register():
 
             user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)
 
-            current_session = db.session  # open database session
+            current_session = db_session  # open database session
 
             try:
                 current_session.add(user)  # add opened statement to opened session
@@ -123,7 +114,7 @@ def register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
     error = None
     if request.method == 'POST':
 
@@ -203,7 +194,7 @@ def get_all_favorite_places():
 
     # if user_id is not None:
 
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
 
     # query all previous saved places for certain user
 
@@ -264,7 +255,7 @@ def save_favorite_place():
         # in case of average waiting time will be used, based on the kind of place
         waiting_time = median_waiting_time[type_location]
 
-        current_session = db.session  # open database session
+        current_session = db_session  # open database session
         # username = current_session.query(User).filter_by(id=user_id).first().username
 
         # query by all previous saved places of a certain user
@@ -355,7 +346,7 @@ def remove_favorite_place():
     location_lat = request.form.get("location_lat")
     location_long = request.form.get("location_long")
 
-    # current_session = db.session  # open database session
+    # current_session = db_session  # open database session
 
     # to_be_removed = current_session.query(SavedPlaces).filter_by(SavedPlaces.user_id == user_id, SavedPlaces.location_lat ==location_lat,
     #                                                         SavedPlaces.location_long == location_long).first()
@@ -366,12 +357,12 @@ def remove_favorite_place():
         try:
             SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                      SavedPlaces.location_long == location_long).delete()
-            db.session.commit()
+            db_session.commit()
         except:
-            db.session.rollback()
-            db.session.flush()  # for resetting non-commited .add()
+            db_session.rollback()
+            db_session.flush()  # for resetting non-commited .add()
             # finally:
-            #     db.session.close()
+            #     db_session.close()
 
     return "Executed"
     # TODO finish query to see the lat and long and remove place from database
@@ -389,7 +380,7 @@ def get_updated_waiting_time():
     location_long = request.args.get('location_long')
 
     # ---------------------------
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
 
     # query table USer to get username and then query by user
     owner_name = current_session.query(User).filter_by(id=user_id).first().username
@@ -445,14 +436,14 @@ def update_waiting_time():
     modified_timestamp = datetime.datetime.now()  # get a new data to update
 
     # ---------------------------
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
 
     # query table USer to get username and then query by user
     owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
     # current_session.close()
     #
-    # current_session = db.session  # open database session
+    # current_session = db_session  # open database session
     #
     # current_user_place = current_session.query(SavedPlaces).filter(SavedPlaces.location_lat == location_lat,
     #                                                                SavedPlaces.location_long == location_long,
@@ -504,7 +495,7 @@ def get_info_about_close_locations():
 
     saved_places = []
 
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
 
     # get all saved places by all users
     # TODO get the most update waiting time, use time_stamp to query
@@ -562,7 +553,7 @@ def get_direction_shortest_time():
 
     if type_location in type_of_locations:
 
-        current_session = db.session  # open database session
+        current_session = db_session  # open database session
         # query table USer to get username and then query by user
         owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
@@ -623,7 +614,7 @@ def formatted_address():
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
 
-    current_session = db.session  # open database session
+    current_session = db_session  # open database session
     # query table USer to get username and then query by user
     owner_name = current_session.query(User).filter_by(id=user_id).first().username
 
