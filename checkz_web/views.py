@@ -36,6 +36,10 @@ from checkz_web.constants import RADIUS_CIRCLE, RADIUS_SAVED_PLACES, type_of_loc
 # app.jinja_env.undefined = StrictUndefined
 
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
 # login required decorator
 # TODO verify username in the session
 def requires_auth(f):
@@ -82,12 +86,12 @@ def register():
             created_timestamp = datetime.datetime.utcnow()
 
             user = User(email=email, pw_hash=password, username=pending_user, created_timestamp=created_timestamp)
-
-            current_session = db_session  # open database session
+            #
+            # db_session = db_session  # open database session
 
             try:
-                current_session.add(user)  # add opened statement to opened session
-                current_session.commit()  # commit changes
+                db_session.add(user)  # add opened statement to opened session
+                db_session.commit()  # commit changes
 
                 # initiate the session with the current user
                 # create a user_id session
@@ -95,15 +99,15 @@ def register():
                 session['username'] = pending_user
 
             except:
-                current_session.rollback()
-                current_session.flush()  # for resetting non-commited .add()
+                db_session.rollback()
+                db_session.flush()  # for resetting non-commited .add()
 
                 # In case of fail not start the session with
                 session['user_id'] = None
                 session['username'] = None
 
                 # finally:
-                #     current_session.close()
+                #     db_session.close()
 
         return redirect(url_for("home_page"))
 
@@ -114,7 +118,7 @@ def register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
     error = None
     if request.method == 'POST':
 
@@ -127,17 +131,17 @@ def login():
 
             session['username'] = possible_user.username
             session['user_id'] = possible_user.id
-            current_session.close()
+            db_session.close()
             return redirect(url_for("home_page"))
 
         else:
             error = "Invalid Credentials. Please try again."
-            current_session.close()
+            db_session.close()
             return render_template("login.html", error=error)
 
     else:
         # error = "405  Method not allowed"
-        current_session.close()
+        db_session.close()
         return render_template("login.html", error=error)
 
 
@@ -194,11 +198,11 @@ def get_all_favorite_places():
 
     # if user_id is not None:
 
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
 
     # query all previous saved places for certain user
 
-    # allsavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
+    # allsavedplaces = db_session.query(SavedPlaces).filter_by(user_id=user_id).all()
 
     allsavedplaces = SavedPlaces.query.filter_by(user_id=user_id).all()
 
@@ -218,7 +222,7 @@ def get_all_favorite_places():
                                  'waiting_time': place.waiting_time,
                                  'type_location': place.type_location})
 
-    current_session.close()
+    db_session.close()
 
     return jsonify({"saved_places": saved_places})
 
@@ -255,12 +259,12 @@ def save_favorite_place():
         # in case of average waiting time will be used, based on the kind of place
         waiting_time = median_waiting_time[type_location]
 
-        current_session = db_session  # open database session
-        # username = current_session.query(User).filter_by(id=user_id).first().username
+        # db_session = db_session  # open database session
+        # username = db_session.query(User).filter_by(id=user_id).first().username
 
         # query by all previous saved places of a certain user
 
-        current_user_places = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
+        current_user_places = db_session.query(SavedPlaces).filter_by(user_id=user_id).all()
         #
         if current_user_places is not None:
 
@@ -282,18 +286,18 @@ def save_favorite_place():
                     user_places.type_location = type_location
 
                     try:
-                        # current_session.add(user_places)  # add opened statement to opened session
-                        current_session.commit()  # commit changes
+                        # db_session.add(user_places)  # add opened statement to opened session
+                        db_session.commit()  # commit changes
                     except Exception as e:
-                        current_session.rollback()
-                        current_session.flush()  # for resetting non-commited .add()
+                        db_session.rollback()
+                        db_session.flush()  # for resetting non-commited .add()
 
                     # in this case user was saving/updating a previous saved location
                     saved_places.append({'favorite_updated': "ok"})
                     return jsonify({"saved_places": saved_places})
 
         # # query all users previous saved places
-        # all_users_places = current_session.query(SavedPlaces).all()
+        # all_users_places = db_session.query(SavedPlaces).all()
         #
         # # saving a favorite place for the first time
         # # to avoid to loop trough a empty object
@@ -315,11 +319,11 @@ def save_favorite_place():
                                    address=address, waiting_time=waiting_time, type_location=type_location,
                                    user_id=user_id)
         try:
-            current_session.add(new_favorite)  # add opened statement to opened session
-            current_session.commit()  # commit changes
+            db_session.add(new_favorite)  # add opened statement to opened session
+            db_session.commit()  # commit changes
         except Exception as e:
-            current_session.rollback()
-            current_session.flush()  # for resetting non-commited .add()
+            db_session.rollback()
+            db_session.flush()  # for resetting non-commited .add()
 
         saved_places.append({'favorite_created': "ok"})
         return jsonify({"saved_places": saved_places})
@@ -346,9 +350,9 @@ def remove_favorite_place():
     location_lat = request.form.get("location_lat")
     location_long = request.form.get("location_long")
 
-    # current_session = db_session  # open database session
+    # db_session = db_session  # open database session
 
-    # to_be_removed = current_session.query(SavedPlaces).filter_by(SavedPlaces.user_id == user_id, SavedPlaces.location_lat ==location_lat,
+    # to_be_removed = db_session.query(SavedPlaces).filter_by(SavedPlaces.user_id == user_id, SavedPlaces.location_lat ==location_lat,
     #                                                         SavedPlaces.location_long == location_long).first()
     to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
                                              SavedPlaces.location_long == location_long).delete()
@@ -380,15 +384,15 @@ def get_updated_waiting_time():
     location_long = request.args.get('location_long')
 
     # ---------------------------
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
 
     # query table USer to get username and then query by user
-    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+    owner_name = db_session.query(User).filter_by(id=user_id).first().username
 
     if owner_name is not None:
 
         # get all saved places by all users
-        # querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+        # querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
 
         # to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
         #                                SavedPlaces.location_long == location_long).delete()
@@ -414,7 +418,7 @@ def get_updated_waiting_time():
                                      'waiting_time': place.waiting_time,
                                      'type_location': place.type_location})
 
-        current_session.close()
+        db_session.close()
 
         return jsonify({"saved_places": saved_places})
 
@@ -436,16 +440,16 @@ def update_waiting_time():
     modified_timestamp = datetime.datetime.now()  # get a new data to update
 
     # ---------------------------
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
 
     # query table USer to get username and then query by user
-    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+    owner_name = db_session.query(User).filter_by(id=user_id).first().username
 
-    # current_session.close()
+    # db_session.close()
     #
-    # current_session = db_session  # open database session
+    # db_session = db_session  # open database session
     #
-    # current_user_place = current_session.query(SavedPlaces).filter(SavedPlaces.location_lat == location_lat,
+    # current_user_place = db_session.query(SavedPlaces).filter(SavedPlaces.location_lat == location_lat,
     #                                                                SavedPlaces.location_long == location_long,
     #                                                                SavedPlaces.user_id == user_id).first()
 
@@ -458,7 +462,7 @@ def update_waiting_time():
     if owner_name is not None:
 
         # get all saved places by all users
-        querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
+        querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
 
         if querysavedplaces is not None:
 
@@ -475,13 +479,13 @@ def update_waiting_time():
                     location.waiting_time = waiting_time
 
             try:
-                current_session.add(location)
-                current_session.commit()  # commit changes
+                db_session.add(location)
+                db_session.commit()  # commit changes
             except:
-                current_session.rollback()
-                current_session.flush()  # for resetting non-commited .add()
+                db_session.rollback()
+                db_session.flush()  # for resetting non-commited .add()
                 # finally:
-                #     current_session.close()
+                #     db_session.close()
 
     return "update_waiting_time_done"
 
@@ -495,12 +499,12 @@ def get_info_about_close_locations():
 
     saved_places = []
 
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
 
     # get all saved places by all users
     # TODO get the most update waiting time, use time_stamp to query
-    # querysavedplaces = current_session.query(SavedPlaces).filter_by().all()
-    querysavedplaces = current_session.query(SavedPlaces).order_by(SavedPlaces.modified_timestamp.desc()).all()
+    # querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
+    querysavedplaces = db_session.query(SavedPlaces).order_by(SavedPlaces.modified_timestamp.desc()).all()
 
     # parsing query
     for location in querysavedplaces:
@@ -524,7 +528,7 @@ def get_info_about_close_locations():
                                  'address': location.address,
                                  'waiting_time': location.waiting_time,
                                  'type_location': location.type_location})
-    current_session.close()
+    db_session.close()
 
     return jsonify({"saved_places": saved_places})
 
@@ -553,9 +557,9 @@ def get_direction_shortest_time():
 
     if type_location in type_of_locations:
 
-        current_session = db_session  # open database session
+        # db_session = db_session  # open database session
         # query table USer to get username and then query by user
-        owner_name = current_session.query(User).filter_by(id=user_id).first().username
+        owner_name = db_session.query(User).filter_by(id=user_id).first().username
 
         # print(owner_name)
 
@@ -565,9 +569,9 @@ def get_direction_shortest_time():
             # TODO evaluate all queries using session
             # querysavedplaces = SavedPlaces.query.filter_by(user_id=user_id, type_location=type_location).all
 
-            # querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=owner_name).all()
+            # querysavedplaces = db_session.query(SavedPlaces).filter_by(user_id=owner_name).all()
 
-            querysavedplaces = current_session.query(SavedPlaces).filter_by(user_id=user_id).all()
+            querysavedplaces = db_session.query(SavedPlaces).filter_by(user_id=user_id).all()
 
             traffic_time = {}
             aux_dic_traffic_time = {}
@@ -598,7 +602,7 @@ def get_direction_shortest_time():
                                  'location_long': aux_dic_traffic_time[min_traffic_time][1],
                                  'current_location_lat': location_lat,
                                  'current_location_long': location_long})
-        current_session.close()
+        db_session.close()
     else:
         pass
     # TODO verify else
@@ -614,9 +618,9 @@ def formatted_address():
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
 
-    current_session = db_session  # open database session
+    # db_session = db_session  # open database session
     # query table USer to get username and then query by user
-    owner_name = current_session.query(User).filter_by(id=user_id).first().username
+    owner_name = db_session.query(User).filter_by(id=user_id).first().username
 
     if owner_name is not None:
         address = []

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
-from checkz_web.config import configure
-
+from .config import configure
 from checkz_data.database import db_session
 
 config_name = 'development'
