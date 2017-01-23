@@ -1,13 +1,7 @@
 # instance/config.py
 # to be created content
 import os
-
-# related to geo functions
-RADIUS_CIRCLE = 3  # distance used to be same place in meters
-RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in radius
-
 # Define the application directory
-
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 DEV_DB_NAME = "dev_checkz.db"
@@ -36,7 +30,6 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
     # GOOGLE_API = os.environ['GOOGLE_API_KEY']
-
     GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 class DevelopmentConfig(BaseConfig):
@@ -62,7 +55,6 @@ class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
     # GOOGLE_API = os.environ['GOOGLE_API_KEY']
-
     GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 
@@ -71,9 +63,9 @@ class DevelopmentConfig(BaseConfig):
 
 configure = {
 
-    'development': "checkz_app.config.DevelopmentConfig",
-    'default': 'checkz_app.config.DevelopmentConfig',
-    'deployment': 'checkz_app.config.BaseConfig'
+    'development': "checkz_web.config.DevelopmentConfig",
+    'default': 'checkz_web.config.DevelopmentConfig',
+    'deployment': 'checkz_web.config.BaseConfig'
 
 }
 

@@ -2,17 +2,17 @@
 
 # Import settings
 
-import os
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from checkz_app import db
+from checkz_data.database import Base
+
 
 # ------------------------
 # debug imports
 import datetime
-
-
 
 # To generate the database
 #
@@ -29,26 +29,22 @@ import datetime
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #
 # db = SQLAlchemy(app)
-
-
 # ----------------------------------
 # db = SQLAlchemy()
 # ----------------------------------
 # Database Mapper
 # ----------------------------------
+class User(Base):
 
-
-
-class User(db.Model):
     """    Model Table User    """
     __tablename__ = 'user'
 
-    id = db.Column('id', db.Integer, primary_key=True)
-    email = db.Column('email', db.String, unique=True, nullable=False)
-    pw_hash = db.Column('password_hash', db.String(80), nullable=False)
-    username = db.Column('username', db.String(28), index=True, unique=True)
-    created_timestamp = db.Column(db.String(28))
-    savedplaces = db.relationship('SavedPlaces', backref='user')
+    id = Column('id', Integer, primary_key=True)
+    email = Column('email', String, unique=True, nullable=False)
+    pw_hash = Column('password_hash', String(80), nullable=False)
+    username = Column('username', String(28), index=True, unique=True)
+    created_timestamp = Column(String(28))
+    savedplaces = relationship('SavedPlaces', backref='user')
 
     def __init__(self, email, pw_hash, username, created_timestamp):
         self.email = email
@@ -67,24 +63,23 @@ class User(db.Model):
                 'username': self.username,
                 'created_timestamp': self.created_timestamp}
 
-
 # ------------------------------------------------------
 # Second database Table
 # ------------------------------------------------------
-class SavedPlaces(db.Model):
+class SavedPlaces(Base):
     """
     Model Table SavedPlaces
     """
     __tablename__ = 'savedplaces'
-    id = db.Column('id', db.Integer, primary_key=True)
-    created_timestamp = db.Column(db.DateTime)
-    modified_timestamp = db.Column(db.DateTime)
-    location_lat = db.Column('location_lat', db.String(100))
-    location_long = db.Column('location_long', db.String(100))
-    address = db.Column('address', db.String(100))
-    waiting_time = db.Column('waitingtime', db.Integer)
-    type_location = db.Column('type_location', db.String(100))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id = Column('id', Integer, primary_key=True)
+    created_timestamp = Column(DateTime)
+    modified_timestamp = Column(DateTime)
+    location_lat = Column('location_lat', String(100))
+    location_long = Column('location_long', String(100))
+    address = Column('address', String(100))
+    waiting_time = Column('waitingtime', Integer)
+    type_location = Column('type_location', String(100))
+    user_id = Column(Integer, ForeignKey('user.id'))
 
     def __init__(self, created_timestamp, modified_timestamp, location_lat, location_long, address, waiting_time,
                  type_location, user_id):
@@ -110,29 +105,3 @@ class SavedPlaces(db.Model):
                 'type_location': self.type_location}
 
 
-##############################################################################
-# Helper functions
-
-# def connect_to_db(app):
-#
-#     """Connect the database to our Flask app."""
-#     # create the sqlalchemy db
-#     #curDir = os.getcwd()  # current working dir
-#
-#     curDir = os.path.abspath(os.path.dirname(__file__))
-#
-#     PATH_DB = 'sqlite:///' + curDir + '/CheckzDB'
-#
-#     # Configure to use our database
-#     app.config['SQLALCHEMY_DATABASE_URI'] = PATH_DB
-#     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#
-#     db.app = app
-#     db.init_app(app)
-
-# if __name__ == "__main__":
-#
-#     from checkz_app.server import app
-#     connect_to_db(app)
-#
-#     print("Connected to DB.")

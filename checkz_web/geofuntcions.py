@@ -2,10 +2,7 @@
 from math import radians, cos, sin, asin, sqrt
 # from geopy.geocoders import Nominatim  # used to get address based on lat and longitude
 
-
-
 def verify_distance(lat1,lon1, lat2, lon2, radius ):
-
     """
 
     Calculate the great circle distance between two points
@@ -30,7 +27,6 @@ def verify_distance(lat1,lon1, lat2, lon2, radius ):
         return distance, True
     else:
         return distance, False
-
 
 #
 # def get_location_address(lat,long):

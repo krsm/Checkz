@@ -1,5 +1,5 @@
 # Run a test server.
-from checkz_app.server import app
+from checkz_web.views import app
 
 
 if __name__ == "__main__":

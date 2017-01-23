@@ -7,7 +7,6 @@ import time
 
 gmaps = googlemaps.Client(key='AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0')
 
-
 # # Geocoding an address
 # geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
 #
@@ -18,7 +17,6 @@ gmaps = googlemaps.Client(key='AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0')
 #
 #
 # print(reverse_geocode_result[0]['formatted_address'])
-
 
 def formatted_address(lat, long):
     lat = float(lat)

@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
 import datetime
-import os
 from functools import wraps
 
 from flask import Flask, render_template, redirect, request, session, jsonify
 from flask import url_for
 
-from checkz_app.utils import get_app_base_path, get_instance_folder_path
-import checkz_app.geofuntcions as gf
-import checkz_app.maps as maps
-
-# related to configuration
-from checkz_app import db
-# import related to database
-from checkz_app.models import User, SavedPlaces
-
+import checkz_web.geofuntcions as gf
+import checkz_web.maps as maps
+from checkz_web import db
+from checkz_data import User, SavedPlaces
 
 # contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
@@ -39,8 +33,8 @@ app = Flask("Checkz"
             # template_folder='templates'
             )
 # applying config
-configure_app(app)
-db.init_app(app)
+# configure_app(app)
+# db.init_app(app)
 
 # app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 

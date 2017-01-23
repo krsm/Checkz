@@ -1,19 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/checkz_app/__init__.py" line="10" mnemonic="0" />
+    <bookmark url="file://$PROJECT_DIR$/checkz_web/__init__.py" line="11" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38ea5bf8-f696-4b02-bc72-2825f08363ee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/checkz_app/constants.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/manage.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp/website/db.sqlite3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/db_management.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/CheckzDB" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/Endpoints" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/config.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/constants.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/create_env.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/geofuntcions.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/helper.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/maps.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/server.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/custom.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/gmaps.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/map.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/materialize.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/materialize.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/search.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/css/search_address.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Bold.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Bold.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Bold.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Light.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Light.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Light.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Light.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Medium.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Medium.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Medium.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Medium.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Regular.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Thin.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Thin.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Thin.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/fonts/roboto/Roboto-Thin.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/food_green.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/food_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/food_yellow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/fun_green.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/fun_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/fun_yellow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/health_green.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/health_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/img/health_yellow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/js/gmaps.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/js/gmaps_09_JAN.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/js/materialize.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/js/materialize.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/static/js/npm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/status/Screenshot from 2016-11-20 00-56-31.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/status/Screenshot from 2016-11-20 08-57-57.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/status/Screenshot from 2016-11-20 08-59-14.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/status/Status 29 October.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/404.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/about.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/about_test.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/base.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/layout.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/login.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/login3.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/map.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/modal_favourites.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/register.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/register2.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/show_details.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/teste" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/utils.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/checkz_app/database.py" afterPath="$PROJECT_DIR$/checkz_data/database.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/checkz_app/models.py" afterPath="$PROJECT_DIR$/checkz_data/models.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/checkz_app/seed.py" afterPath="$PROJECT_DIR$/checkz_data/config.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/checkz_app/static/js/login.js" afterPath="$PROJECT_DIR$/checkz_data/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/__init__.py" afterPath="$PROJECT_DIR$/checkz_app/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/config.py" afterPath="$PROJECT_DIR$/checkz_app/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/models.py" afterPath="$PROJECT_DIR$/checkz_app/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/server.py" afterPath="$PROJECT_DIR$/checkz_app/server.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.py" afterPath="$PROJECT_DIR$/run.py" />
     </list>
     <ignored path="FlaskRestAlchemy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,13 +108,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="manage.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="manage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+            <state relative-caret-position="54">
+              <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_web/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="27" column="27" lean-forward="false" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_web/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="558">
+              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
-                <element signature="e#22#31#0" expanded="true" />
+                <element signature="e#24#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/checkz_data/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+              <folding>
+                <element signature="e#1#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_web/constants.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_web/helper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="12" column="46" lean-forward="true" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_data/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1224">
+              <caret line="68" column="22" lean-forward="false" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="22" />
+              <folding>
+                <element signature="e#44#100#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_data/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_web/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="39" lean-forward="true" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/checkz_data/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,6 +249,8 @@
       <find>save_favorite_place</find>
       <find>commited</find>
       <find>j</find>
+      <find>db.</find>
+      <find>init_app</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -87,13 +260,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/checkz_app/seed.py" />
-        <option value="$PROJECT_DIR$/checkz_app/templates/api.py" />
-        <option value="$PROJECT_DIR$/checkz_app/templates/404.html" />
-        <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/data_definition/models.py" />
-        <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/data_definition/__init__.py" />
-        <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/data_definition/database.py" />
-        <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/crud_data/crud.py" />
         <option value="$PROJECT_DIR$/checkz_app/server_app.py" />
         <option value="$PROJECT_DIR$/checkz_app/templates/show_details.html" />
         <option value="$PROJECT_DIR$/checkz_app/static/css/map.css" />
@@ -114,10 +280,7 @@
         <option value="$PROJECT_DIR$/../../../GitHub/00 - Python/General-Python/Multiprocessing/processes.py" />
         <option value="$PROJECT_DIR$/data_storage/models.py" />
         <option value="$PROJECT_DIR$/data_storage/database.py" />
-        <option value="$PROJECT_DIR$/checkz_app/helper.py" />
-        <option value="$PROJECT_DIR$/checkz_app/maps.py" />
         <option value="$PROJECT_DIR$/checkz_app/setup.py" />
-        <option value="$PROJECT_DIR$/checkz_app/geofuntcions.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/checkz_app/data/database.py" />
         <option value="$PROJECT_DIR$/checkz_app/data/__init__.py" />
@@ -126,18 +289,28 @@
         <option value="$PROJECT_DIR$/checkz_app/data/models.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/checkz_app/utils.py" />
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/checkz_app/database.py" />
         <option value="$PROJECT_DIR$/checkz_app/templates/db_management.py" />
         <option value="$PROJECT_DIR$/checkz_app/db_management.py" />
         <option value="$PROJECT_DIR$/checkz_app/templates/constants.py" />
-        <option value="$PROJECT_DIR$/checkz_app/config.py" />
-        <option value="$PROJECT_DIR$/checkz_app/models.py" />
-        <option value="$PROJECT_DIR$/checkz_app/server.py" />
-        <option value="$PROJECT_DIR$/checkz_app/constants.py" />
         <option value="$PROJECT_DIR$/checkz_app/manage.py" />
+        <option value="$PROJECT_DIR$/manage.py" />
+        <option value="$PROJECT_DIR$/checkz_app/constants.py" />
+        <option value="$PROJECT_DIR$/checkz_app/server.py" />
+        <option value="$PROJECT_DIR$/checkz_app/geofuntcions.py" />
+        <option value="$PROJECT_DIR$/checkz_app/maps.py" />
+        <option value="$PROJECT_DIR$/checkz_app/models.py" />
+        <option value="$PROJECT_DIR$/checkz_app/utils.py" />
+        <option value="$PROJECT_DIR$/checkz_app/helper.py" />
+        <option value="$PROJECT_DIR$/checkz_app/config.py" />
+        <option value="$PROJECT_DIR$/checkz_app/shell.py" />
         <option value="$PROJECT_DIR$/checkz_app/__init__.py" />
+        <option value="$PROJECT_DIR$/checz_data/database.py" />
+        <option value="$PROJECT_DIR$/checkz_data/models.py" />
+        <option value="$PROJECT_DIR$/checkz_data/__init__.py" />
+        <option value="$PROJECT_DIR$/checkz_data/config.py" />
+        <option value="$PROJECT_DIR$/checkz_data/database.py" />
       </list>
     </option>
   </component>
@@ -189,7 +362,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="checkz_app" />
+              <option name="myItemId" value="checkz_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Checkz" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Checkz" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="checkz_data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -205,21 +392,21 @@
     <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/checkz_app/checz_data" />
+      <recent name="$PROJECT_DIR$/checkz_app" />
+      <recent name="$PROJECT_DIR$/../../../GitHub/00 - Python/General-Python/Multithreading" />
+      <recent name="$PROJECT_DIR$/bin" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/checkz_app/data" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/../../../GitHub/00 - Python/SQL_Alchemy_db" />
       <recent name="$PROJECT_DIR$/static/js" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/checkz_app" />
-      <recent name="$PROJECT_DIR$/../../../GitHub/00 - Python/General-Python/Multithreading" />
-      <recent name="$PROJECT_DIR$/bin" />
-      <recent name="$PROJECT_DIR$/checkz_app/templates" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.__init__">
+  <component name="RunManager" selected="Python.run">
     <configuration default="false" name="config" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -482,9 +669,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.__init__" />
-        <item index="1" class="java.lang.String" itemvalue="Python.db_management" />
-        <item index="2" class="java.lang.String" itemvalue="Python.run" />
+        <item index="0" class="java.lang.String" itemvalue="Python.run" />
+        <item index="1" class="java.lang.String" itemvalue="Python.__init__" />
+        <item index="2" class="java.lang.String" itemvalue="Python.db_management" />
         <item index="3" class="java.lang.String" itemvalue="Python.utils" />
         <item index="4" class="java.lang.String" itemvalue="Python.config" />
       </list>
@@ -530,9 +717,10 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19314472" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32608697" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3347826" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27065217" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27065217" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3326087" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -542,7 +730,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39915967" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -609,46 +796,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="240" />
+      <option name="time" value="241" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/checkz_app/seed.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../news_partners/get_news/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../news_partners/data_storage/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="17" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/py35/lib/python3.5/site-packages/flask/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35514">
-          <caret line="1999" column="0" lean-forward="false" selection-start-line="1999" selection-start-column="0" selection-end-line="1999" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/py35/lib/python3.5/site-packages/werkzeug/debug/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4698">
-          <caret line="284" column="0" lean-forward="false" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="568">
@@ -779,12 +931,12 @@
     <entry file="file://$PROJECT_DIR$/data_storage/models.py" />
     <entry file="file://$PROJECT_DIR$/data_storage/database.py" />
     <entry file="file://$PROJECT_DIR$/checkz_app/travel_time.py" />
-    <entry file="file://$PROJECT_DIR$/checkz_app/static/favicon.ico">
+    <entry file="file://$PROJECT_DIR$/checkz_web/static/favicon.ico">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/Endpoints">
+    <entry file="file://$PROJECT_DIR$/checkz_web/Endpoints">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
@@ -792,27 +944,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/checkz_app/query_app.py" />
-    <entry file="file://$PROJECT_DIR$/checkz_app/geofuntcions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/maps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/checkz_app/setup.py" />
     <entry file="file://$PROJECT_DIR$/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -841,7 +972,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="18" column="34" lean-forward="false" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -856,11 +986,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/utils.py">
+    <entry file="file://$PROJECT_DIR$/checkz_web/create_env.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="39" lean-forward="false" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
-          <folding />
+        <state relative-caret-position="18">
+          <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -872,64 +1001,134 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/create_env.sh">
+    <entry file="file://$PROJECT_DIR$/checkz_web/geofuntcions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="64" />
+        <state relative-caret-position="288">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/config.py">
+    <entry file="file://$PROJECT_DIR$/checkz_web/maps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="73" column="16" lean-forward="false" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="30" selection-end-column="87" />
+        <state relative-caret-position="293">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
-            <element signature="e#24#39#0" expanded="true" />
+            <element signature="e#24#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/constants.py">
+    <entry file="file://$PROJECT_DIR$/checkz_web/seed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/shell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding>
+            <element signature="e#22#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_data/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="68" column="22" lean-forward="false" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="22" />
+          <folding>
+            <element signature="e#44#100#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="39" lean-forward="true" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_data/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="e#24#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
-          <caret line="2" column="33" lean-forward="true" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
+          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_app/__init__.py">
+    <entry file="file://$PROJECT_DIR$/checkz_web/helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="28" column="14" lean-forward="true" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-          <folding>
-            <element signature="e#25#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="216">
+          <caret line="12" column="46" lean-forward="true" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+        <state relative-caret-position="54">
+          <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_web/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="27" column="27" lean-forward="false" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_data/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_data/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
           <folding>
-            <element signature="e#22#31#0" expanded="true" />
+            <element signature="e#1#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
