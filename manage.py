@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 
-from checkz_web import db, create_app
+from checkz_app import db, create_app
 
 from flask_script import Manager
 

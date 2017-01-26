@@ -3,16 +3,14 @@
 # Import settings
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-
+from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from checkz_data.database import Base
+from .database import Base
 
 
 # ------------------------
 # debug imports
-import datetime
 
 # To generate the database
 #
@@ -44,7 +42,7 @@ class User(Base):
     pw_hash = Column('password_hash', String(80), nullable=False)
     username = Column('username', String(28), index=True, unique=True)
     created_timestamp = Column(String(28))
-    savedplaces = relationship('SavedPlaces', backref='user')
+    savedplaces = relationship('SavedPlaces', backref=backref('user', lazy='dynamic'))
 
     def __init__(self, email, pw_hash, username, created_timestamp):
         self.email = email

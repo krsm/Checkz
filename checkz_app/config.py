@@ -63,9 +63,9 @@ class DevelopmentConfig(BaseConfig):
 
 configure = {
 
-    'development': "checkz_web.config.DevelopmentConfig",
-    'default': 'checkz_web.config.DevelopmentConfig',
-    'deployment': 'checkz_web.config.BaseConfig'
+    'development': "checkz_app.config.DevelopmentConfig",
+    'default': 'checkz_app.config.DevelopmentConfig',
+    'deployment': 'checkz_app.config.BaseConfig'
 
 }
 

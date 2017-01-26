@@ -2,18 +2,16 @@
 import datetime
 from functools import wraps
 
-from flask import Flask, render_template, redirect, request, session, jsonify
+from flask import render_template, redirect, request, session, jsonify
 from flask import url_for
 
-import checkz_web.geofuntcions as gf
-import checkz_web.maps as maps
-# from checkz_web import db
-from checkz_data.database import db_session
-from checkz_data.models import User, SavedPlaces
-
+import checkz_app.geofuntcions as gf
+import checkz_app.maps as maps
+from checkz_app.constants import RADIUS_CIRCLE, RADIUS_SAVED_PLACES, type_of_locations, median_waiting_time
+from checkz_db.database import db_session
+from checkz_db.models import User, SavedPlaces
 from . import app
 
-from checkz_web.constants import RADIUS_CIRCLE, RADIUS_SAVED_PLACES, type_of_locations, median_waiting_time
 
 # ------------------------------------------------
 # Create a flask app and set a random secret key
