@@ -37,7 +37,7 @@ import os
 # class DevelopmentConfig(BaseConfig):
 
 # Statement for enabling the development environment
-DEBUG = True
+DEBUG = False
 # # Secret key for signing cookies
 # SECRET_KEY = 'fghjklkjhghjkljhgbuikasjamskdajsda,,,,mnnnn'
 # # Enable protection agains *Cross-site Request Forgery (CSRF)*
