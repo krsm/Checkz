@@ -4,12 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-# DB_NAME = 'checkz.db'
+DB_NAME = '/checkz.db'
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-# print(BASE_DIR)
 
-PATH_DB = 'sqlite:///' + BASE_DIR + '/checkz.db'
+
+PATH_DB = 'sqlite:///' + BASE_DIR + DB_NAME
 
 engine = create_engine(PATH_DB, convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,

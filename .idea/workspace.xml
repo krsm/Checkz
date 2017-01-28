@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38ea5bf8-f696-4b02-bc72-2825f08363ee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/checkz_db/teste.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp/website/db.sqlite3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/about_test.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/modal_favourites.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/register2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/checkz_app/templates/teste" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_db/checkz.db" afterPath="$PROJECT_DIR$/checkz_db/checkz.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/__init__.py" afterPath="$PROJECT_DIR$/checkz_app/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/config.py" afterPath="$PROJECT_DIR$/checkz_app/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/templates/layout.html" afterPath="$PROJECT_DIR$/checkz_app/templates/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/templates/map.html" afterPath="$PROJECT_DIR$/checkz_app/templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_app/views.py" afterPath="$PROJECT_DIR$/checkz_app/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_db/database.py" afterPath="$PROJECT_DIR$/checkz_db/database.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkz_db/models.py" afterPath="$PROJECT_DIR$/checkz_db/models.py" />
     </list>
     <ignored path="FlaskRestAlchemy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,16 +27,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="teste.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/checkz_db/teste.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/checkz_app/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -91,6 +69,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="database.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/checkz_db/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="22" column="66" lean-forward="true" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="materialize.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/checkz_app/static/css/materialize.css">
           <provider selected="true" editor-type-id="text-editor">
@@ -111,11 +101,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/checkz_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="113" column="9" lean-forward="true" selection-start-line="109" selection-start-column="37" selection-end-line="113" selection-end-column="9" />
+            <state relative-caret-position="237">
+              <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
               <folding>
                 <element signature="e#24#39#0" expanded="true" />
               </folding>
@@ -173,6 +163,7 @@
       <find>map</find>
       <find>map.html</find>
       <find>about.html</find>
+      <find>register2.html</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -226,13 +217,13 @@
         <option value="$PROJECT_DIR$/tests/__init__.py" />
         <option value="$PROJECT_DIR$/tests/checkz_tests.py" />
         <option value="$PROJECT_DIR$/checkz_db/__init__.py" />
-        <option value="$PROJECT_DIR$/checkz_db/database.py" />
         <option value="$PROJECT_DIR$/checkz_app/templates/map.html" />
         <option value="$PROJECT_DIR$/checkz_app/views.py" />
         <option value="$PROJECT_DIR$/checkz_db/models.py" />
         <option value="$PROJECT_DIR$/checkz_app/config.py" />
         <option value="$PROJECT_DIR$/checkz_db/teste.py" />
         <option value="$PROJECT_DIR$/checkz_app/__init__.py" />
+        <option value="$PROJECT_DIR$/checkz_db/database.py" />
       </list>
     </option>
   </component>
@@ -285,38 +276,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="checkz_db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Checkz" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Checkz" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkz_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Checkz" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Checkz" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkz_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -652,7 +611,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="24" width="1863" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19314472" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -955,16 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/checkz_db/database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/checkz_db/teste.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -1041,10 +990,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/checkz_app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="113" column="9" lean-forward="true" selection-start-line="109" selection-start-column="37" selection-end-line="113" selection-end-column="9" />
+        <state relative-caret-position="237">
+          <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
           <folding>
             <element signature="e#24#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checkz_db/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="66" lean-forward="true" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
