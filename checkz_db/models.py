@@ -42,7 +42,7 @@ class User(Base):
     pw_hash = Column('password_hash', String(80), nullable=False)
     username = Column('username', String(28), index=True, unique=True)
     created_timestamp = Column(String(28))
-    savedplaces = relationship('SavedPlaces', backref=backref('user', lazy='dynamic'))
+    savedplaces = relationship('SavedPlaces', backref=backref('user'))
 
     def __init__(self, email, pw_hash, username, created_timestamp):
         self.email = email

@@ -10,8 +10,10 @@ import checkz_app.maps as maps
 from checkz_app.constants import RADIUS_CIRCLE, RADIUS_SAVED_PLACES, type_of_locations, median_waiting_time
 from checkz_db.database import db_session
 from checkz_db.models import User, SavedPlaces
-from . import app
+from checkz_app import app
 
+GOOGLE_API_KEY = 'AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0'
+#AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0
 
 # ------------------------------------------------
 # Create a flask app and set a random secret key
@@ -159,14 +161,15 @@ def logout():
 # Homepage
 @app.route('/')
 def home_page():
-    return render_template("map.html")
+
+    return render_template("map.html", google_api_key=GOOGLE_API_KEY)
 
 
 # # render_map route
 # It is called when the logo is pressed
 @app.route('/render_map')
 def render_map():
-    return render_template("map.html")
+    return render_template("map.html", google_api_key=GOOGLE_API_KEY)
 
 
 # Code related to show details page

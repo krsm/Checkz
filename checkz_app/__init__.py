@@ -2,14 +2,16 @@
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+# Define the application directory
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 from flask import Flask
 from .config import configure
 
 config_name = 'development'
-app = Flask('Checkz')
+app = Flask('Checkz', static_folder=BASE_DIR + '/static', template_folder=BASE_DIR + '/templates')
 app.config.from_object(configure[config_name])
 
 

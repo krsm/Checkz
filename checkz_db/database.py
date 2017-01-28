@@ -7,8 +7,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 # DB_NAME = 'checkz.db'
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-print(BASE_DIR)
-
+# print(BASE_DIR)
 
 PATH_DB = 'sqlite:///' + BASE_DIR + '/checkz.db'
 
@@ -23,9 +22,9 @@ def init_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    from checkz_db import models
+    from checkz_db.models import Base
     Base.metadata.create_all(bind=engine)
-#
+
 if __name__ == "__main__":
 
     init_db()

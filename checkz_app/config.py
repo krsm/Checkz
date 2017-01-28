@@ -4,6 +4,8 @@ import os
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+print(BASE_DIR)
+
 DEV_DB_NAME = "dev_checkz.db"
 
 PROD_DB_NAME = "checkz.db"
@@ -25,12 +27,12 @@ class BaseConfig(object):
     THREADS_PER_PAGE = 2
     # # Define the database - we are working with
     # # SQLite for this example
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, PROD_DB_NAME)
-    DATABASE_CONNECT_OPTIONS = {}
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, PROD_DB_NAME)
+    # DATABASE_CONNECT_OPTIONS = {}
+    # SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
     # GOOGLE_API = os.environ['GOOGLE_API_KEY']
-    GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
+    # GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 class DevelopmentConfig(BaseConfig):
 
@@ -50,12 +52,12 @@ class DevelopmentConfig(BaseConfig):
     THREADS_PER_PAGE = 2
     # # Define the database - we are working with
     # # SQLite for this example
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, DEV_DB_NAME)
-    DATABASE_CONNECT_OPTIONS = {}
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, DEV_DB_NAME)
+    # DATABASE_CONNECT_OPTIONS = {}
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # API
     # GOOGLE_API = os.environ['GOOGLE_API_KEY']
-    GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
+    # GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 
 
