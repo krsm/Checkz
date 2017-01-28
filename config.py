@@ -39,7 +39,7 @@ import os
 # Statement for enabling the development environment
 DEBUG = True
 # # Secret key for signing cookies
-SECRET_KEY = os.urandom(32)
+# SECRET_KEY = 'fghjklkjhghjkljhgbuikasjamskdajsda,,,,mnnnn'
 # # Enable protection agains *Cross-site Request Forgery (CSRF)*
 CSRF_ENABLED = True
 # # Use a secure, unique and absolutely secret key for
@@ -54,7 +54,7 @@ THREADS_PER_PAGE = 2
 # # SQLite for this example
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, DEV_DB_NAME)
 # DATABASE_CONNECT_OPTIONS = {}
-SQLALCHEMY_TRACK_MODIFICATIONS = True
+# SQLALCHEMY_TRACK_MODIFICATIONS = True
 # API
 # GOOGLE_API = os.environ['GOOGLE_API_KEY']
 GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"

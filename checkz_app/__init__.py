@@ -12,5 +12,5 @@ app = Flask('Checkz', static_folder=BASE_DIR + '/static', template_folder=BASE_D
 # Configurations
 app.config.from_object('config')
 
-
+app.config['SECRET_KEY'] = "Your_secret_string"
 

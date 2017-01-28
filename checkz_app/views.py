@@ -458,7 +458,7 @@ def update_waiting_time():
                                                      location_long=location_long,
                                                      user_id=user_id).first()
 
-    print(current_user_place.address)
+    # print(current_user_place.address)
 
     if owner_name is not None:
 
