@@ -2,7 +2,9 @@
 from math import radians, cos, sin, asin, sqrt
 # from geopy.geocoders import Nominatim  # used to get address based on lat and longitude
 
+
 def verify_distance(lat1,lon1, lat2, lon2, radius ):
+
     """
 
     Calculate the great circle distance between two points
@@ -62,10 +64,7 @@ def verify_distance(lat1,lon1, lat2, lon2, radius ):
 #     else:
 #         return False
 #
-#
 
-
-#
 # if __name__ == '__main__':
 #
 #     durhamlat = 35.9940

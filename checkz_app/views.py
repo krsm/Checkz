@@ -588,6 +588,7 @@ def get_direction_shortest_time():
                     duration_time_traffic = float(duration_time_traffic.split()[0])
 
                     if location.waiting_time is not None:
+
                         waiting_time = float(location.waiting_time)
 
                         total_time = duration_time_traffic + waiting_time

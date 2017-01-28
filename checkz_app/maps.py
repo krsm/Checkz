@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import googlemaps
 from googlemaps.distance_matrix import distance_matrix as dm
+from .config import GOOGLE_API_KEY
 
 from datetime import datetime
-import time
-
-gmaps = googlemaps.Client(key='AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0')
+gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
 
 # # Geocoding an address
 # geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')

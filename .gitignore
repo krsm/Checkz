@@ -103,3 +103,4 @@ ENV/
 # dropbox
 .dropbox
 
+/checkz_app/create_env.sh
