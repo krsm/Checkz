@@ -1,0 +1,89 @@
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    /*font-weight: bold;*/
+    font-family: 'Lato', sans-serif;
+}
+
+
+/* Optional: Makes the sample page fill the window. */
+
+html, body {
+    height: 100%;
+}
+
+input[type=text] {
+    /*color: red;
+	text-align: right;*/
+    /*cursor: pointer;
+	display: block;*/
+    width: 80%;
+    /*letter-spacing: 4px;
+	text-shadow: 0 0 2px black;
+	word-spacing: 20px;*/
+    /*float: left;*/
+    /*margin: 0 0 10px 10px;*/
+}
+
+#button-input {
+    background-color: #f44336;
+    /* Red */
+    width: 10%;
+    color: white;
+    padding: 2px 2px;
+    border: none;
+    text-decoration: none;
+    /*display: inline-block;*/
+    /*font-size: 12px;*/
+    text-align: auto;
+    border-radius: 4px
+}
+
+#right-panel {
+    height: 100%;
+    float: right;
+    width: 50%;
+    overflow: auto;
+    padding: 5px;
+}
+
+#right-panel.hidden {
+    /*            width: 0px;
+            transition: width 2s;*/
+    display: none;
+}
+
+
+/*.controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }*/
