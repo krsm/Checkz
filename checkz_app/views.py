@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import datetime
 from functools import wraps
 
@@ -12,8 +14,9 @@ from checkz_db.database import db_session
 from checkz_db.models import User, SavedPlaces
 from checkz_app import app
 
-GOOGLE_API_KEY = 'AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0'
-#AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0
+# GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+
+GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
 
 # ------------------------------------------------
 # Create a flask app and set a random secret key
@@ -517,7 +520,7 @@ def get_info_about_close_locations():
         # distance_location in meters
         # dispplay info related to 10 locations max
         if close_location is True and (len(saved_places) <= 5):
-            # TODO different users can save the same location as diffrerent type
+            # TODO different users can save the same location as different type
             # Create logic to verify if it is the same as place, and just append
             # if the place does not exist already in the list,
             # The waiting time is already the same...

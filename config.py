@@ -37,7 +37,7 @@ import os
 # class DevelopmentConfig(BaseConfig):
 
 # Statement for enabling the development environment
-DEBUG = False
+DEBUG = True
 # # Secret key for signing cookies
 # SECRET_KEY = 'fghjklkjhghjkljhgbuikasjamskdajsda,,,,mnnnn'
 # # Enable protection agains *Cross-site Request Forgery (CSRF)*
@@ -55,11 +55,7 @@ THREADS_PER_PAGE = 2
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, DEV_DB_NAME)
 # DATABASE_CONNECT_OPTIONS = {}
 # SQLALCHEMY_TRACK_MODIFICATIONS = True
-# API
-# GOOGLE_API = os.environ['GOOGLE_API_KEY']
-GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
-
-
+#
 
 # dict with the possible configurations
 
