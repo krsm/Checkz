@@ -14,9 +14,7 @@ from checkz_db.database import db_session
 from checkz_db.models import User, SavedPlaces
 from checkz_app import app
 
-# GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
-
-GOOGLE_API_KEY = "AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0;"
+from .api_keys import GOOGLE_API_KEY
 
 # ------------------------------------------------
 # Create a flask app and set a random secret key

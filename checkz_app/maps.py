@@ -4,9 +4,9 @@ from googlemaps.distance_matrix import distance_matrix as dm
 # from .config import GOOGLE_API_KEY
 
 from datetime import datetime
-# print(GOOGLE_API_KEY)
 
-GOOGLE_API_KEY = 'AIzaSyCy1rfaC4-cM1rSTNgd-XXXOV15qt9vUb0'
+from .api_keys import GOOGLE_API_KEY
+
 gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
 
 # # Geocoding an address

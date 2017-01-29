@@ -6,5 +6,6 @@ RADIUS_SAVED_PLACES = 241402  # 15 miles  = 24.1402 considering closed places in
 # contains the possible type of locations allowed to users save
 type_of_locations = ["Eat", "Fun", "Health"]
 
+# TODO use another method to insert the initial waiting time of certain places
 median_waiting_time = {"Eat": 10, "Fun": 15, "Health": 20}
 

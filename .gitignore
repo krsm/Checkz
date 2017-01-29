@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+d# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -103,4 +103,7 @@ ENV/
 # dropbox
 .dropbox
 
-/checkz_app/create_env.sh
+# env
+create_env.sh
+api_keys.py
+/checkz_app/api_keys.py
