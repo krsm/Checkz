@@ -4,7 +4,7 @@ import os
 import datetime
 from functools import wraps
 
-from flask import render_template, redirect, request, session, jsonify
+from flask import render_template, redirect, request, session, jsonify, g, flash
 from flask import url_for
 
 import checkz_app.geofuntcions as gf
@@ -30,7 +30,7 @@ from .api_keys import GOOGLE_API_KEY
 
 # app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
-# TODO move to a config/setup file togetther with all constants
+# TODO move to a config/setup file together with all constants
 # app.secret_key = os.urandom(32)
 
 # raises error if you use an undefined variable in Jinja2
@@ -40,6 +40,7 @@ from .api_keys import GOOGLE_API_KEY
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
 
 # login required decorator
 # TODO verify username in the session
@@ -56,11 +57,14 @@ def requires_auth(f):
 # ================================================================================
 #  Registration, Login, and User Profile
 # ================================================================================
-# @app.before_request
-# def before_request():
-#     g.user = None
-#     if 'username' in session:
-#         g.user = session['username']
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'username' in session:
+        g.user = session['user_id']
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -130,19 +134,22 @@ def login():
 
         if possible_user and possible_user.verify_password(password):
 
+            session['logged_in'] = True
             session['username'] = possible_user.username
             session['user_id'] = possible_user.id
-            db_session.close()
+
+            flash('You were logged in')
+            # db_session.close()
             return redirect(url_for("home_page"))
 
         else:
             error = "Invalid Credentials. Please try again."
-            db_session.close()
+            # db_session.close()
             return render_template("login.html", error=error)
 
     else:
         # error = "405  Method not allowed"
-        db_session.close()
+        # db_session.close()
         return render_template("login.html", error=error)
 
 
@@ -151,8 +158,10 @@ def login():
 def logout():
     session.pop('username', None)
     session.pop('user_id', None)
+    session.pop('logged_in', None)
     # session['user_id'] = None
     # session['username'] = None
+    flash('You were logged out')
     # this remove the entire session dictionary
     session.clear()
     # to avoid to show logout in the url_browser
@@ -183,11 +192,6 @@ def render_show_details():
 @app.route('/about_page')
 def about_page():
     return render_template("about.html")
-
-# ------------------------------------------------------
-# ------------------------------------------------------
-#   Endpoints related to User Table
-# ------------------------------------------------------
 
 
 # get all previous saved places
@@ -232,7 +236,6 @@ def get_all_favorite_places():
     # return jsonify(savedplaces_json=[SavedPlaces.serialize for allsavedplace in allsavedplaces])
 
 
-# - End of points related to User Table
 # ------------------------------------------------------
 #   POST /create_save_place/ - create a new favorite place place in the database
 @app.route('/save_favorite_place/', methods=['POST', 'GET'])
@@ -335,14 +338,6 @@ def save_favorite_place():
         return jsonify({"saved_places": saved_places})
 
 
-# function to verify if a certain location is already in the database
-def is_location_on_database():
-
-    location_db = True
-
-    return location_db
-
-
 # route to remove favorite place
 @app.route('/remove_favorite_place', methods=['POST'])
 def remove_favorite_place():
@@ -420,7 +415,7 @@ def get_updated_waiting_time():
                                      'waiting_time': place.waiting_time,
                                      'type_location': place.type_location})
 
-        db_session.close()
+        # db_session.close()
 
         return jsonify({"saved_places": saved_places})
 
@@ -488,7 +483,7 @@ def update_waiting_time():
                 db_session.flush()  # for resetting non-commited .add()
                 # finally:
                 #     db_session.close()
-
+    #TODO improve return function
     return "update_waiting_time_done"
 
 
@@ -496,8 +491,16 @@ def update_waiting_time():
 # before user be logged in, display info related to places save by others
 @app.route('/get_info_about_close_locations', methods=['GET'])
 def get_info_about_close_locations():
+
     location_lat = request.args.get('location_lat')
     location_long = request.args.get('location_long')
+
+    # in case user is logged in the data related to the
+    # current users previous saved will not be displayed
+    if 'user_id' in session:
+        current_user_id = session['user_id']
+    else:
+        current_user_id = None
 
     saved_places = []
 
@@ -516,8 +519,11 @@ def get_info_about_close_locations():
                                                                float(location.location_lat),
                                                                float(location.location_long), RADIUS_SAVED_PLACES)
         # distance_location in meters
-        # dispplay info related to 10 locations max
-        if close_location is True and (len(saved_places) <= 5):
+        # display info related to 10 locations max
+        num_places_display = 5  # it will be used to display a certain amount of places
+
+        if close_location is True and (len(saved_places) <= num_places_display) \
+                and location.user_id is not current_user_id:
             # TODO different users can save the same location as different type
             # Create logic to verify if it is the same as place, and just append
             # if the place does not exist already in the list,
@@ -605,7 +611,7 @@ def get_direction_shortest_time():
                                  'location_long': aux_dic_traffic_time[min_traffic_time][1],
                                  'current_location_lat': location_lat,
                                  'current_location_long': location_long})
-        db_session.close()
+        # db_session.close()
     else:
         pass
     # TODO verify else
@@ -626,6 +632,7 @@ def formatted_address():
     owner_name = db_session.query(User).filter_by(id=user_id).first().username
 
     if owner_name is not None:
+
         address = []
 
         address.append({'address': maps.formatted_address(location_lat, location_long)})
@@ -634,6 +641,7 @@ def formatted_address():
 
 
 # ============================================================
+
 # Errors Handling
 @app.errorhandler(404)
 def not_found(error):
