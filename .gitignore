@@ -107,3 +107,4 @@ ENV/
 create_env.sh
 api_keys.py
 /checkz_app/api_keys.py
+/about.txt

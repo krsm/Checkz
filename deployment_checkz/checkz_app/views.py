@@ -19,7 +19,7 @@ from .api_keys import GOOGLE_API_KEY
 # ------------------------------------------------
 # Create a flask app and set a random secret key
 # Create the app
-# app = Flask("Checkz"
+# app = Flask("checkz"
 #             # instance_path=get_instance_folder_path(),
 #             # instance_relative_config=True,
 # #             # template_folder='templates'
@@ -301,7 +301,7 @@ def save_favorite_place():
                     saved_places.append({'favorite_updated': "ok"})
                     return jsonify({"saved_places": saved_places})
 
-        # # query all users previous saved places
+        # # query all account previous saved places
         # all_users_places = db_session.query(SavedPlaces).all()
         #
         # # saving a favorite place for the first time
@@ -388,7 +388,7 @@ def get_updated_waiting_time():
 
     if owner_name is not None:
 
-        # get all saved places by all users
+        # get all saved places by all account
         # querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
 
         # to_be_removed = SavedPlaces.query.filter(SavedPlaces.user_id == user_id, SavedPlaces.location_lat == location_lat,
@@ -458,7 +458,7 @@ def update_waiting_time():
 
     if owner_name is not None:
 
-        # get all saved places by all users
+        # get all saved places by all account
         querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
 
         if querysavedplaces is not None:
@@ -496,7 +496,7 @@ def get_info_about_close_locations():
     location_long = request.args.get('location_long')
 
     # in case user is logged in the data related to the
-    # current users previous saved will not be displayed
+    # current account previous saved will not be displayed
     if 'user_id' in session:
         current_user_id = session['user_id']
     else:
@@ -506,7 +506,7 @@ def get_info_about_close_locations():
 
     # db_session = db_session  # open database session
 
-    # get all saved places by all users
+    # get all saved places by all account
     # TODO get the most update waiting time, use time_stamp to query
     # querysavedplaces = db_session.query(SavedPlaces).filter_by().all()
     querysavedplaces = db_session.query(SavedPlaces).order_by(SavedPlaces.modified_timestamp.desc()).all()
@@ -524,7 +524,7 @@ def get_info_about_close_locations():
 
         if close_location is True and (len(saved_places) <= num_places_display) \
                 and location.user_id is not current_user_id:
-            # TODO different users can save the same location as different type
+            # TODO different account can save the same location as different type
             # Create logic to verify if it is the same as place, and just append
             # if the place does not exist already in the list,
             # The waiting time is already the same...

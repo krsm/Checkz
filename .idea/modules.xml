@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/.idea/00 - Python.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/.idea/00 - Python.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Checkz.iml" filepath="$PROJECT_DIR$/.idea/Checkz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/01 - LocalThis/.idea/01 - LocalThis.iml" filepath="$PROJECT_DIR$/../../../GitHub/01 - LocalThis/.idea/01 - LocalThis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/02 - Blog Django/.idea/02 - Blog Django.iml" filepath="$PROJECT_DIR$/../../../GitHub/02 - Blog Django/.idea/02 - Blog Django.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/04  - Web Dev Stuff/.idea/04  - Web Dev Stuff.iml" filepath="$PROJECT_DIR$/../../../GitHub/04  - Web Dev Stuff/.idea/04  - Web Dev Stuff.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp/.idea/DjangoApp.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp/.idea/DjangoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/.idea/FlaskBluerprintsApp.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp/.idea/FlaskBluerprintsApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/FlaskRESTAPI/.idea/FlaskRESTAPI.iml" filepath="$PROJECT_DIR$/../../../GitHub/FlaskRESTAPI/.idea/FlaskRESTAPI.iml" />
@@ -11,9 +12,11 @@
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_Details/.idea/SQLAlchemy_Details.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_Details/.idea/SQLAlchemy_Details.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_database.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_database.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_db.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/SQLAlchemy_db/.idea/SQLAlchemy_db.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/checkz.iml" filepath="$PROJECT_DIR$/.idea/checkz.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/data_definition/.idea/data_definition.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/data_definition/.idea/data_definition.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/.idea/database_structure.iml" filepath="$PROJECT_DIR$/../../../GitHub/00 - Python/database_structure/.idea/database_structure.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" filepath="$PROJECT_DIR$/../../../news_partners/.idea/news_partners.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../GitHub/03 - Pull GitHub/qpd/.idea/qpd.iml" filepath="$PROJECT_DIR$/../../../GitHub/03 - Pull GitHub/qpd/.idea/qpd.iml" />
     </modules>
   </component>
 </project>

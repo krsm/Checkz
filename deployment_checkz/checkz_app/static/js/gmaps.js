@@ -260,7 +260,6 @@ function getDirections(response) {
     if (response['saved_places'].length == 0) {
         alert('User does not have saved any previous favorite place of selected type!')
     } else {
-
         $('#right-panel').removeClass('hidden');
         // hide previous markers
         hideListings();
@@ -281,7 +280,6 @@ function getDirections(response) {
             // to display navigation on the panel
             directionsDisplay.setMap(favMap);
             directionsDisplay.setPanel(document.getElementById('right-panel'));
-
 
             var request = {
                 // window.userLocation is global
@@ -324,7 +322,7 @@ function get_location_shortest_time(fav_lat, fav_lng) {
     if (userId !== undefined) {
         // Getting value of type_location from HTML
         var type_location = document.getElementById('type_selected_navigate').value // Variable to be send to endpoint
-        alert(type_location);
+        // alert(type_location);
         var markerData = {
             'type_location': type_location,
             'user_id': userId,

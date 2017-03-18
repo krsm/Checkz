@@ -5,6 +5,8 @@
     <mapping directory="$PROJECT_DIR$/../../../GitHub/00 - Python/DjangoApp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../GitHub/00 - Python/FlaskBluerprintsApp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../GitHub/00 - Python/General-Python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../GitHub/02 - Blog Django" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../GitHub/03 - Pull GitHub/qpd" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../GitHub/FlaskRESTAPI" vcs="Git" />
   </component>
 </project>

@@ -6,9 +6,8 @@ from flask import Flask
 # from .config import configure
 
 # config_name = 'development'
-app = Flask('Checkz', static_folder=BASE_DIR + '/static', template_folder=BASE_DIR + '/templates')
+app = Flask('checkz', static_folder=BASE_DIR + '/static', template_folder=BASE_DIR + '/templates')
 # Configurations
 app.config.from_pyfile('config.py')
 
 app.config['SECRET_KEY'] = os.urandom(32)
-

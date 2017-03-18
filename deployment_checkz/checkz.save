@@ -1,0 +1,9 @@
+server {
+	location / {bash: c: command not found
+
+		proxy_pass http://localhost:
+
+
+	}	
+
+}

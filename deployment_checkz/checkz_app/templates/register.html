@@ -14,7 +14,8 @@
     <h1>Please create an account</h1>
 
     <form method="POST" action="{{url_for( 'register' )}}" role="form">
-        <input type="text" placeholder="username" name="username"/></br>
+        <input type="text" placeholder="username" name="username"/>
+        <br>
         <input type="text" placeholder="email address" name="email" required autofocus/><br>
         <input type="password" placeholder="password" name="password" required/><br>
         <input type="submit" value="Register" class='btn-primary'/>
@@ -26,21 +27,21 @@
     <br>
     <br>
 
-        {% if error %}
-            <p class="error"><strong>Note:</strong> {{ error }}
+    {% if error %}
+    <p class="error"><strong>Note:</strong> {{ error }}
         {% endif %}
 
-                <br>
-    <br>
-    <br>
-    <br>
+        <br>
+        <br>
+        <br>
+        <br>
 
 
-        <div class="row">
-    <div class="col s12 m6">
-        Back?
-        <a href="{{url_for( 'home_page' )}}">To main page</a>
-    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            Back?
+            <a href="{{url_for( 'home_page' )}}">To main page</a>
+        </div>
 
     </div>
 </div>
@@ -48,4 +49,4 @@
 
 
 
-    {% endblock %}
+{% endblock %}
